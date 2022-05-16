@@ -1,0 +1,34 @@
+version: 0.2
+phases:
+  install:
+    runtime-versions:
+      nodejs: 14
+    commands:
+      - n 14.19.0
+  pre_build:
+    commands:
+      - aws --version
+      - export COMMIT_HASH=$(echo $CODEBUILD_RESOLVED_SOURCE_VERSION | cut -c 1-8)
+      - export ENV_FOR=${ENV_FOR}
+      - export FRONTEND_USER_BUCKET=${FRONTEND_USER_BUCKET}
+      - export CLOUDFRONT_DISTRIBUTION_ID=${CLOUDFRONT_DISTRIBUTION_ID}
+  build:
+    on-failure: ABORT
+    commands:
+      - echo "Get env from SSM ..."
+      - cd frontend-user
+      - echo "delete all file .env"
+      - rm .env*
+      - ls -la
+      - aws ssm get-parameter --with-decryption --name /vispx/${ENV_FOR}/frontend-user/env --region ${AWS_REGION}| jq '.Parameter.Value'| sed 's/^"\(.*\)/\1/' |sed 's/.$//' | sed 's/\\n/\n/g' > .env
+      - cat .env
+      - echo Building on COMMIT-ID ${COMMIT_HASH} started on `date`
+      - yarn && yarn build
+  post_build:
+    on-failure: ABORT
+    commands:
+      - echo 'Syncing file to S3 ..'
+      - aws s3 sync ./build s3://${FRONTEND_USER_BUCKET} --delete --exact-timestamps
+      - wait $!
+      - echo 'Invalidate the CloudFront cache'
+      - aws cloudfront create-invalidation --distribution-id ${CLOUDFRONT_DISTRIBUTION_ID} --paths "/*"

@@ -1,0 +1,53 @@
+import { Grid } from '@material-ui/core';
+import { Link } from 'react-router-dom';
+import Header from '../Components/Header';
+import { useStyles } from './style';
+
+const Section9 = () => {
+  const classes = useStyles();
+  return (
+    <section className={classes.container}>
+      <Header content="Core Team" />
+      <Grid container spacing={4} className={classes.teamWrapper}>
+        <Grid item sm={12} md={4}>
+          <div className={classes.member}>
+            <div className={`${classes.imgField}__img`}>
+              <img className={classes.img} src="/images/newLanding/profile-1.png" alt="coreteam" />
+            </div>
+            <p className={classes.title}>Addy Singh </p>
+            <span className={classes.name}>Co-Founder and CTO</span>
+            <Link to={'#'}>
+              <img src="/images/newLanding/icon-twiter.png" alt="" />
+            </Link>
+          </div>
+        </Grid>
+        <Grid item sm={12} md={4}>
+          <div className={classes.member}>
+            <div className={`${classes.imgField}__img`}>
+              <img className={classes.img} src="/images/newLanding/profile-2.png" alt="coreteam" />
+            </div>
+            <p className={classes.title}>Addy Harris </p>
+            <span className={classes.name}>Co-Founder and CTO</span>
+            <Link to={'#'}>
+              <img src="/images/newLanding/icon-in.png" alt="" />
+            </Link>
+          </div>
+        </Grid>
+        <Grid item sm={12} md={4}>
+          <div className={classes.member}>
+            <div className={`${classes.imgField}__img`}>
+              <img className={classes.img} src="/images/newLanding/profile-3.png" alt="coreteam" />
+            </div>
+            <p className={classes.title}>Netina Beukes</p>
+            <span className={classes.name}>Creative Director</span>
+            <Link to={'#'}>
+              <img src="/images/newLanding/icon-in.png" alt="" />
+            </Link>
+          </div>
+        </Grid>
+      </Grid>
+    </section>
+  );
+};
+
+export default Section9;

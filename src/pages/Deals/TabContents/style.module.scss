@@ -1,0 +1,123 @@
+.titleIcon {
+    height: 32px;
+}
+
+.data {
+    margin-top: 16px;
+}
+
+.rowWrapper {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 30px;
+    justify-content: flex-start;
+    .projectCard {
+        width: 320px;
+        margin: 10px;
+        cursor: pointer;
+        img {
+            height: 100%;
+        }
+        &:last-child {
+            margin-right: 0;
+        }
+        & .data {
+            margin-top: 16px;
+        }
+        .TBA {
+            padding: 8px;
+            background-color: #38383d;
+            max-width: 296px;
+            width: 90%;
+            border-radius: 60px;
+            font-size: 16px;
+            color: white;
+            font-weight: 700;
+            &:hover {
+                background-color: rgb(30, 34, 34);
+            }
+        }
+    }
+    @media (min-width: 600px) and (max-width: 1439px) {
+        gap: 23px;
+    }
+    @media (min-width: 1440) {
+        gap: 23px;
+    }
+}
+
+.row {
+    margin-bottom: 64px;
+}
+
+.data {
+    &>div:last-child {
+        width: 100%;
+        text-align: right;
+    }
+}
+
+.action {
+    width: 100%;
+    margin: 0 14px !important;
+    .actionText {
+        font-weight: 400;
+        margin: 0 4px;
+        white-space: nowrap;
+    }
+    button:first-child {
+        background-color: #38383D;
+    }
+}
+
+.listAction {
+    display: flex;
+    width: 100%;
+    padding: 0 12px;
+    justify-content: space-between;
+    &>button {
+        height: 42px;
+        padding: 10px;
+        &:first-child {
+            margin: 0 !important;
+            max-width: 60%;
+        }
+        &:hover {
+            background-color: rgb(30, 34, 34);
+        }
+    }
+    &>a {
+        padding: 10px;
+    }
+    .detailBtn {
+        width: 45%;
+        margin-left: 8px;
+        padding: 0;
+    }
+    .endLable {
+        text-transform: uppercase;
+        color: #D01F36;
+        padding: 0 35px;
+    }
+    .claimableLable {
+        text-transform: uppercase;
+        color: #FFD058;
+    }
+}
+
+.pagination {
+    li {
+        button {
+            color: #fff;
+        }
+    }
+}
+
+.loadmore {
+  cursor: pointer;
+  font-family: 'Montserrat-Medium';
+  font-weight: 500;
+  text-align: center;
+  font-size: 14px;
+  margin-top: 40px;
+}
