@@ -4,13 +4,11 @@
 
 .section2 {
     background: url('./bg-banner-home-2.svg');
-    //background-position: ;
     background-repeat: no-repeat;
     background-size: cover;
     min-height: 100vh;
-    @media (max-width: 1280px) {
+    @media (max-width: 1080px) {
         background: url('./bg-banner-home-ipad-720.svg');
-        //background-position: ;
         background-repeat: no-repeat;
         background-size: cover;
         min-height: 100vh;
@@ -18,7 +16,6 @@
 
     @media (max-width: 576px) {
         background: url('./bg-banner-home-mobile-320.svg');
-        //background-position: ;
         background-repeat: no-repeat;
         background-size: cover;
         min-height: 100vh;
