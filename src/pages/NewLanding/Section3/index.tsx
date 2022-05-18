@@ -10,7 +10,7 @@ const Section3 = () => {
           <Header content="Supply" />
         </Grid>
         <Grid className={classes.imageField}>
-          <div style={{maxWidth: '440px', width: '100%'}}>
+          <div style={{maxWidth: '440px', width: '100%'}} className={classes.marginBottomImg}>
             <img style={{ width: '100%', height: '100%' }} alt="supply" src="/images/newLanding/supplyImage.svg" />
           </div>
         </Grid>

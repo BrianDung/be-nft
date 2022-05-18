@@ -19,18 +19,21 @@ export const useStyles = makeStyles((theme: any) => {
         accordionField: {
             display: 'flex',
             flexDirection: 'column',
-            gap: 12,
+            // gap: 12,
             maxWidth: 812,
             width: '100%',
-        }, 
+        },
         accordionItem: {
-            
-            '& .MuiAccordionDetails-root':{
-                borderTop:'1px solid #5b87ff50',
+
+            '& .MuiAccordionDetails-root': {
+                borderTop: '1px solid #5b87ff50',
             },
-            '& .MuiIconButton-root':{
-                color:'#FFFFFF',
+            '& .MuiIconButton-root': {
+                color: '#FFFFFF',
             },
+            '&:not(:last-child)': {
+                marginBottom: 12
+            }
         },
         accordion: {
             backgroundColor: 'rgba(44,40,65,0.36)',

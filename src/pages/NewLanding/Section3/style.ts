@@ -9,7 +9,6 @@ export const useStyles = makeStyles((theme: any) => {
             [theme.breakpoints.down('sm')]: {
                 flexWrap: 'wrap',
             },
-            gap: 60
         },
         chartFieldGrid: {
             display: 'flex',
@@ -35,8 +34,14 @@ export const useStyles = makeStyles((theme: any) => {
             display: 'flex',
             flexDirection: 'column',
             justifyContent: 'center',
-            alignItems: 'center'
+            alignItems: 'center',
         },
+
+        marginBottomImg: {
+            [theme.breakpoints.down('sm')]: {
+                marginBottom: 60
+            }
+        }
         // supplyImageField: {
         //     width: 400,
         //     height: 225
