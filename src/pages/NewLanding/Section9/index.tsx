@@ -26,8 +26,8 @@ const Section9 = () => {
             <div className={`${classes.imgField}__img`}>
               <img className={classes.img} src="/images/newLanding/profile-2.png" alt="coreteam" />
             </div>
-            <p className={classes.title}>Addy Harris </p>
-            <span className={classes.name}>Co-Founder and CTO</span>
+            <p className={classes.title}>Ash Harris </p>
+            <span className={classes.name}>Co-founder and CEO</span>
             <a href='https://www.linkedin.com/in/ash-harris-25911426/' target="_blank" rel="noreferrer" className={classes.socialMedia}>
               <img src="/images/newLanding/icon-in.png" alt="" />
             </a>
