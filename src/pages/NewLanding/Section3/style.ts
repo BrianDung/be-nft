@@ -38,8 +38,17 @@ export const useStyles = makeStyles((theme: any) => {
         },
 
         marginBottomImg: {
+            width: '100%',
+            maxWidth: 700,
             [theme.breakpoints.down('sm')]: {
-                marginBottom: 60
+                marginBottom: 60,
+            }
+        },
+        imageDistribution: {
+            width: '100%',
+            maxWidth: 520,
+            [theme.breakpoints.down('xs')]: {
+                maxWidth: 320
             }
         }
         // supplyImageField: {

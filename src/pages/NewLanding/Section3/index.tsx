@@ -10,7 +10,7 @@ const Section3 = () => {
           <Header content="Supply" />
         </Grid>
         <Grid className={classes.imageField}>
-          <div style={{maxWidth: '440px', width: '100%'}} className={classes.marginBottomImg}>
+          <div className={classes.marginBottomImg}>
             <img style={{ width: '100%', height: '100%' }} alt="supply" src="/images/newLanding/supplyImage.svg" />
           </div>
         </Grid>
@@ -20,11 +20,11 @@ const Section3 = () => {
           <Header content="Distribution" />
         </Grid>
         <Grid className={classes.imageField}>
-          <div>
+          <div className={classes.imageDistribution}>
             <img
               style={{ width: '100%', height: '100%' }}
               alt="distribution"
-              src="/images/newLanding/distributionImage.png"
+              src="/images/newLanding/distributionImage.svg"
             />
           </div>
         </Grid>
