@@ -8,7 +8,6 @@ export const useStyles = makeStyles((theme: any) => {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: 24
         },
         cardField: {
             width: '65%',
@@ -28,16 +27,20 @@ export const useStyles = makeStyles((theme: any) => {
         cardFieldOdd: {
             width: '65%',
             display: 'flex',
-            flexDirection: 'row-reverse',  
+            flexDirection: 'row-reverse', 
+            '&:not(:last-child)':{
+                marginBottom: 45
+            } 
         },
         cardFieldAccess: {
             width: '100%',
             display: 'flex',
             flexDirection: 'row',
+            marginBottom: 45
         },
         cardFieldGaming: {
              display: 'flex',
-             flexDirection: 'row-reverse',  
+             flexDirection: 'row-reverse',
          },
     }
 })
@@ -48,6 +51,7 @@ export const useCardStyles = makeStyles((theme: any) => {
             width: '65%',
             display: 'flex',
             flexDirection: 'row',
+            marginBottom: 45,
             // borderLeft: (props: any) => `20vw solid ${props.backgroundColor}`,
             // borderTop: '5vw solid transparent',
             // borderBottom: '5vw solid transparent',
@@ -59,6 +63,9 @@ export const useCardStyles = makeStyles((theme: any) => {
             width: '65%',
             display: 'flex',
             flexDirection: 'row-reverse',
+            '&:not(:last-child)':{
+                marginBottom: 45
+            },
             // borderLeft: (props: any) => `20vw solid ${props.backgroundColor}`,
             // borderTop: '5vw solid transparent',
             // borderBottom: '5vw solid transparent',

@@ -18,13 +18,13 @@ const Section1 = () => {
         <p className={classes.title}>XBorg</p>
         <p className={classes.name}>Powerhouse Utility NFT</p>
       </div>
-      <div className={classes.container}>
-        <div className={classes.buttonItem}>
+      <div className={`${classes.container} ${styles.container}`}>
+        <div className={styles.buttonItem}>
           <Button className={classes.buttonTheMint} style={{ textTransform: 'none' }}>
             The Mint
           </Button>
         </div>
-        <div className={classes.buttonItem}>
+        <div className={styles.buttonItem}>
           <Button className={classes.buttonOpensea} style={{ textTransform: 'none' }} startIcon={<OpenSeaIcon />}>
             Opensea 
           </Button>

@@ -4,12 +4,9 @@ export const useStyles = makeStyles((theme: any) => {
     return {
         container: {
             display: 'flex',
-            gap: 36,
-            alignItems:'center',
-            justifyContent:'center',
+            alignItems: 'center',
+            justifyContent: 'center',
             flexWrap: 'wrap'
-        },
-        buttonItem: {
 
         },
         buttonTheMint: {
@@ -40,11 +37,11 @@ export const useStyles = makeStyles((theme: any) => {
             fontFamily: 'Mokoto',
             fontSize: 84,
             color: '#FFFFFF',
-            textTransform:'uppercase',
+            textTransform: 'uppercase',
             marginBottom: 0,
             textShadow: '2px 2px 4px #000000'
         },
-        name:{
+        name: {
             fontFamily: 'Montserrat-Regular',
             fontSize: 20,
             color: '#FFFFFF',
