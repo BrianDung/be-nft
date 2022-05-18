@@ -122,7 +122,9 @@ const PoolDetailsAndQualifiedUsers = (props: any) => {
         // eslint-disable-next-line
       }, [id, searched]);
 
-    const Tab_Names = ['Pool Details', `Qualified Users (${snapShotUsers.length})`];
+    // const Tab_Names = ['Pool Details', `Qualified Users (${snapShotUsers.length})`];
+    const Tab_Names = ['Pool Details'];
+
 
     return (
         <div className={classes.root}>

@@ -33,6 +33,7 @@ import { useUserPoolInfo } from './SwapToken/hooks/useUserPoolInfo';
 import { useCheckJoinCampaign } from 'hooks/useCheckJoinCampaign';
 import { Button } from 'components/Base/Form/Button';
 import ConnectWalletModal from 'pages/UserSiteDashboard/Header/ConnectWalletModal';
+import ComingSoon from 'pages/ComingSoon';
 
 const IDOProjectDetail = () => {
   const params: any = useParams();
@@ -44,7 +45,7 @@ const IDOProjectDetail = () => {
     maxAllocation: 0,
   });
 
-  const backIcon = 'images/icons/backIcon.svg';
+  const backIcon = '/images/icons/backIcon.svg';
 
   const { soldProgress } = useTokenSoldProgress(poolDetails);
   const isInPreOrderTime = false;
@@ -188,107 +189,128 @@ const IDOProjectDetail = () => {
 
   const { canJoin } = useCheckJoinCampaign(params.id);
 
-  return (
-    <>
-      <section className={styles.headerComponent}>
-        <BannerNotification
-          notEnoughPoint={!canJoin}
-          poolDetails={poolDetails}
-          ableToFetchFromBlockchain={true}
-          winnersList={{}}
-          verifiedEmail={true}
-          currentUserTier={userTier}
-          existedWinner={false}
-          currencyName={currencyName}
-          userBuyLimit={100}
-          startBuyTimeInDate={startBuyTimeNormal}
-          endBuyTimeInDate={endBuyTimeNormal}
-          alreadyJoinPool={isJoined}
-          joinPoolSuccess={joinPoolSuccess}
-          isKYC={true}
-          dataUser={{}}
-          connectedAccount={connectedAccount}
-          // whitelistCompleted={false}
-          // whitelistLoading={true}
-          scrollToWinner={false}
-          maximumBuy={100}
-          countDownDate={countDownDate}
-          userCanceledWhiteList={false}
-          isPreOrderPool={false}
-          isInPreOrderTime={isInPreOrderTime}
-          notMatchMinTier={matchPointCondition}
-          maxBought={maxBought}
-          soldProgress={soldProgress}
-        />
-      </section>
-      <div className={styles.container}>
-        <div className={styles.back} onClick={goBack}>
-          <img src={backIcon} alt="back" />
-          <span>Back</span>
-        </div>
-        <IDOProjectHeader poolDetails={poolDetails} poolDetailsMapping={poolDetailsMapping} />
-        <div className={styles.reigsterBtn}>
-          {isConnectWallet ? (
-            <RegisterToJoinButton poolDetails={poolDetails} />
-          ) : (
-            <Button className={styles.textHeader} shape="rounded" onClick={() => setOpenConnect(true)}>
-              Connect wallet
-            </Button>
-          )}
-        </div>
-        <div className={styles.poolInfoTimeLine}>
-          <div className={styles.poolTimeLine}>
-            <PoolTimeLine
-              display={display}
-              countDownDate={countDownDate}
+  const renderComingSoon = () => {
+    return (
+      <>
+        <ComingSoon />
+      </>
+    );
+  };
+
+  const renderContent = () => {
+    const content = () => {
+      return (
+        <>
+          <section className={styles.headerComponent}>
+            <BannerNotification
+              notEnoughPoint={!canJoin}
               poolDetails={poolDetails}
+              ableToFetchFromBlockchain={true}
+              winnersList={{}}
+              verifiedEmail={true}
+              currentUserTier={userTier}
+              existedWinner={false}
+              currencyName={currencyName}
+              userBuyLimit={100}
+              startBuyTimeInDate={startBuyTimeNormal}
+              endBuyTimeInDate={endBuyTimeNormal}
+              alreadyJoinPool={isJoined}
+              joinPoolSuccess={joinPoolSuccess}
+              isKYC={true}
+              dataUser={{}}
+              connectedAccount={connectedAccount}
+              // whitelistCompleted={false}
+              // whitelistLoading={true}
+              scrollToWinner={false}
+              maximumBuy={100}
+              countDownDate={countDownDate}
+              userCanceledWhiteList={false}
+              isPreOrderPool={false}
+              isInPreOrderTime={isInPreOrderTime}
+              notMatchMinTier={matchPointCondition}
+              maxBought={maxBought}
               soldProgress={soldProgress}
             />
+          </section>
+          <div className={styles.container}>
+            <div className={styles.back} onClick={goBack}>
+              <img src={backIcon} alt="back" />
+              <span>Back</span>
+            </div>
+            <IDOProjectHeader poolDetails={poolDetails} poolDetailsMapping={poolDetailsMapping} />
+            <div className={styles.reigsterBtn}>
+              {isConnectWallet ? (
+                <RegisterToJoinButton poolDetails={poolDetails} />
+              ) : (
+                <Button className={styles.textHeader} shape="rounded" onClick={() => setOpenConnect(true)}>
+                  Connect wallet
+                </Button>
+              )}
+            </div>
+            <div className={styles.poolInfoTimeLine}>
+              <div className={styles.poolTimeLine}>
+                <PoolTimeLine
+                  display={display}
+                  countDownDate={countDownDate}
+                  poolDetails={poolDetails}
+                  soldProgress={soldProgress}
+                />
+              </div>
+              <div className={styles.PoolSwapInfo}>
+                <PoolSwapInfo currencyName={currencyName} poolDetails={poolDetails} />
+              </div>
+            </div>
+            {/* <div className={styles.poolInfo}> */}
+            {isAuth && inBuyTime && isJoined && matchPointCondition && (
+              <SwapToken
+                purchasableCurrency={poolDetails?.purchasableCurrency?.toUpperCase()}
+                poolDetails={poolDetails ?? {}}
+                userSnapshot={userSnapshot}
+                setMaxBought={(maxBought: any) => setMaxBought(maxBought)}
+              />
+            )}
+            {isAuth &&
+              (poolDetails?.campaignStatus === PoolStatus.PublicSell || inPrePublicSell) &&
+              isJoined &&
+              matchPointCondition && (
+                <PublicSell
+                  purchasableCurrency={poolDetails?.purchasableCurrency?.toUpperCase()}
+                  poolDetails={poolDetails ?? {}}
+                  userSnapshot={userSnapshot}
+                  setMaxBought={(maxBought: any) => setMaxBought(maxBought)}
+                />
+              )}
+            {poolDetails?.campaignStatus === PoolStatus.Claimable && +userPurchased > 0 && (
+              <ClaimToken
+                releaseTime={releaseTimeInDate || undefined}
+                ableToFetchFromBlockchain={true}
+                buyTokenSuccess={true}
+                disableAllButton={false}
+                poolDetails={poolDetails}
+                currencyName={currencyName}
+                startBuyTimeInDate={startBuyTimeInDate}
+                isPreOrderPool={false}
+                allowUserBuyPreOrder={false}
+                startBuyTimeNormal={startBuyTimeNormal}
+                maximumBuy={userSnapshot?.pkfBalance ? Number(userSnapshot?.pkfBalance) : 0}
+              />
+            )}
+            {/* </div> */}
+            <PoolDetailsAndQualifiedUserField poolDetail={poolDetails} />
+            {openConnect && <ConnectWalletModal opened={openConnect} handleClose={() => setOpenConnect(false)} />}
           </div>
-          <div className={styles.PoolSwapInfo}>
-            <PoolSwapInfo currencyName={currencyName} poolDetails={poolDetails} />
-          </div>
-        </div>
-        {/* <div className={styles.poolInfo}> */}
-        {isAuth && inBuyTime && isJoined && matchPointCondition && (
-          <SwapToken
-            purchasableCurrency={poolDetails?.purchasableCurrency?.toUpperCase()}
-            poolDetails={poolDetails ?? {}}
-            userSnapshot={userSnapshot}
-            setMaxBought={(maxBought: any) => setMaxBought(maxBought)}
-          />
-        )}
-        {isAuth &&
-          (poolDetails?.campaignStatus === PoolStatus.PublicSell || inPrePublicSell) &&
-          isJoined &&
-          matchPointCondition && (
-            <PublicSell
-              purchasableCurrency={poolDetails?.purchasableCurrency?.toUpperCase()}
-              poolDetails={poolDetails ?? {}}
-              userSnapshot={userSnapshot}
-              setMaxBought={(maxBought: any) => setMaxBought(maxBought)}
-            />
-          )}
-        {poolDetails?.campaignStatus === PoolStatus.Claimable && +userPurchased > 0 && (
-          <ClaimToken
-            releaseTime={releaseTimeInDate || undefined}
-            ableToFetchFromBlockchain={true}
-            buyTokenSuccess={true}
-            disableAllButton={false}
-            poolDetails={poolDetails}
-            currencyName={currencyName}
-            startBuyTimeInDate={startBuyTimeInDate}
-            isPreOrderPool={false}
-            allowUserBuyPreOrder={false}
-            startBuyTimeNormal={startBuyTimeNormal}
-            maximumBuy={userSnapshot?.pkfBalance ? Number(userSnapshot?.pkfBalance) : 0}
-          />
-        )}
-        {/* </div> */}
-        <PoolDetailsAndQualifiedUserField poolDetail={poolDetails} />
-        {openConnect && <ConnectWalletModal opened={openConnect} handleClose={() => setOpenConnect(false)} />}
-      </div>
-    </>
-  );
+        </>
+      );
+    };
+    return <>{canRender() ? content() : renderComingSoon()}</>;
+  };
+
+  const canRender = () => {
+    const allowRenderByIds = ['1', '2', '3'];
+    const id = params?.id;
+    return allowRenderByIds.includes(id);
+  };
+
+  return <>{renderContent()}</>;
 };
 export default IDOProjectDetail;

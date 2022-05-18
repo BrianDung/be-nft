@@ -42,6 +42,7 @@ export const useStyles = makeStyles((theme: any) => {
             color: '#FFFFFF',
             textTransform:'uppercase',
             marginBottom: 0,
+            textShadow: '2px 2px 4px #000000'
         },
         name:{
             fontFamily: 'Montserrat-Regular',

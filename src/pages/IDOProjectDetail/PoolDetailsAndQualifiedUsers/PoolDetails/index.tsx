@@ -12,14 +12,16 @@ const iconLink = '/images/icons/icon-link.svg';
 const PoolDetails = (props: any) => {
   const styles = useStyles();
   const { poolDetails } = props;
-  const [isOpenSheduler, setOpenScheduler] = useState<boolean>(false);
+  const [isOpenScheduler, setIsOpenScheduler] = useState<boolean>(false);
 
-  // const onViewReleaseSchedule = () => {
-  //   setOpenScheduler(true);
-  // };
+  const renderTotalRaise = () => {
+    const existData = poolDetails?.totalSoldCoin && poolDetails?.ethRate;
+    const value = Number(poolDetails?.totalSoldCoin * poolDetails?.ethRate).toLocaleString();
+    return <>{existData ? `${value} $` : 'TBA'}</>;
+  };
 
   const onCloseScheduler = () => {
-    setOpenScheduler(false);
+    setIsOpenScheduler(false);
   };
 
   return (
@@ -39,21 +41,14 @@ const PoolDetails = (props: any) => {
             </div>
             <div className={styles.flexbox}>
               <p className={styles.text}>Website:</p>
-              <a 
-                className={styles.description}
-                target="_blank"
-                href={poolDetails?.website}
-                rel="noreferrer"
-              >
+              <a className={styles.description} target="_blank" href={poolDetails?.website} rel="noreferrer">
                 {poolDetails?.website}
                 <img className={styles.image} src={iconLinkWeb} alt="iconLinkWeb" />
               </a>
             </div>
             <div className={styles.flexbox}>
               <p className={styles.text}>Token Claim Time:</p>
-              <p className={styles.description}>
-                {poolDetails?.campaignClaimConfig[0]?.start_time_formated || "TBA"}
-              </p>
+              <p className={styles.description}>{poolDetails?.campaignClaimConfig[0]?.start_time_formated || 'TBA'}</p>
             </div>
           </div>
           <div className={styles.boxLink}>
@@ -65,7 +60,7 @@ const PoolDetails = (props: any) => {
             </div> */}
             <div className={styles.flexbox}>
               <p className={styles.text}>Total Raise:</p>
-              <p className={styles.description}>{poolDetails?.totalSoldCoin * poolDetails?.ethRate} $</p>
+              <p className={styles.description}>{renderTotalRaise()}</p>
             </div>
             <div className={styles.flexbox}>
               <p className={styles.text}>Lock Schedule;</p>
@@ -110,7 +105,7 @@ const PoolDetails = (props: any) => {
           <p className={styles.textDescription}>{poolDetails?.description}</p>
         </div>
       </div>
-      <SchedulerByTierDialog isOpen={isOpenSheduler} closeSchedulerByTier={onCloseScheduler} />
+      <SchedulerByTierDialog isOpen={isOpenScheduler} closeSchedulerByTier={onCloseScheduler} />
     </>
   );
 };

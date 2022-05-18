@@ -12,6 +12,21 @@ export const useStyles = makeStyles((theme: any) => {
                 marginTop: '24px'             
             }
         },
+        imagesField: {
+            display: 'flex',
+            flexDirection: 'column',
+            alignItems: 'center',
+            justifyContent: 'center',
+            gap: 24,
+            margin: '0px 18px'
+        }, 
+        imagesItem: {
+
+        },
+        image: {
+            width: '100%',
+            height: '100%'
+        }
     }
 })
 

@@ -46,7 +46,7 @@ const Section10 = () => {
               <div className={`${classes.imgField}__img`}>
                 <img className={classes.img} src="/images/newLanding/partner/partner-5.png" alt="partner" />
               </div>
-              <p className={classes.name}>SLEEPY</p>
+              <p className={classes.name}>SLEEPY SNIPER SOCIETY</p>
             </div>
           </Grid>
         </Grid>

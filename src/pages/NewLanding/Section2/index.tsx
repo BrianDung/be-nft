@@ -9,7 +9,7 @@ const Section2 = () => {
       <Grid container>
         <Grid item sm={5} className={classes.imageFieldGrid}>
           <div className={classes.imageField}>
-            <img style={{ width: '100%', height: '100%' }} alt="Card" src="/images/newLanding/listCard.svg" />
+            <img style={{ width: '100%', height: '100%' }} alt="Card" src="/images/newLanding/listCard.jpeg" />
           </div>
         </Grid>
         <Grid item sm={7}>
