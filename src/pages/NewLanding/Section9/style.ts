@@ -74,6 +74,13 @@ export const useStyles = makeStyles((theme: any) => {
                     transition: 'border-left-width 0s linear 0.1s, -webkit-transform 0.7s linear 0s',
                 }
             }
+        },
+        socialMedia: {
+            '&:hover':{
+                '&>img': {
+                    opacity: 0.5
+                }
+            }
         }
     }
 })
