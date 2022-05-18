@@ -51,8 +51,8 @@ export const useStyles = makeStyles((theme: any) => {
         },
         texthedear:{
             textAlign:'center',
-            paddingTop:'192px',
-            marginBottom:'84px',
+            paddingTop: '20vh',
+            marginBottom: '6vh',
         },
     }
 });
