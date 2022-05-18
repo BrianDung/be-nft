@@ -9,7 +9,7 @@ export const useStyles = makeStyles((theme: any) => {
             justifyContent: 'center',
             marginTop:'72px',
             [theme.breakpoints.down('sm')]: {
-                marginTop: '24px'             
+                marginTop: '32px'             
             }
         },
         imagesField: {

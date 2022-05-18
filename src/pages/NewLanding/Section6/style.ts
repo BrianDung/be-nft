@@ -18,17 +18,22 @@ export const useStyles = makeStyles((theme: any) => {
             backgroundColor: '#A7176C',
             height: 60,
             color: 'white',
-            fontFamily: 'Montserrat-SemiBold'
+            fontFamily: 'Montserrat-SemiBold',
+            fontSize: 18
         },
         contentField: {
             backgroundColor: '#B7558F',
             padding: '24px 8px 0px 8px',
             color: 'white',
             fontFamily: 'Montserrat-Medium',
-            height: '198px',
+            height: 320,
+            [theme.breakpoints.down('sm')]: {
+                height: 240
+            },
             [theme.breakpoints.down('xs')]:{
-                height: 252
-            }
+                height: 380
+            },
+            fontSize: 18,
         },
         container: {
             display: 'flex',
@@ -37,7 +42,7 @@ export const useStyles = makeStyles((theme: any) => {
             alignItems: 'center',
             marginTop:72,
             [theme.breakpoints.down('xs')]:{
-                marginTop: 24
+                marginTop: 45
             },
         },
         listCardGrid: {

@@ -8,7 +8,7 @@ export const useStyles = makeStyles((theme: any) => {
             alignItems: 'center',
             justifyContent: 'center',
             "@media (min-width: 375px) and (max-width: 717px)": {
-                marginTop: '30px',
+                marginTop: '45px',
                 padding: '0 20px',
             },
             "@media (min-width: 992px)": {
