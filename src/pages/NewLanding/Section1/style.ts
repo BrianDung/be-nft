@@ -37,7 +37,7 @@ export const useStyles = makeStyles((theme: any) => {
             }
         },
         title:{
-            fontFamily: 'Montserrat-Bold',
+            fontFamily: 'Mokoto',
             fontSize: 84,
             color: '#FFFFFF',
             textTransform:'uppercase',
@@ -51,8 +51,8 @@ export const useStyles = makeStyles((theme: any) => {
         },
         texthedear:{
             textAlign:'center',
-            paddingTop:'192px',
-            marginBottom:'84px',
+            paddingTop: '20vh',
+            marginBottom: '6vh',
         },
     }
 });

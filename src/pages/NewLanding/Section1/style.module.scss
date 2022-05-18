@@ -1,27 +1,28 @@
 .section1 {
     background: url('./background1.svg');
-    background-position: 50%;
+    background-position: bottom;
     background-repeat: no-repeat;
     background-size: cover;
     height: 100vh;
     position: relative;
+    min-height: 550px;
 
     @media (max-width: 390px) {
         background: url('./background-max-390.svg');
-        background-position: 50%;
+        background-position: bottom;
         background-repeat: no-repeat;
         background-size: cover;
     }
 
     @media (max-width: 414px) {
         background: url('./background-max-414.svg');
-        background-position: 50%;
+        background-position: bottom;
         background-repeat: no-repeat;
         background-size: cover;
     }
     @media (max-width: 820px) {
         background: url('./background-iPad.svg');
-        background-position: 50%;
+        background-position: bottom;
         background-repeat: no-repeat;
         background-size: cover;
     }
