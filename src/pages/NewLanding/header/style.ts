@@ -25,10 +25,12 @@ export const useStyles = makeStyles((theme: any) => {
         },
         linkField: {
             display: 'flex',
-            gap: 18
+            // gap: 18
         },
         linkItem: {
-
+            '&:not(:last-child)':{
+                marginRight: 18
+            }
         }
     }
 })
