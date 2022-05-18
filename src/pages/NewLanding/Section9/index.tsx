@@ -16,9 +16,9 @@ const Section9 = () => {
             </div>
             <p className={classes.title}>Addy Singh </p>
             <span className={classes.name}>Co-Founder and CTO</span>
-            <Link to={'#'}>
+            <a href='https://twitter.com/cryptonite_lad' target="_blank" rel="noreferrer" className={classes.socialMedia}>
               <img src="/images/newLanding/icon-twiter.png" alt="" />
-            </Link>
+            </a>
           </div>
         </Grid>
         <Grid item sm={12} md={4}>
@@ -28,9 +28,9 @@ const Section9 = () => {
             </div>
             <p className={classes.title}>Addy Harris </p>
             <span className={classes.name}>Co-Founder and CTO</span>
-            <Link to={'#'}>
+            <a href='https://www.linkedin.com/in/ash-harris-25911426/' target="_blank" rel="noreferrer" className={classes.socialMedia}>
               <img src="/images/newLanding/icon-in.png" alt="" />
-            </Link>
+            </a>
           </div>
         </Grid>
         <Grid item sm={12} md={4}>
@@ -40,9 +40,9 @@ const Section9 = () => {
             </div>
             <p className={classes.title}>Netina Beukes</p>
             <span className={classes.name}>Creative Director</span>
-            <Link to={'#'}>
-              <img src="/images/newLanding/icon-in.png" alt="" />
-            </Link>
+            <a href='https://instagram.com/rat_around' target="_blank" rel="noreferrer" className={classes.socialMedia}>
+              <img src="/images/newLanding/white-insta.svg" alt="" />
+            </a>
           </div>
         </Grid>
       </Grid>
