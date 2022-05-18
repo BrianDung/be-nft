@@ -24,6 +24,11 @@
 }
 
 @font-face {
+    font-family: "Mokoto";
+    src: local("Play-Regular"), url(./styles/fonts/mokoto/Mokoto-Glitch.ttf) format("truetype");
+}
+
+@font-face {
     font-family: 'icons';
     src: url('./styles/fonts/icons/icons.eot?hoymjw');
     src: url('./styles/fonts/icons/icons.eot?hoymjw#iefix') format('embedded-opentype'), url('./styles/fonts/icons/icons.ttf?hoymjw') format('truetype'), url('./styles/fonts/icons/icons.woff?hoymjw') format('woff'), url('./styles/fonts/icons/icons.svg?hoymjw#icons') format('svg');

@@ -37,7 +37,7 @@ export const useStyles = makeStyles((theme: any) => {
             }
         },
         title:{
-            fontFamily: 'Montserrat-Bold',
+            fontFamily: 'Mokoto',
             fontSize: 84,
             color: '#FFFFFF',
             textTransform:'uppercase',
