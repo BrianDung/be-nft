@@ -12,8 +12,8 @@ const CarouseImages = () => {
     arrows: false,
     infinite: true,
     autoplay: true,
-    speed: 3000,
-    autoplaySpeed: 3000,
+    speed: 8000,
+    autoplaySpeed: 0,
     cssEase: 'linear',
     pauseOnHover: false,
     responsive: [
