@@ -1,5 +1,5 @@
 .section1 {
-    background: url('./background1.svg');
+    background: url('./background1.png');
     background-position: bottom;
     background-repeat: no-repeat;
     background-size: cover;
@@ -25,5 +25,27 @@
         background-position: bottom;
         background-repeat: no-repeat;
         background-size: cover;
+    }
+}
+
+.buttonItem {
+    &:first-child {
+        margin-right: 36px;
+        @media only screen and(max-width: 600px) {
+            margin-bottom: 36px;
+            margin-right: 0;
+        }
+    }
+}
+
+@media only screen and(max-width: 600px) and (min-width: 420px) {
+    .container{
+        padding: 0 100px;
+    }
+}
+
+@media only screen and (max-width: 390px){
+    .textXborg {
+        font-size: 70px !important;
     }
 }

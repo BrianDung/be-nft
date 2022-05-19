@@ -9,7 +9,7 @@ export const useStyles = makeStyles((theme: any) => {
             justifyContent: 'center',
             marginTop:'72px',
             [theme.breakpoints.down('sm')]: {
-                marginTop: '24px'             
+                marginTop: '32px'             
             }
         },
         imagesField: {
@@ -17,11 +17,13 @@ export const useStyles = makeStyles((theme: any) => {
             flexDirection: 'column',
             alignItems: 'center',
             justifyContent: 'center',
-            gap: 24,
             margin: '0px 18px'
         }, 
         imagesItem: {
-
+            '&:not(:last-child)':{
+                marginBottom: 45
+            }
+          
         },
         image: {
             width: '100%',

@@ -15,7 +15,9 @@ export const useStyles = makeStyles((theme: any) => {
                     width:'94%',
                 },
             },
-           
+           [theme.breakpoints.down('xs')]:{
+               marginTop: '45px'
+           }
         },
         teamWrapper:{
             background: '#ffffff1a',
