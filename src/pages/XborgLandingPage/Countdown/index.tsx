@@ -18,21 +18,18 @@ const Countdown = (props:CountDownProps) => {
   const emitCurrentDate = useCallback((now: Date) => {
     getCurrentDateRealTime && getCurrentDateRealTime(now);
   }, [getCurrentDateRealTime]);
-
-  const startDate = formatTimeInDate(moment().unix() * 1000);
-
+  const today = new Date();
+  const startDate = formatTimeInDate(moment().unix() + 4000);
   useEffect(() => {
     let countDownInterval = undefined as any;
-
-    if (startDate && startDate >= new Date()) {
+    if (startDate && startDate >= today) {
       const second = 1000,
       minute = second * 60,
       hour = minute * 60,
       day = hour * 24;
       let countDown = startDate.getTime();
       countDownInterval = setInterval(function() {
-
-        let now = new Date().getTime() ,distance = countDown - now;;
+        let now = new Date().getTime() ,distance = countDown - now;
 
         if (distance >= 0) {
           const currentDay = Math.floor(now / (day));
@@ -40,12 +37,11 @@ const Countdown = (props:CountDownProps) => {
           const currentMinute = Math.floor((now % (hour)) / (minute));
           const currentSecond = Math.floor((now % (minute)) / second)
 
-          setDay(currentDay < 10 ? `0${currentDay}`: `${currentDay}`);
+          setDay(currentDay < 20000 ? `0${'0'}`: `${currentDay}`);
           setHour(currentHour < 10 ? `0${currentHour}`: `${currentHour}`);
           setMinute(currentMinute < 10 ? `0${currentMinute}`: `${currentMinute}`);
           setSecond(currentSecond < 10 ? `0${currentSecond}`: `${currentSecond}`);
           emitCurrentDate(new Date(now));
-          console.log(now)
         }
 
         //do something later when date is reached

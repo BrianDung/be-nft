@@ -3,10 +3,10 @@ import { makeStyles } from '@material-ui/core';
 export const useStyles = makeStyles((theme: any) => {
   return {
     InfoPage: {
-      marginTop:'50px',
+      marginTop: '50px',
       [theme.breakpoints.down('sm')]: {
-        margin:'50px 0',
-        }
+        margin: '50px 0',
+      },
     },
     title: {
       fontFamily: 'Montserrat-SemiBold',
@@ -20,7 +20,12 @@ export const useStyles = makeStyles((theme: any) => {
       fontSize: '20px',
       lineHeight: '26px',
       color: '#FFFFFF',
-      width: '55%',
+      paddingRight: '37px',
+      width: '60%',
+      [theme.breakpoints.down('xs')]: {
+        paddingRight: '0',
+        width: '100%',
+      },
     },
     name: {
       fontFamily: 'Montserrat-Bold',
@@ -37,9 +42,9 @@ export const useStyles = makeStyles((theme: any) => {
       justifyContent: 'center',
       width: '50%',
       marginTop: '20px',
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('xs')]: {
         width: '100%',
-        }
+      },
     },
     nameMint: {
       fontFamily: 'Montserrat-SemiBold',
@@ -96,22 +101,22 @@ export const useStyles = makeStyles((theme: any) => {
       cursor: 'pointer',
       border: 'none',
       marginLeft: '10px',
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('xs')]: {
         width: '40px',
-      }
+      },
     },
     boxNumber: {
       display: 'flex',
       alignItems: 'center',
       width: '40%',
       position: 'relative',
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('xs')]: {
         width: '100%',
-        }
+      },
     },
-    formControl:{
+    formControl: {
       display: 'flex',
-      alignItems:'center',
-    }
+      alignItems: 'center',
+    },
   };
 });
