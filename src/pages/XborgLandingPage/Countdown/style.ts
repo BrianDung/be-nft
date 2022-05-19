@@ -38,10 +38,9 @@ const useStyles = makeStyles((theme) => {
       display: 'flex', 
       alignItems: 'center',
       marginBottom:20,
-
       [theme?.breakpoints?.down('sm')]: {
         textAlign: 'center',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
       },
     },
 

@@ -10,10 +10,8 @@ export const useStyles = makeStyles((theme: any) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'space-between',
-            height: 72,
             [theme.breakpoints.down('sm')]: {
                 flexDirection:'column',
-                margin: '0 0 30px 0',
                 gap:' 15px',
             }
         },
@@ -32,6 +30,7 @@ export const useStyles = makeStyles((theme: any) => {
         balance:{
             width: 145,
             maxWidth:'100%',
+            cursor: 'pointer',
         },
         textbalance:{
             fontFamily:'Montserrat-Medium',

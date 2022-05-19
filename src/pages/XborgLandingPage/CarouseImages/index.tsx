@@ -1,66 +1,28 @@
-import React, { useState } from 'react';
-import Slider from 'react-slick';
-import 'slick-carousel/slick/slick.css';
-import 'slick-carousel/slick/slick-theme.css';
+import React from 'react';
+import { StackedCarouselSlideProps } from 'react-stacked-center-carousel';
 import { useStyles } from './style';
-type ImgaeProps = {
-  images: any;
-  slidesToShow: number,
-}
 
-const CarouseImages = (props:ImgaeProps) => {
-  const { images , slidesToShow } = props;
+const CarouseImages = (props: StackedCarouselSlideProps) => {
   const classes = useStyles();
-  const [imageIndex, setImageIndex] = useState(0);
-  const settings = {
-    className: "center",
-    centerMode: true,
-    infinite: true,
-    dots: true,
-    arrows: false,
-    slidesToShow: slidesToShow,
-    centerPadding: "0",
-    swipeToSlide: true,
-    focusOnSelect: true,
-    autoplay: true,
-    autoplaySpeed: 3000,
-    beforeChange: (current: any, next: any) => setImageIndex(next),
-    responsive: [
-      {
-        breakpoint: 960,
-        settings: {
-          slidesToShow: 3,
-          slidesToScroll: 1,
-        },
-      },
-      {
-        breakpoint: 480,
-        settings: {
-          slidesToShow: 1,
-          slidesToScroll: 1,
-        },
-      },
-    ],
-  };
-  const templateImages = images.map((image: any, idx: number) => {
-    if (image !== null) {
-      return (
-        <div
-          className={idx === imageIndex ? "activeSlide" : `${classes.slide}`}
-          key={image.id}
-        >
-          <div className={classes.slideWrapper}>
-            {image.code ? image.code : <img className={classes.imageCarousel} src={image.src} alt={image.alt} />}
-          </div>
-        </div>
-      );
-    }
-    return null;
-  });
+  const { data, dataIndex, isCenterSlide, swipeTo, slideIndex } = props;
+
+  const src = data[dataIndex]?.src;
+  const alt = data[dataIndex]?.alt;
+
   return (
-    <Slider {...settings}>
-      {templateImages}
-    </Slider>
+    <div className={classes.Card} draggable={false}>
+      <div className={`${classes.cover} ${classes.fill} ${isCenterSlide ? `${classes.off}` : `${classes.on}`}`}>
+        <div
+          className={`${classes.cardOverlay} ${classes.fill} `}
+          onClick={() => {
+            if (!isCenterSlide) swipeTo(slideIndex);
+          }}
+        />
+      </div>
+      <div className={`${classes.detail} ${classes.fill} `}>
+        <img alt={alt} className={`${classes.coverImage}`} src={src} />
+      </div>
+    </div>
   );
 };
 
