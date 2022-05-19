@@ -16,7 +16,7 @@ const Section1 = () => {
     <section className={styles.section1}>
       <div className={classes.texthedear}>
         <p className={`${classes.title} ${styles.textXborg}`}>XBorg</p>
-        <p className={classes.name}>Powerhouse Utility NFT</p>
+        <p className={classes.name}>A Powerhouse Utility NFT</p>
       </div>
       <div className={`${classes.container} ${styles.container}`}>
         <div className={styles.buttonItem}>
