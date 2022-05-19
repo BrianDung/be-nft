@@ -12,7 +12,7 @@ const listFaq: CustomizedAccordionProps[] = [
   },
   {
     question: 'How many NFTs will be available, when is the mint date and what is the price?',
-    answer: `XBorg genesis is a collection of 6000 NFTs. Minting will be held on 1st of june'2022 for Pre-sale and 2nd of June’2022 for public sale and the price is 0.08E and 0.095E for respective sales.`,
+    answer: `Xborg genesis is a collection of total 6000 NFTs, 5500 will be available for minting on the 1st of June 2022 at 0.08E for pre-sale and 0.095E for public sale.`,
   },
   {
     question: 'How are XBorg NFTs created?',
