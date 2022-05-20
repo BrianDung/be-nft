@@ -1,4 +1,3 @@
-import { SOLANA_ACCESS_TOKEN } from './../../constants/solana/index';
 import { ConnectorNames } from '../../constants/connectors';
 import { userActions } from '../constants/user';
 
@@ -23,7 +22,7 @@ export const getParamsWithConnector = (connectedAccount: string) => ({
 });
 
 export const logout = (isSolana: boolean = false) => {
-  isSolana ? localStorage.removeItem(SOLANA_ACCESS_TOKEN) : localStorage.removeItem(ACCESS_TOKEN_KEY);
+  localStorage.removeItem(ACCESS_TOKEN_KEY);
 
   return {
     type: userActions.USER_LOGOUT,
