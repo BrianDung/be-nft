@@ -191,7 +191,6 @@ export const NETWORK_AVAILABLE = {
   ETH: 'eth',
   BSC: 'bsc',
   POLYGON: 'polygon',
-  SOLANA: 'sol'
 };
 
 export const ETHERSCAN_BASE_URL: any = {

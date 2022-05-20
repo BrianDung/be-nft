@@ -1,21 +1,12 @@
 import { Web3ReactLocalProvider } from 'contexts/web3react';
-import ComingSoon from 'pages/ComingSoon';
 import React, { useEffect } from 'react';
 //@ts-ignore
 import { NotificationContainer, NotificationManager } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Route, RouteComponentProps, Switch, withRouter, useLocation } from 'react-router-dom';
-import AppContainer from './AppContainer';
 import ErrorBoundary from './components/Base/ErrorBoundary';
-import { SolanaProvider } from './contexts/solana';
-import Deals from './pages/Deals';
 // eslint-disable-next-line
-import IDOProjectDetail from './pages/IDOProjectDetail';
-import Landing from './pages/Landing';
-import NotFoundPage from './pages/NotFoundPage';
-import MyProfile from './pages/Profile';
-import DefaultLayout from './pages/UserSiteDashboard/Layout/DefaultLayout';
 import NewLanding from './pages/NewLanding';
 import { clearAlert } from './store/actions/alert';
 import XborgLandingPage from 'pages/XborgLandingPage';
@@ -56,23 +47,8 @@ const Routes: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
     );
   }
   return (
-    // <DefaultLayout>
-    //   <Switch>
-    //     <Route exact path={'/'} component={Landing} />
-    //     <Route path={'/profile'} component={MyProfile} />
-    //     <Route exact path={'/deals/ido-projects'} component={Deals} />
-    //     {/* <Route path={'/deals/ido-projects/:id'} component={IDOProjectDetail} /> */}
-    //     <Route path={'/deals/ido-projects/:id'} component={ComingSoon} />
-    //     <Route path={'/pools/staking'} component={ComingSoon} />
-    //     <Route path={'/pools/farming'} component={ComingSoon} />
-    //     <Route path={'/guides'} component={ComingSoon} />
-    //     <Route path={'/executive-lounge'} component={ComingSoon} />
-    //     {/* <Route path={'/new-landing'} component={NewLanding} /> */}
-    //     <Route component={NotFoundPage} />
-    //   </Switch>
-    // </DefaultLayout>
     <Switch>
-      <Route exact path={'/'}  component={NewLanding} />
+      <Route exact path={'/'} component={NewLanding} />
     </Switch>
   );
 };
@@ -86,11 +62,7 @@ const routing = function createRouting() {
       <Router>
         <ErrorBoundary>
           <Web3ReactLocalProvider>
-            <SolanaProvider>
-              <AppContainer>
-                <RoutesHistory />
-              </AppContainer>
-            </SolanaProvider>
+            <RoutesHistory />
           </Web3ReactLocalProvider>
         </ErrorBoundary>
       </Router>

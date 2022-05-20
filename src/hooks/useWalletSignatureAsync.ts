@@ -1,4 +1,3 @@
-import { useWallet } from '@solana/wallet-adapter-react';
 import { useCallback } from 'react';
 import { useWeb3React } from '@web3-react/core';
 import { ethers } from 'ethers';
@@ -31,7 +30,6 @@ export const getParamsWithConnector = (connectedAccount: string) => ({
 export const useWalletSignatureAsync = () => {
   const connector = useTypedSelector((state) => state.connector).data;
   const { library, account: connectedAccount } = useWeb3React();
-  const { signMessage } = useWallet();
 
   const web3Sign = useCallback(
     async (walletName?: string, account?: string) => {
@@ -81,15 +79,7 @@ export const useWalletSignatureAsync = () => {
     [library, connector, connectedAccount]
   );
 
-  const solanaSign = useCallback(async () => {
-    const encodedMessage = new TextEncoder().encode(MESSAGE_INVESTOR_SIGNATURE);
-    return await signMessage!(encodedMessage).catch((error) => {
-      throw error;
-    });
-  }, [signMessage]);
-
   return {
     web3Sign,
-    solanaSign,
   };
 };
