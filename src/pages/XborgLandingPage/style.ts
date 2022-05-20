@@ -13,7 +13,6 @@ export const useStyles = makeStyles((theme: any) => {
       display: 'flex',
       alignItems: 'center',
       padding: '0 120px',
-      marginBottom: '50px',
       [theme.breakpoints.down('sm')]: {
         flexDirection: 'column',
         padding: '0',
@@ -75,16 +74,14 @@ export const useStyles = makeStyles((theme: any) => {
     pagelink: {
       display: 'flex',
       alignItems: 'center',
-      gap: 15,
       justifyContent: 'flex-end',
-      margin: '40px',
-      [theme.breakpoints.down('xs')]: {
-        margin: '20px',
-      },
+      padding: "5px 120px 53px 0",
     },
     link: {
-      width: 70,
-      height: 70,
+      marginRight: 17,
+      "&:last-child": {
+        marginRight: 0
+      }
     },
   };
 });

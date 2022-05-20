@@ -1,4 +1,3 @@
-import { Link } from 'react-router-dom';
 import HeaderPage from './Header';
 import { ProjectImage } from './ProjectImage';
 import { useStyles } from './style';
@@ -18,17 +17,17 @@ const XborgLandingPage = () => {
           <ProjectImage />
           <div className={styles.carousel}></div>
         </div>
-      </div>
-      <div className={styles.pagelink}>
-        <Link to={twitterLink} className={styles.link}>
-          <img src="/images/newPage/icon-twiter.svg" alt="icon-link" />
-        </Link>
-        <Link to={telegramLink} className={styles.link}>
-          <img src="/images/newPage/icon-telegram.svg" alt="icon-link" />
-        </Link>
-        <Link to={discordLink} className={styles.link}>
-          <img src="/images/newPage/icon-linked.svg" alt="icon-link" />
-        </Link>
+        <footer className={styles.pagelink}>
+          <a href={twitterLink} target="_blank" rel="noreferrer" className={styles.link}>
+            <img src="/images/newPage/twitter.svg" alt="icon-link" />
+          </a>
+          <a href={telegramLink} target="_blank" rel="noreferrer" className={styles.link}>
+            <img src="/images/newPage/telegram.svg" alt="icon-link" />
+          </a>
+          <a href={discordLink} target="_blank" rel="noreferrer" className={styles.link}>
+            <img src="/images/newPage/discord.svg" alt="icon-link" />
+          </a>
+        </footer>
       </div>
     </div>
   );
