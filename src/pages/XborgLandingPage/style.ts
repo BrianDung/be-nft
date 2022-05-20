@@ -9,23 +9,22 @@ export const useStyles = makeStyles((theme: any) => {
       background: 'linear-gradient(90deg, #06071D 0%, #290A4B 100%)',
       minHeight: '100vh',
     },
-    pageInfo: {
-      display: 'flex',
-      alignItems: 'center',
-      padding: '0 120px',
-      [theme.breakpoints.down('sm')]: {
-        flexDirection: 'column',
-        padding: '0',
-      },
-    },
+    // pageInfo: {
+    //   display: 'flex',
+    //   alignItems: 'center',
+    //   marginBottom: '50px',
+    //   [theme.breakpoints.down('sm')]: {
+    //     flexDirection: 'column',
+    //   },
+    // },
     Info: {
-      width: '40%',
+      width: '35%',
       [theme.breakpoints.down('sm')]: {
         width: '100%',
       },
     },
     carousel: {
-      width: '60%',
+      width: '65%',
 
       [theme.breakpoints.down('sm')]: {
         width: '100%',
