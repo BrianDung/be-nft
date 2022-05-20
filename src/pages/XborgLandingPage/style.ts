@@ -6,15 +6,16 @@ export const useStyles = makeStyles((theme: any) => {
       // backgroundImage: `url(/images/newPage/bg-banner-home.svg)`,
       // backgroundRepeat:'no-repeat',
       // backgroundSize:'100%',
-      background: '#121327',
+      background: 'linear-gradient(90deg, #06071D 0%, #290A4B 100%)',
       minHeight: '100vh',
     },
     pageInfo: {
       display: 'flex',
       alignItems: 'center',
-      marginBottom: '50px',
+      padding: '0 120px',
       [theme.breakpoints.down('sm')]: {
         flexDirection: 'column',
+        padding: '0',
       },
     },
     Info: {
@@ -52,7 +53,6 @@ export const useStyles = makeStyles((theme: any) => {
       },
     },
     container: {
-      padding: '0 50px',
       position: 'relative',
       minHeight: '90vh',
       [theme.breakpoints.down('sm')]: {
@@ -74,13 +74,14 @@ export const useStyles = makeStyles((theme: any) => {
     pagelink: {
       display: 'flex',
       alignItems: 'center',
-      gap: 15,
       justifyContent: 'flex-end',
-      margin: '40px',
-      [theme.breakpoints.down('xs')]: {
-        margin: '20px',
-      },
+      padding: "5px 120px 53px 0",
     },
-    link: {},
+    link: {
+      marginRight: 17,
+      "&:last-child": {
+        marginRight: 0
+      }
+    },
   };
 });

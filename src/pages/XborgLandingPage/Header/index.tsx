@@ -1,12 +1,13 @@
 import useAuth from 'hooks/useAuth';
 import { useWeb3ReactLocal } from 'hooks/useWeb3ReactLocal';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { AccountPopup } from '../AccountPopup/AccountPopup';
 import { useStyles } from './style';
 import { InjectedConnector } from '@web3-react/injected-connector';
 import { ConnectorNames } from 'constants/connectors';
+import { Button } from 'components/Base/Form/Button';
+
 const logoIcon = '/images/dashboard/icon-logo.svg';
-const iconNetworks = '/images/newPage/ethereum-active.svg';
 
 function formatAddress(address: string) {
   if (!address) {
@@ -23,13 +24,7 @@ const HeaderPage = (props: any) => {
   const classes = useStyles();
   const injected = new InjectedConnector({});
   const { isAuth } = useAuth();
-  const {
-    balance,
-    connectWallet: web3ConnectWallet,
-    login: w3Login,
-    account,
-    connected,
-  } = useWeb3ReactLocal();
+  const { balance, connectWallet: web3ConnectWallet, login: w3Login, account, connected } = useWeb3ReactLocal();
   const [openAccount, setOpenAccount] = useState(false);
   const [authenticating, setAuthenticating] = useState(false);
 
@@ -42,8 +37,7 @@ const HeaderPage = (props: any) => {
 
         handleClose();
       })
-      .catch((error) => {
-      })
+      .catch((error) => {})
       .finally(() => {
         setAuthenticating(false);
       });
@@ -62,7 +56,6 @@ const HeaderPage = (props: any) => {
     connectWeb3Wallet();
   };
 
-
   useEffect(() => {
     if (!connected || !account || !authenticating) {
       return;
@@ -79,19 +72,23 @@ const HeaderPage = (props: any) => {
           <img alt="logo-icon" src={logoIcon} />
         </div>
         <div className={classes.pageHeader}>
-          <div className={`${classes.logNetworks} ${classes.networks} `}>
-            <img style={{ width: '20px', height: '20px' }} src={iconNetworks} alt="iconNetworks" />
-          </div>
           {isAuth ? (
-            <div className={`${classes.logNetworks} ${classes.balance} `} onClick={() => setOpenAccount(true)}>
-              <p className={classes.textbalance}>{balance} ETH</p>
-            </div>
+            <>
+              <div onClick={() => setOpenAccount(true)} className={classes.accountInfo}>
+                <img alt="eth" src="/images/newPage/ETH.svg" />
+              </div>
+              <div className={classes.accountInfo} onClick={() => setOpenAccount(true)}>
+                <div className={`${classes.accountInfo}__networks`}>
+                  <img src="/images/icons/wallet_icon.svg" alt="" />
+                  <p>{formatAddress(account)}</p>
+                </div>
+                <p className={`${classes.accountInfo}__balance`}>{balance ?? 0} ETH</p>
+              </div>
+            </>
           ) : (
-            <div className={`${classes.logNetworks} ${classes.balance} `}>
-              <button className={classes.textbalance} onClick={connectWallet}>
-                Connect wallet
-              </button>
-            </div>
+            <Button className="connect-btn" onClick={connectWallet}>
+              Connect Wallet
+            </Button>
           )}
         </div>
       </div>

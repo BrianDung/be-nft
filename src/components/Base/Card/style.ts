@@ -15,11 +15,10 @@ const useStyles = makeStyles((theme: any) => {
         lineHeight: "20px",
       },
       "& > div:last-child": {
-        color: "#FFFFFF",
         fontSize: 14,
         fontWeight: 700,
         lineHeight: "18px",
-        fontFamily: "DM Sans",
+        fontFamily: "Montserrat-Regular",
       },
       "&:last-child": {
         marginBottom: 0,
