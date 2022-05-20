@@ -10,7 +10,6 @@ import { useTypedSelector } from 'hooks/useTypedSelector';
 import { ConnectorNames, connectorsByName } from 'constants/connectors';
 import { ETH_CHAIN_ID, NETWORK_NAME_MAPPINGS } from 'constants/network';
 import { switchNetwork } from 'utils/setupNetwork';
-import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { NetworkUpdateType, settingAppNetwork, settingCurrentConnector } from 'store/actions/appNetwork';
 import { connectWalletSuccess, disconnectWallet } from 'store/actions/wallet';
 import { logout as logoutAction } from 'store/actions/user';
@@ -45,7 +44,7 @@ export const Web3ReactLocalContext = createContext<Web3ReactLocalContextValues>(
   connecting: false,
 });
 
-const WEB3_ACCESS_TOKEN = 'access_token';
+export const WEB3_ACCESS_TOKEN = 'access_token';
 
 export const Web3ReactLocalProvider: FC = ({ children }) => {
   const { appChainID, walletChainID } = useTypedSelector((state) => state.appNetwork).data;
@@ -66,11 +65,7 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
       setWalletName(wallet);
 
       if (wallet === ConnectorNames.MetaMask) {
-        await switchNetwork(appChainID, wallet);
-      }
-
-      if (connector instanceof WalletConnectConnector && connector.walletConnectProvider?.wc?.uri) {
-        connector.walletConnectProvider = undefined;
+        await switchNetwork(ETH_CHAIN_ID, wallet);
       }
 
       if (!connector || !wallet) {
@@ -183,7 +178,12 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
     }
 
     const handleWeb3ReactUpdate = (updated: any) => {
-      if (!updated?.chainId || updated?.chainId === ETH_CHAIN_ID) {
+      if (!updated?.chainId) {
+        return;
+      }
+
+      const chainId = Number(updated.chainId).toString();
+      if (chainId === ETH_CHAIN_ID) {
         return;
       }
 
@@ -259,7 +259,7 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
 
   // Switch network when appChainId change
   useEffect(() => {
-    if (!active || connecting || !walletName) {
+    if (!active || connecting || !walletName || appChainID !== ETH_CHAIN_ID) {
       return;
     }
 

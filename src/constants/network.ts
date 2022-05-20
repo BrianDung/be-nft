@@ -3,7 +3,6 @@ import { NETWORK_AVAILABLE } from '../constants';
 export const ETH_CHAIN_ID = process.env.REACT_APP_ETH_CHAIN_ID as string;
 export const POLYGON_CHAIN_ID = process.env.REACT_APP_POLYGON_CHAIN_ID as string;
 
-export const BSC_RPC_URL = process.env.REACT_APP_BSC_RPC_URL || '';
 export const POLYGON_RPC_URL = process.env.REACT_APP_POLYGON_RPC_URL || '';
 
 export const USDT_ADDRESS = process.env.REACT_APP_USDT_SMART_CONTRACT;
@@ -12,12 +11,7 @@ export const USDC_ADDRESS = process.env.REACT_APP_USDC_SMART_CONTRACT;
 export const USDC_POLYGON_ADDRESS = process.env.REACT_APP_USDC_POLYGON_SMART_CONTRACT;
 export const USDT_POLYGON_ADDRESS = process.env.REACT_APP_USDT_POLYGON_SMART_CONTRACT;
 
-export const USDC_BSC_ADDRESS = process.env.REACT_APP_USDC_BSC_SMART_CONTRACT;
-export const USDT_BSC_ADDRESS = process.env.REACT_APP_USDT_BSC_SMART_CONTRACT;
-export const BUSD_BSC_ADDRESS = process.env.REACT_APP_BUSD_BSC_SMART_CONTRACT;
-
 export const ETHERSCAN_URL = process.env.REACT_APP_ETHERSCAN_BASE_URL || '';
-export const BCSSCAN_URL = process.env.REACT_APP_BSCSCAN_BASE_URL || '';
 export const POLYGONSCAN_URL = process.env.REACT_APP_POLSCAN_BASE_URL || '';
 
 export enum ChainId {
@@ -26,23 +20,11 @@ export enum ChainId {
   RINKEBY = 4,
   GOERLI = 5,
   KOVAN = 42,
-  BSC_TESTNET = 97,
-  BSC_MAINNET = 56,
-  POLYGON_MAINNET = 137,
-  MUMBAI_POLYGON_TESTNET = 80001,
 }
 
 export type chainId = Extract<
   ChainId,
-  | ChainId.MAINNET
-  | ChainId.ROPSTEN
-  | ChainId.RINKEBY
-  | ChainId.GOERLI
-  | ChainId.KOVAN
-  | ChainId.BSC_MAINNET
-  | ChainId.BSC_TESTNET
-  | ChainId.POLYGON_MAINNET
-  | ChainId.MUMBAI_POLYGON_TESTNET
+  ChainId.MAINNET | ChainId.ROPSTEN | ChainId.RINKEBY | ChainId.GOERLI | ChainId.KOVAN
 >;
 
 export const ChainIdNameMapping: { [key in ChainId]: string } = {
@@ -51,10 +33,6 @@ export const ChainIdNameMapping: { [key in ChainId]: string } = {
   [ChainId.GOERLI]: 'Goerli',
   [ChainId.KOVAN]: 'Kovan',
   [ChainId.RINKEBY]: 'Rinkeby',
-  [ChainId.BSC_MAINNET]: 'BSC Mainnet',
-  [ChainId.BSC_TESTNET]: 'BSC Testnet',
-  [ChainId.POLYGON_MAINNET]: 'Polygon Mainnet',
-  [ChainId.MUMBAI_POLYGON_TESTNET]: 'Mumbai Testnet',
 };
 
 export const NETWORK_NAME_MAPPINGS: any = {
@@ -96,12 +74,6 @@ export const APP_NETWORKS: { [key: string]: NetworkInfo } = {
     icon: '/images/ethereum-active.svg',
     disableIcon: '/images/ethereum-disabled.svg',
   },
-  // [APP_NETWORKS_NAME.BSC]: {
-  //   name: 'BSC',
-  //   id: BSC_CHAIN_ID,
-  //   icon: "/images/bsc.svg",
-  //   disableIcon: "/images/binance-disabled.png"
-  // },
   [APP_NETWORKS_NAME.POLYGON]: {
     name: 'Polygon',
     id: POLYGON_CHAIN_ID,
@@ -112,13 +84,9 @@ export const APP_NETWORKS: { [key: string]: NetworkInfo } = {
 
 export const APP_NETWORKS_ID: (string | undefined)[] = [ETH_CHAIN_ID, POLYGON_CHAIN_ID];
 export const NETWORK_URL = process.env.REACT_APP_NETWORK_URL;
-export const NETWORK_BSC_URL = process.env.REACT_APP_BSC_RPC_URL;
 export const NETWORK_POLYGON_URL = process.env.REACT_APP_POLYGON_RPC_URL;
-export const FORMATIC_KEY = process.env.REACT_APP_FORMATIC_KEY;
-export const FORMATIC_KEY_TEST = process.env.REACT_APP_FORMATIC_KEY_TEST;
 
 export const NETWORK_ETH_NAME = process.env.REACT_APP_NETWORK_ETH_NAME;
-export const NETWORK_BSC_NAME = process.env.REACT_APP_NETWORK_BSC_NAME;
 export const NETWORK_POLYGON_NAME = process.env.REACT_APP_NETWORK_POLYGON_NAME;
 
 export const appNetwork: { [key: string]: string } = {

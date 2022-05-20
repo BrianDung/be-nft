@@ -1,8 +1,8 @@
 import { useWeb3ReactLocal } from 'hooks/useWeb3ReactLocal';
-import { ACCESS_TOKEN_KEY } from './../store/actions/user';
 import { useState, useEffect, useCallback } from 'react';
 import { useTypedSelector } from '../hooks/useTypedSelector';
 import { useWeb3React } from '@web3-react/core';
+import { WEB3_ACCESS_TOKEN } from 'contexts/web3react';
 
 type ReturnType = {
   isAuth: boolean;
@@ -24,7 +24,7 @@ const useAuth = (): ReturnType => {
   const activeWallet = connectorName ? walletsInfo[connectorName] : '';
 
   const getAccessToken = useCallback(() => {
-    return localStorage.getItem(ACCESS_TOKEN_KEY);
+    return localStorage.getItem(WEB3_ACCESS_TOKEN);
   }, []);
 
   useEffect(() => {

@@ -1,7 +1,6 @@
 import { 
   USDT_ADDRESS, USDT_POLYGON_ADDRESS,
   USDC_ADDRESS, USDC_POLYGON_ADDRESS,
-  BUSD_BSC_ADDRESS, 
   ETH_CHAIN_ID, POLYGON_CHAIN_ID 
 } from '../../constants/network';
 
@@ -15,10 +14,6 @@ export const getUSDTAddress = (appChainID: string): string => {
       return USDT_ADDRESS as string;
   }
   // return (appChainID === ETH_CHAIN_ID ? USDT_ADDRESS: USDT_BSC_ADDRESS) as string;
-}
-
-export const getBUSDAddress = (appChainID: string): string => {
-  return BUSD_BSC_ADDRESS as string;
 }
 
 export const getUSDCAddress = (appChainID: string) => {
