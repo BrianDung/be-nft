@@ -1,4 +1,5 @@
 import HeaderPage from './Header';
+import InfoLandingPage from './InfoPage';
 import { ProjectImage } from './ProjectImage';
 import { useStyles } from './style';
 
@@ -15,9 +16,9 @@ const XborgLandingPage = () => {
         <HeaderPage />
         <div className={styles.pageInfo}>
           <ProjectImage />
-          <div className={styles.carousel}>
+          {/* <div className={styles.carousel}> */}
           <InfoLandingPage />
-          </div>
+          {/* </div> */}
         </div>
         <footer className={styles.pagelink}>
           <a href={twitterLink} target="_blank" rel="noreferrer" className={styles.link}>

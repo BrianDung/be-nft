@@ -12,8 +12,11 @@ export const useStyles = makeStyles((theme: any) => {
             alignItems: 'center',
             // width: '60%',
             position: 'relative',
-            [theme.breakpoints.down('xs')]: {
-                // width: '100%',
+            [theme.breakpoints.down('sm')]: {
+                width: '100%',
+                '&>div:first-child': {
+                    width: '100%'
+                }
             },
         },
         input: {
@@ -24,9 +27,16 @@ export const useStyles = makeStyles((theme: any) => {
             fontSize: '20px',
             color: '#FFFFFF',
             marginBottom: '0',
+            [theme.breakpoints.down('sm')]: {
+                height: 40,
+              },
             '&>input': {
                 textAlign: 'center',
-                width: '73%',
+                width: '66%',
+                margin: 10,
+                [theme.breakpoints.down('sm')]: {
+                    width: '100%',
+                },
             }
         },
         quantity: {
@@ -43,6 +53,11 @@ export const useStyles = makeStyles((theme: any) => {
             cursor: 'pointer',
             border: '4px solid #FFFFFF',
             borderRadius: '10px',
+            [theme.breakpoints.down('sm')]: {
+                height: 40,
+                width: 40,
+                borderWidth: '3px'   
+              },
         },
         quantitysum: {
             background: 'none',
@@ -57,9 +72,11 @@ export const useStyles = makeStyles((theme: any) => {
             color: '#FFFFFF',
             cursor: 'pointer',
             marginLeft: '8px',
-            // [theme.breakpoints.down('xs')]: {
-            //   width: '40px',
-            // },
+            [theme.breakpoints.down('sm')]: {
+              width: 40,
+              height: 40,
+              borderWidth: '3px'
+            },
         },
         boxMint: {
             background: '#60A444',
@@ -69,21 +86,27 @@ export const useStyles = makeStyles((theme: any) => {
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            maxWidth: 325,
+            maxWidth: 345,
             marginTop: '20px',
-            [theme.breakpoints.down('xs')]: {
+            cursor: 'pointer',
+            [theme.breakpoints.down('sm')]: {
                 width: '100%',
+                height: 65,
+                maxWidth: '100%'
             },
         },
         nameMint: {
             fontFamily: 'Montserrat-SemiBold',
-            fontSize: '16px',
+            fontSize: '34px',
             lineHeight: '26px',
             color: '#FFFFFF',
             marginBottom: 0,
             cursor: 'not-allowed',
             background: 'none',
             border: 'none',
+            [theme.breakpoints.down('sm')]: {
+                fontSize: '28px'
+            },
         },
     }
 });

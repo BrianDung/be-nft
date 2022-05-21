@@ -3,7 +3,10 @@ import { makeStyles } from '@material-ui/core';
 export const useStyles = makeStyles((theme: any) => {
     return {
         borderWrapper: {
-            position: 'relative'
+            position: 'relative',
+            // [theme.breakpoints.down('sm')]: {
+            //     width: '100%',
+            // },
         },
         divInside: {
             border: 'none',
@@ -22,6 +25,9 @@ export const useStyles = makeStyles((theme: any) => {
               '-webkit-mask': 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
               '-webkit-mask-composite': 'xor',
               transition: 'all 0.25s ease-in-out',
+              [theme.breakpoints.down('sm')]: {
+                padding: 3,
+              },
             },
         }
     }

@@ -126,67 +126,104 @@ export const useStyles = makeStyles((theme: any) => {
     //     width: '100%',
     //   },
     // }
-    xborgPageWrapper:{
-      display: 'flex',
-      padding: '50px 0',
+    xborgPageWrapper: {
+      paddingTop: '40px',
       color: '#FFFFFF',
       fontWeight: 500,
-      flexWrap: 'wrap'
+      width: '50%',
+      [theme.breakpoints.down('sm')]: {
+        width: '100%',
+      },
     },
     nftImage: {
       width: '25vw',
       height: '200px',
       [theme.breakpoints.down('md')]: {
         width: '100%',
-  },
+      },
     },
-    pageInfo:{
+    pageInfo: {
       marginLeft: '100px',
       [theme.breakpoints.down('md')]: {
         marginLeft: 0
-  },
+      },
     },
     priceBigSize: {
-      fontSize: '4.375rem',
+      fontSize: '50px',
     },
     priceMediumSize: {
-      fontSize: '1.25rem'
+      fontSize: '24px'
     },
-    roundInfo:{
-      padding: '5px 13px',
+    roundInfo: {
+      padding: '13px',
       textAlign: 'center',
       borderRadius: '8px',
       width: 'fit-content',
+      minWidth: '170px',
+      [theme.breakpoints.up('lg')]: {
+        minWidth: '270px',
+      },
       '&>p': {
         marginBottom: 10,
-        fontSize: '1.125rem',
-        textTransform: 'uppercase',
         padding: '0 25px',
         width: 'fit-content',
         margin: '0 auto',
-      borderRadius: '6px',
+        borderRadius: '6px',
+        [theme.breakpoints.down('xs')]: {
+          margin: 0,
+        },
       },
-      [theme.breakpoints.down('md')]: {
+      '&>p:first-child':{
+        padding: 0,
+        fontSize: '34px',
+        whiteSpace: 'nowrap',
+        [theme.breakpoints.down('md')]: {
+          fontSize: '24px',
+        },
+        [theme.breakpoints.down('sm')]: {
+          fontSize: '20px',
+        },
+       
+      },
+      '&>p:last-child':{
+        fontSize: '18px',
+        textTransform: 'uppercase',
+        [theme.breakpoints.down('sm')]: {
+          padding: '0 15px',
+        },
+      },
+      [theme.breakpoints.down('xs')]: {
         width: '100%',
-  },
-    
+        display: 'flex',
+        justifyContent: 'space-between'
+      },
+
     },
-    roundType: {
-      marginBottom: 0, 
-      fontSize: '2rem',
-    },
+    roundType: {},
     deActiveStatus: {
       backgroundColor: '#AF47FF',
+      marginBottom: '0 !important'
     },
     activeStatus: {
       backgroundColor: '#AF47FF',
       display: 'flex',
-      alignItems: 'center'
+      alignItems: 'center',
+      marginBottom: '0 !important'
     },
     timer: {
       display: 'flex',
       justifyContent: 'space-between',
-      flexWrap: 'wrap',
+      // flexWrap: 'wrap',
+      [theme.breakpoints.down('xs')]: {
+        flexDirection: 'column'
+      },
+      '&>div:first-child': {
+        marginBottom: 20,
+        marginRight: 10
+      },
+      '&>div:last-child': {
+        margin: 'auto'
+      }
     }
   };
 });

@@ -14,8 +14,8 @@ const useStyles = makeStyles((theme) => {
       height: '87px',
       margin: '0px 5px',
       [theme.breakpoints.down('md')]: {
-        width: '60px',
-      height: '60px',
+        width: '72px',
+        height: '72px',
       },
       '& span': {
         // display: 'block',
@@ -24,10 +24,13 @@ const useStyles = makeStyles((theme) => {
       '&.number': {
         // display: 'block',
         fontFamily: 'Montserrat-SemiBold',
-        fontSize: '1.5rem',
+        fontSize: '24px',
         lineHeight: '28px',
         fontWeight: 500,
         color: '#FFFFFF',
+        [theme.breakpoints.down('sm')]: {
+          fontSize: '18px',
+        },
       }
     },
     countdown: {
@@ -44,11 +47,14 @@ const useStyles = makeStyles((theme) => {
       display: 'flex',
       alignItems: 'center',
       marginBottom: 0,
-      marginLeft: 50,
+      marginLeft: 30,
       [theme?.breakpoints?.down('md')]: {
+        marginLeft: 0
+      },
+      [theme?.breakpoints?.down('xs')]: {
         textAlign: 'center',
         justifyContent: 'flex-start',
-        marginLeft: 0
+        marginLeft: '-5px'
       },
     },
 

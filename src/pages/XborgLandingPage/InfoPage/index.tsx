@@ -1,5 +1,3 @@
-import { Input } from 'antd';
-import { useState } from 'react';
 import { BorderOutline } from '../BorderOutline';
 import Countdown from '../Countdown';
 import MintForm from '../MintForm';
@@ -11,8 +9,6 @@ interface Props {
 const InfoLandingPage = (props: Props) => {
   const { countDownDate } = props;
   const styles = useStyles();
-  const [count, setCount] = useState(1);
-
   const active = 1;
 
   return (
@@ -46,14 +42,10 @@ const InfoLandingPage = (props: Props) => {
         <button className={styles.nameMint}>MINT</button>
       </div>
       </div> */}
-      <div className={styles.nftImage}>
-        Image here
-      </div>
-      <div className={styles.pageInfo}>
         <div className={styles.timer}>
         <BorderOutline>
         <div className={styles.roundInfo}>
-          <p className={styles.roundType}>Pre Sale Round</p>
+          <p className={styles.roundType}>Pre-Sale Round</p>
           {
             active ? <p className={styles.activeStatus}>Live <p className='blinkDot'></p></p> : <p className={styles.deActiveStatus}>Live soon</p>
           }
@@ -70,8 +62,6 @@ const InfoLandingPage = (props: Props) => {
       </p>
       <MintForm/>
       </div>
-     
-    </div>
   );
 };
 
