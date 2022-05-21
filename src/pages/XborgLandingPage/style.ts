@@ -75,13 +75,22 @@ export const useStyles = makeStyles((theme: any) => {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'flex-end',
-      padding: "5px 120px 53px 0",
+      padding: '5px 120px 20px 0',
+      [theme.breakpoints.down('sm')]: {
+        padding: '5px 0 53px',
+        justifyContent: 'center',
+      },
     },
     link: {
       marginRight: 17,
-      "&:last-child": {
-        marginRight: 0
-      }
+      '&:last-child': {
+        marginRight: 0,
+      },
+      [theme.breakpoints.down('sm')]: {
+        "& > img": {
+          width: 50
+        }
+      },
     },
   };
 });

@@ -1,6 +1,7 @@
 .project-image-container {
   position: relative;
   margin-right: 120px;
+  height: calc(100vh - 272px);
 
   & > img {
     width: 100%;
