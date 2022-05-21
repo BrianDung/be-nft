@@ -1,6 +1,7 @@
 import { useStyles } from './style';
 import styles from './style.module.scss';
 import Button from '@material-ui/core/Button';
+import { useHistory } from 'react-router';
 
 const OpenSeaIcon = () => {
   return (
@@ -11,6 +12,7 @@ const OpenSeaIcon = () => {
 };
 const Section1 = () => {
   const classes = useStyles();
+  const history = useHistory();
 
   return (
     <section className={styles.section1}>
@@ -20,13 +22,17 @@ const Section1 = () => {
       </div>
       <div className={`${classes.container} ${styles.container}`}>
         <div className={styles.buttonItem}>
-          <Button className={classes.buttonTheMint} style={{ textTransform: 'none' }}>
+          <Button
+            className={classes.buttonTheMint}
+            style={{ textTransform: 'none' }}
+            onClick={() => history.push('/mint')}
+          >
             The Mint
           </Button>
         </div>
         <div className={styles.buttonItem}>
           <Button className={classes.buttonOpensea} style={{ textTransform: 'none' }} startIcon={<OpenSeaIcon />}>
-            Opensea 
+            Opensea
           </Button>
         </div>
       </div>

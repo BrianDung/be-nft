@@ -7,7 +7,7 @@ const twitterLink = 'https://twitter.com/VispX_official';
 const discordLink = 'https://discord.com/invite/vispx';
 const telegramLink = 'https://t.me/VispX_Official';
 
-const XborgLandingPage = () => {
+const MintPage = () => {
   const styles = useStyles();
 
   return (
@@ -79,4 +79,4 @@ const XborgLandingPage = () => {
   );
 };
 
-export default XborgLandingPage;
+export default MintPage;
