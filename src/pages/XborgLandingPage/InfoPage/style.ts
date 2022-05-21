@@ -130,20 +130,63 @@ export const useStyles = makeStyles((theme: any) => {
       display: 'flex',
       padding: '50px 0',
       color: '#FFFFFF',
-      fontWeight: 500
+      fontWeight: 500,
+      flexWrap: 'wrap'
     },
     nftImage: {
-      width: '35%'
+      width: '25vw',
+      height: '200px',
+      [theme.breakpoints.down('md')]: {
+        width: '100%',
+  },
     },
     pageInfo:{
-      width: '65%',
-      marginLeft: '10vw'
+      marginLeft: '100px',
+      [theme.breakpoints.down('md')]: {
+        marginLeft: 0
+  },
     },
     priceBigSize: {
-      fontSize: '70px',
+      fontSize: '4.375rem',
     },
     priceMediumSize: {
-      fontSize: '20px'
+      fontSize: '1.25rem'
+    },
+    roundInfo:{
+      padding: '5px 13px',
+      textAlign: 'center',
+      borderRadius: '8px',
+      width: 'fit-content',
+      '&>p': {
+        marginBottom: 10,
+        fontSize: '1.125rem',
+        textTransform: 'uppercase',
+        padding: '0 25px',
+        width: 'fit-content',
+        margin: '0 auto',
+      borderRadius: '6px',
+      },
+      [theme.breakpoints.down('md')]: {
+        width: '100%',
+  },
+    
+    },
+    roundType: {
+      marginBottom: 0, 
+      fontSize: '2rem',
+    },
+    deActiveStatus: {
+      backgroundColor: '#AF47FF',
+    },
+    activeStatus: {
+      backgroundColor: '#AF47FF',
+      display: 'flex',
+      alignItems: 'center'
+    },
+    timer: {
+      display: 'flex',
+      justifyContent: 'space-between',
+      flexWrap: 'wrap',
     }
   };
 });

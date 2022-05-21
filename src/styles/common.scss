@@ -1,0 +1,17 @@
+.blinkDot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #D70000;
+  opacity: 1;
+  margin-left: 8px;
+  animation: blinker 1000ms infinite ease;
+}
+@keyframes blinker {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}

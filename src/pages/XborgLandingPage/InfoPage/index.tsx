@@ -1,6 +1,8 @@
 import { Input } from 'antd';
 import { useState } from 'react';
+import { BorderOutline } from '../BorderOutline';
 import Countdown from '../Countdown';
+import MintForm from '../MintForm';
 import SoldProgress from '../SoldProgress';
 import { useStyles } from './style';
 interface Props {
@@ -10,6 +12,8 @@ const InfoLandingPage = (props: Props) => {
   const { countDownDate } = props;
   const styles = useStyles();
   const [count, setCount] = useState(1);
+
+  const active = 1;
 
   return (
     <div className={styles.xborgPageWrapper}>
@@ -46,11 +50,25 @@ const InfoLandingPage = (props: Props) => {
         Image here
       </div>
       <div className={styles.pageInfo}>
+        <div className={styles.timer}>
+        <BorderOutline>
+        <div className={styles.roundInfo}>
+          <p className={styles.roundType}>Pre Sale Round</p>
+          {
+            active ? <p className={styles.activeStatus}>Live <p className='blinkDot'></p></p> : <p className={styles.deActiveStatus}>Live soon</p>
+          }
+          
+        </div>
+        </BorderOutline>
+        <Countdown startDate={countDownDate} />
+        </div>
+      
         <SoldProgress/>
         <p>
         <span className={styles.priceBigSize}>0.08 ETH</span>
-        <span className={styles.priceMediumSize}>/Per NFT</span>
+        <span className={styles.priceMediumSize}>/ NFT</span>
       </p>
+      <MintForm/>
       </div>
      
     </div>

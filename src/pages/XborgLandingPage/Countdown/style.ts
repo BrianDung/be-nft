@@ -3,52 +3,60 @@ import { makeStyles } from '@material-ui/core';
 const useStyles = makeStyles((theme) => {
   return {
     countdownPart: {
-      display: 'inline-block',
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'center',
       listStyleType: 'none',
       padding: '9px 0',
-      background: '#2B347D',
-      borderRadius:'50%',
-      width: '60px',
-      height: '60px',
+      background: '#000000',
+      borderRadius: '50%',
+      width: '87px',
+      height: '87px',
       margin: '0px 5px',
+      [theme.breakpoints.down('md')]: {
+        width: '60px',
+      height: '60px',
+      },
       '& span': {
-        display: 'block',
+        // display: 'block',
         textAlign: 'center'
       },
       '&.number': {
-        display: 'block',
-        fontFamily:'Montserrat-SemiBold',
-        fontWeight: 'bold',
-        fontSize: 18,
+        // display: 'block',
+        fontFamily: 'Montserrat-SemiBold',
+        fontSize: '1.5rem',
         lineHeight: '28px',
-        color:'#FFFFFF',
+        fontWeight: 500,
+        color: '#FFFFFF',
       }
     },
-    countdown:{
+    countdown: {
       color: '#FFFFFF',
-      fontSize:'30px',
+      fontSize: '30px',
     },
-    countdownInfo1:{
-      fontFamily:'Montserrat-Medium',
-      fontSize: 18,
+    countdownInfo1: {
+      fontFamily: 'Montserrat-Medium',
+      fontSize: '1rem',
       lineHeight: '25px',
     },
-  
+
     listCountDown: {
-      display: 'flex', 
+      display: 'flex',
       alignItems: 'center',
-      marginBottom:20,
-      [theme?.breakpoints?.down('sm')]: {
+      marginBottom: 0,
+      marginLeft: 50,
+      [theme?.breakpoints?.down('md')]: {
         textAlign: 'center',
         justifyContent: 'flex-start',
+        marginLeft: 0
       },
     },
 
     countdownInfo: {
       color: '#FFFFFF',
-      fontSize: 9,
+      fontSize: 14,
       lineHeight: '21px',
-      fontFamily:'Montserrat-Regular',
+      fontFamily: 'Montserrat-Regular',
     },
     [theme.breakpoints.down('md')]: {
       countdownPart: {

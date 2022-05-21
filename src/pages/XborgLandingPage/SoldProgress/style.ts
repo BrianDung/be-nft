@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core';
 export const useStyles = makeStyles((theme: any) => {
    return{
     soldProgress: {
-       
+       margin: '40px 0'
     },
     jubValue: {
         display: 'flex',
@@ -14,9 +14,7 @@ export const useStyles = makeStyles((theme: any) => {
 
     },
     progress:{
-        height: 40,
-        borderRadius: '8px',
-        border: '1.5px solid #FFFFFF',
+        height: 47,
         textAlign: 'center',
         lineHeight: '35px'
     },
@@ -27,9 +25,8 @@ export const useStyles = makeStyles((theme: any) => {
 
     },
     xborgTitle:{
-        fontSize: '100px',
+        fontSize: '6.25rem',
         fontWeight: 620,
-        marginBottom: 50
     }
    } 
 }); 
