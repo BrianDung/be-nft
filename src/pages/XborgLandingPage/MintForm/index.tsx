@@ -1,23 +1,64 @@
 import { Input } from '@material-ui/core';
-import { useState } from 'react';
+import { useRef, useState } from 'react';
 import { BorderOutline } from '../BorderOutline';
 import { useStyles } from './style';
 
-const MintForm = () => {
+interface MintFormProps {
+  maxAllow: number;
+}
+
+const MintForm = ({ maxAllow }: MintFormProps) => {
   const styles = useStyles();
-  const [amount, setAmount] = useState<any>(1);
+  const [amount, setAmount] = useState<number>(1);
+  const lastValidInput = useRef(1);
+
+  function reValidate() {
+    const currentValue = Number(amount);
+    if (isNaN(currentValue)) {
+      setAmount(lastValidInput.current);
+      return;
+    }
+
+    lastValidInput.current = Number(amount);
+    setAmount(Number(amount));
+  }
+
+  function updateAmount(value: string | number) {
+    setAmount((amount) => {
+      const currentAmount = Number(amount);
+      const newValue = Number(value);
+
+      if (isNaN(newValue)) {
+        return lastValidInput.current;
+      }
+
+      if (newValue > maxAllow || newValue < 0) {
+        lastValidInput.current = currentAmount;
+        return currentAmount;
+      }
+
+      lastValidInput.current = newValue;
+      return newValue;
+    });
+  }
+
   return (
     <div>
       <div className={styles.formControl}>
         <div className={styles.boxNumber}>
           <BorderOutline>
-            <Input className={styles.input} value={amount} onChange={(e)=>setAmount(e.target.value)}/>
+            <Input
+              onBlur={reValidate}
+              className={styles.input}
+              value={amount}
+              onChange={(e) => updateAmount(e.target.value)}
+            />
           </BorderOutline>
 
           <button
             className={styles.quantity}
             // style={{cursor: `${count <=1 ? 'not-allowed' :'pointer'}`}}
-            onClick={() => setAmount(+amount - 1)}
+            onClick={() => updateAmount(Number(amount) - 1)}
           >
             -
           </button>
@@ -25,7 +66,7 @@ const MintForm = () => {
         <button
           className={styles.quantitysum}
           //  style={{cursor: `${count >=5 ? 'not-allowed' :'pointer'}`}}
-            onClick={() => setAmount(+amount + 1)}
+          onClick={() => updateAmount(Number(amount) + 1)}
         >
           +
         </button>

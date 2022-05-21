@@ -42,26 +42,29 @@ const InfoLandingPage = (props: Props) => {
         <button className={styles.nameMint}>MINT</button>
       </div>
       </div> */}
-        <div className={styles.timer}>
+      <div className={styles.timer}>
         <BorderOutline>
-        <div className={styles.roundInfo}>
-          <p className={styles.roundType}>Pre-Sale Round</p>
-          {
-            active ? <p className={styles.activeStatus}>Live <p className='blinkDot'></p></p> : <p className={styles.deActiveStatus}>Live soon</p>
-          }
-          
-        </div>
+          <div className={styles.roundInfo}>
+            <p className={styles.roundType}>Pre-Sale Round</p>
+            {active ? (
+              <p className={styles.activeStatus}>
+                Live <p className="blinkDot"></p>
+              </p>
+            ) : (
+              <p className={styles.deActiveStatus}>Live soon</p>
+            )}
+          </div>
         </BorderOutline>
         <Countdown startDate={countDownDate} />
-        </div>
-      
-        <SoldProgress/>
-        <p>
+      </div>
+
+      <SoldProgress />
+      <p>
         <span className={styles.priceBigSize}>0.08 ETH</span>
         <span className={styles.priceMediumSize}>/ NFT</span>
       </p>
-      <MintForm/>
-      </div>
+      <MintForm maxAllow={9} />
+    </div>
   );
 };
 
