@@ -13,7 +13,7 @@ type ReturnType = {
 const useAuth = (): ReturnType => {
   const [isAuth, setIsAuth] = useState(false);
   const { active, account, chainId } = useWeb3React();
-  const { logout: web3Logout, isWhiteList } = useWeb3ReactLocal();
+  const { logout: web3Logout } = useWeb3ReactLocal();
 
   const walletsInfo = useTypedSelector((state) => state.wallet).entities;
   const user = useTypedSelector((state) => state.user).data;
@@ -22,8 +22,8 @@ const useAuth = (): ReturnType => {
   const activeWallet = connectorName ? walletsInfo[connectorName] : '';
 
   useEffect(() => {
-    setIsAuth(active && !!activeWallet && isWhiteList);
-  }, [active, activeWallet, user, isWhiteList]);
+    setIsAuth(active && !!activeWallet);
+  }, [active, activeWallet, user]);
 
   const wrongChain = appChainID?.toString() !== chainId?.toString();
   const connectedAccount = isAuth ? account : '';
