@@ -25,8 +25,7 @@ deploy:
 				--filter=":- .gitignore" \
 				. $(u)@$(h):$(dir)/
 	ssh $(u)@$(h) "cd $(dir); cp .env.sotatek.example .env"
-	#ssh $(u)@$(h) "cd $(dir); node -v"
-	#ssh $(u)@$(h) "pm2 restart UserVispx"
+	ssh $(u)@$(h) "pm2 restart UserMintPage"
 
 deploy-dev:
 	make deploy h=172.16.1.225 dir=/var/www/sotatek_starter/mint-page
