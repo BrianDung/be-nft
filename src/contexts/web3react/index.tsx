@@ -107,6 +107,7 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
     dispatch(disconnectWallet());
     dispatch(settingCurrentConnector(undefined));
     dispatch(settingAppNetwork(NetworkUpdateType.Wallet, undefined));
+    setIsWhiteList(false);
 
     sessionStorage.removeItem(SESSION_STORAGE);
     setWalletName('');

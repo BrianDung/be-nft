@@ -5,24 +5,24 @@ export const useStyles = makeStyles((theme: any) => {
     root: {
       width: '100%',
       padding: '40px 60px',
-        [theme.breakpoints.down('sm')]: {
-          padding: '27px 0px'
+      [theme.breakpoints.down('sm')]: {
+        padding: '27px 0px',
       },
     },
     container: {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-    
     },
     logoField: {},
     pageHeader: {
       display: 'flex',
       alignContent: 'center',
-      '& > .connect-btn': {
-        background: 'linear-gradient(90deg, #A74AFC 0%, rgba(7, 153, 206, 0.95) 100%)',
+      '& > .connect-btn.MuiButton-contained': {
+        background: '#000',
         borderRadius: 10,
         padding: '8px 28px',
+        border: '4px solid #fff',
         '& > span.MuiButton-label': {
           fontSize: 30,
           lineHeight: '58px',
@@ -82,7 +82,7 @@ export const useStyles = makeStyles((theme: any) => {
         '-webkit-mask-composite': 'xor',
         transition: 'all 0.25s ease-in-out',
         [theme.breakpoints.down('sm')]: {
-        padding: 2
+          padding: 2,
         },
       },
       '&:first-child': {
