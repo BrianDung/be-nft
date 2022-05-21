@@ -6,8 +6,10 @@ import { useStyles } from './style';
 import { InjectedConnector } from '@web3-react/injected-connector';
 import { ConnectorNames } from 'constants/connectors';
 import { Button } from 'components/Base/Form/Button';
+import useWindowDimensions from 'hooks/useWindowDimensions';
 
 const logoIcon = '/images/dashboard/icon-logo.svg';
+const logoMin = '/images/dashboard/icon-logo-min-2.png';
 
 function formatAddress(address: string) {
   if (!address) {
@@ -27,6 +29,7 @@ const HeaderPage = (props: any) => {
   const { balance, connectWallet: web3ConnectWallet, login: w3Login, account, connected } = useWeb3ReactLocal();
   const [openAccount, setOpenAccount] = useState(false);
   const [authenticating, setAuthenticating] = useState(false);
+  const { width } = useWindowDimensions();
 
   function web3Login() {
     return w3Login()
@@ -69,7 +72,7 @@ const HeaderPage = (props: any) => {
     <header className={classes.root}>
       <div className={classes.container}>
         <div className={classes.logoField}>
-          <img alt="logo-icon" src={logoIcon} />
+        {width >= 960 ?  <img alt="logo-icon" src={logoIcon} /> : <img alt="logo-icon" src={logoMin} width={38} height={48} /> }
         </div>
         <div className={classes.pageHeader}>
           {isAuth ? (

@@ -5,15 +5,15 @@ export const useStyles = makeStyles((theme: any) => {
     root: {
       width: '100%',
       padding: '40px 60px',
+        [theme.breakpoints.down('sm')]: {
+          padding: '27px 0px'
+      },
     },
     container: {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'space-between',
-      [theme.breakpoints.down('sm')]: {
-        flexDirection: 'column',
-        gap: ' 15px',
-      },
+    
     },
     logoField: {},
     pageHeader: {
@@ -29,10 +29,10 @@ export const useStyles = makeStyles((theme: any) => {
           fontFamily: 'Montserrat-Regular',
         },
       },
-      [theme.breakpoints.down('sm')]: {
-        flexDirection: 'column',
-        alignItems: 'center',
-      },
+      // [theme.breakpoints.down('sm')]: {
+      //   flexDirection: 'column',
+      //   alignItems: 'center',
+      // },
     },
     networks: {
       width: 62,
@@ -67,7 +67,6 @@ export const useStyles = makeStyles((theme: any) => {
       padding: '12px 33px',
       borderRadius: 8,
       position: 'relative',
-
       '&::before': {
         opacity: 1,
         content: '""',
@@ -82,29 +81,43 @@ export const useStyles = makeStyles((theme: any) => {
         '-webkit-mask': 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
         '-webkit-mask-composite': 'xor',
         transition: 'all 0.25s ease-in-out',
+        [theme.breakpoints.down('sm')]: {
+        padding: 2
+        },
       },
       '&:first-child': {
         width: 'fit-content',
         marginRight: 37,
         padding: '9px 38px',
         [theme.breakpoints.down('sm')]: {
-          marginBottom: 10,
-          marginRight: 0,
+          marginRight: 5,
+          padding: 10,
         },
       },
-      [theme.breakpoints.down('md')]: {
-        width: 'auto',
-        justifyContent: 'flex-end',
-        padding: '12px 9px',
+      [theme.breakpoints.down('sm')]: {
+        marginBottom: 10,
+        padding: 10,
+        height: 40,
       },
+      // [theme.breakpoints.down('md')]: {
+      //   width: 'auto',
+      //   justifyContent: 'flex-end',
+      //   padding: '12px 9px',
+      // },
       '&__networks': {
         display: 'flex',
         alignItems: 'center',
         '& > *': {
           marginRight: 10,
+          [theme.breakpoints.down('sm')]: {
+            marginRight: 5,
+          },
         },
         borderRight: '3px solid #FFFFFF',
         marginRight: 10,
+        [theme.breakpoints.down('sm')]: {
+          marginRight: 5,
+        },
         color: '#FFFFFF',
         '& > p': {
           marginBottom: 0,
@@ -112,7 +125,7 @@ export const useStyles = makeStyles((theme: any) => {
           fontFamily: 'Montserrat-Regular',
           lineHeight: '24px',
           [theme.breakpoints.down('sm')]: {
-            fontSize: 20,
+            fontSize: 16,
           },
         },
       },
@@ -125,7 +138,7 @@ export const useStyles = makeStyles((theme: any) => {
         display: 'flex',
         alignItems: 'center',
         [theme.breakpoints.down('sm')]: {
-          fontSize: 20,
+          fontSize: 16,
         },
       },
     },
