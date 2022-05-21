@@ -39,7 +39,6 @@ const useStyles = makeStyles((theme) => {
     },
     countdownInfo1: {
       fontFamily: 'Montserrat-Medium',
-      fontSize: '1rem',
       lineHeight: '25px',
     },
 

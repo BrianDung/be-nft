@@ -44,6 +44,9 @@ export const useStyles = makeStyles((theme: any) => {
         [theme.breakpoints.down('sm')]: {
             fontSize: '80px',
         },
+        [theme.breakpoints.down('xs')]: {
+            fontSize: '70px',
+        },
     },
     progressFull: {
         borderRadius:6

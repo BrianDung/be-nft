@@ -6,7 +6,7 @@ import { useWeb3React } from '@web3-react/core';
 import { useDispatch } from 'react-redux';
 
 import { USER_CLOSE_EXTENSION_MESSAGE, TRANSACTION_ERROR, TRANSACTION_SUCCESS } from '../constants/alert';
-import { alertSuccess, alertFailure } from '../store/actions/alert';
+import { alert } from '../store/actions/alert';
 import { getContract } from '../utils/contract';
 import { TokenType } from '../hooks/useTokenDetails';
 
@@ -47,7 +47,7 @@ const useTokenAllowance = (
 
                await transaction.wait(1);
 
-               dispatch(alertSuccess(TRANSACTION_SUCCESS));
+               dispatch(alert(TRANSACTION_SUCCESS));
                if (reload) {
                  setTimeout( () => {
                    window.location.reload()
@@ -58,7 +58,7 @@ const useTokenAllowance = (
       } catch (err: any) {
         console.log('[ERROR] - useTokenAllowance:', err);
         const message = err?.code === 4001 ? USER_CLOSE_EXTENSION_MESSAGE : TRANSACTION_ERROR;
-        dispatch(alertFailure(message));
+        dispatch(alert(message));
         throw new Error(err.message);
       } finally {
         setTokenApproveLoading(false);

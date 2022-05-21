@@ -1,7 +1,7 @@
 import React from 'react';
 import { useStyles } from './style';
 
-const logoIcon = '/images/dashboard/icon-logo.svg';
+const logoIcon = '/images/dashboard/icon-logo-new.svg';
 const twitterIcon = '/images/newLanding/twitterIcon.svg';
 const discordIcon = '/images/newLanding/discordIcon.svg';
 const websiteIcon = '/images/newLanding/websiteIcon.svg';
