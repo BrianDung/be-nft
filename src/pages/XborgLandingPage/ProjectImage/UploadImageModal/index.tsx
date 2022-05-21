@@ -1,6 +1,5 @@
 import { Dialog } from '@material-ui/core';
 import { Button } from 'components/Base/Form/Button';
-import { ACCEPT_UPLOAD } from 'constants/upload';
 import useAuth from 'hooks/useAuth';
 import { useWalletSignatureAsync } from 'hooks/useWalletSignatureAsync';
 import { FileRejection, useDropzone } from 'react-dropzone';
@@ -13,6 +12,7 @@ interface UploadImageModalProps {
   open: boolean;
   onClose: () => void;
   onSuccess: () => void;
+  admins: string[];
 }
 
 const ACCEPT_FILE_SIZE = 8 * 1024 * 1024;
@@ -40,7 +40,6 @@ function getFileName(fileName: string) {
 
 const getFileSize = async (event: any): Promise<any> => {
   const file = await (event.dataTransfer ? event?.dataTransfer?.files[0] : event[0].getFile());
-  console.log(file);
 
   if (!file.type.includes('image')) {
     return [file];
@@ -61,7 +60,7 @@ const getFileSize = async (event: any): Promise<any> => {
   return await Promise.all([promise]);
 };
 
-export const UploadImageModal = ({ open, onClose, onSuccess }: UploadImageModalProps) => {
+export const UploadImageModal = ({ open, onClose, onSuccess, admins }: UploadImageModalProps) => {
   const {
     getRootProps,
     getInputProps,
@@ -95,7 +94,7 @@ export const UploadImageModal = ({ open, onClose, onSuccess }: UploadImageModalP
 
   async function handleUpload() {
     try {
-      if (!open || acceptedFiles.length === 0 || !ACCEPT_UPLOAD.has(connectedAccount ?? '')) {
+      if (!open || acceptedFiles.length === 0 || !admins.includes(connectedAccount ?? '')) {
         onClose();
         return;
       }

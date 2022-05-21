@@ -5,14 +5,12 @@ import { createContext, FC, useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { alertFailure } from 'store/actions/alert';
 import { userActions } from 'store/constants/user';
-import { walletActions } from 'store/constants/wallet';
 import { useTypedSelector } from 'hooks/useTypedSelector';
 import { ConnectorNames, connectorsByName } from 'constants/connectors';
 import { ETH_CHAIN_ID, NETWORK_NAME_MAPPINGS } from 'constants/network';
 import { switchNetwork } from 'utils/setupNetwork';
 import { NetworkUpdateType, settingAppNetwork, settingCurrentConnector } from 'store/actions/appNetwork';
 import { connectWalletSuccess, disconnectWallet } from 'store/actions/wallet';
-import { logout as logoutAction } from 'store/actions/user';
 import { BaseRequest } from '../../request/Request';
 import getAccountBalance from 'utils/getAccountBalance';
 import BigNumber from 'bignumber.js';
@@ -24,27 +22,30 @@ interface Web3ReactLocalContextValues {
   balance: string | number;
   connector?: AbstractConnector;
   library: any;
-  login: (account?: string) => Promise<any>;
+  checkWhiteList: (account?: string) => Promise<any>;
   connectWallet: (connector: AbstractConnector, walletName: string) => Promise<any>;
   account: string;
   walletName: string;
   connected: boolean;
   connecting: boolean;
+  isWhiteList: boolean;
 }
 
 export const Web3ReactLocalContext = createContext<Web3ReactLocalContextValues>({
   balance: 0,
   library: undefined,
-  login: () => Promise.resolve(false),
+  checkWhiteList: () => Promise.resolve(false),
   logout: () => Promise.resolve(),
   connectWallet: () => Promise.resolve(false),
   account: '',
   walletName: '',
   connected: false,
   connecting: false,
+  isWhiteList: false,
 });
 
 export const WEB3_ACCESS_TOKEN = 'access_token';
+export const SESSION_STORAGE = 'user_signature';
 
 export const Web3ReactLocalProvider: FC = ({ children }) => {
   const { appChainID, walletChainID } = useTypedSelector((state) => state.appNetwork).data;
@@ -57,6 +58,7 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
   const [balance, setBalance] = useState('0');
   const [walletName, setWalletName] = useState<string>('');
   const [connecting, setConnecting] = useState(false);
+  const [isWhiteList, setIsWhiteList] = useState(false);
 
   const connectWallet = useCallback(
     async (connector: AbstractConnector, wallet: string) => {
@@ -106,7 +108,7 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
     dispatch(settingCurrentConnector(undefined));
     dispatch(settingAppNetwork(NetworkUpdateType.Wallet, undefined));
 
-    localStorage.removeItem('walletconnect');
+    sessionStorage.removeItem(SESSION_STORAGE);
     setWalletName('');
     setCurrentConnector(undefined);
   }, [dispatch]);
@@ -114,46 +116,38 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
   const logout = useCallback(() => {
     return new Promise<void>((resolve) => {
       deactivate();
-      dispatch(logoutAction());
       clearWalletState();
       resolve();
     });
-  }, [deactivate, dispatch, clearWalletState]);
+  }, [deactivate, clearWalletState]);
 
-  const login = useCallback(
+  const checkWhiteList = useCallback(
     async (account?: string) => {
       try {
         const baseRequest = new BaseRequest();
-        const signature = await web3Sign(account);
+        const storagedSignature = sessionStorage.getItem(SESSION_STORAGE);
+        const signature = !storagedSignature ? await web3Sign(account) : storagedSignature;
         if (!signature) {
           return false;
         }
 
-        const response = await baseRequest.post(`/user/login`, {
-          signature,
-          wallet_address: account ?? connectedAccount,
-        });
+        sessionStorage.setItem(SESSION_STORAGE, signature);
+        const response = await baseRequest.get(
+          `/number-minted?wallet_address=${account ?? connectedAccount}&signature=${signature}`
+        );
 
         const resultObj = await response.json();
 
         if (!resultObj) {
-          throw new Error('Login fail');
+          throw new Error('Check whitelist user fail');
         }
 
         if (resultObj.status !== 200) {
+          setIsWhiteList(false);
           throw new Error(resultObj.message);
         }
 
-        const { token, user } = resultObj.data;
-
-        localStorage.setItem(WEB3_ACCESS_TOKEN, token.token);
-
-        dispatch({ type: walletActions.WALLET_CONNECT_LAYER2_SUCCESS });
-        dispatch({
-          type: userActions.USER_LOGIN_SUCCESS,
-          payload: user,
-        });
-
+        setIsWhiteList(true);
         return true;
       } catch (error: any) {
         logout();
@@ -168,7 +162,7 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
         }
       }
     },
-    [connectedAccount, dispatch, web3Sign, logout]
+    [web3Sign, connectedAccount, logout, dispatch]
   );
 
   // Setup event for web3react
@@ -253,7 +247,7 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
       return;
     }
 
-    connectWallet(connectorsByName[connectedWallet], connectedWallet);
+    connectWallet(connectorsByName[connectedWallet], connectedWallet).catch((e) => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
@@ -274,7 +268,7 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
     <Web3ReactLocalContext.Provider
       value={{
         balance,
-        login,
+        checkWhiteList,
         logout,
         connectWallet,
         connector: currentConnector,
@@ -283,6 +277,7 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
         walletName,
         connected: active,
         connecting,
+        isWhiteList,
       }}
     >
       {children}
