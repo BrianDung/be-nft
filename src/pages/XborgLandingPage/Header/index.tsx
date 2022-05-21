@@ -26,13 +26,18 @@ const HeaderPage = (props: any) => {
   const classes = useStyles();
   const injected = new InjectedConnector({});
   const { isAuth } = useAuth();
-  const { balance, connectWallet: web3ConnectWallet, login: w3Login, account, connected } = useWeb3ReactLocal();
+  const {
+    balance,
+    connectWallet: web3ConnectWallet,
+    checkWhiteList: checkWhiteListUser,
+    account,
+    connected,
+  } = useWeb3ReactLocal();
   const [openAccount, setOpenAccount] = useState(false);
-  const [authenticating, setAuthenticating] = useState(false);
   const { width } = useWindowDimensions();
 
-  function web3Login() {
-    return w3Login()
+  function checkWhiteList() {
+    return checkWhiteListUser()
       .then((result: boolean) => {
         if (!result) {
           return;
@@ -40,31 +45,27 @@ const HeaderPage = (props: any) => {
 
         handleClose();
       })
-      .catch((error) => {})
-      .finally(() => {
-        setAuthenticating(false);
-      });
+      .catch((error) => {});
   }
+
   const connectWeb3Wallet = () => {
     if (connected && account) {
-      web3Login();
+      checkWhiteList();
       return;
     }
-    web3ConnectWallet(injected, ConnectorNames.MetaMask).catch((e) => {
-      setAuthenticating(false);
-    });
+    web3ConnectWallet(injected, ConnectorNames.MetaMask).catch((e) => {});
   };
+
   const connectWallet = () => {
-    setAuthenticating(true);
     connectWeb3Wallet();
   };
 
   useEffect(() => {
-    if (!connected || !account || !authenticating) {
+    if (!connected || !account) {
       return;
     }
 
-    web3Login();
+    checkWhiteList();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account, connected]);
 

@@ -4,8 +4,8 @@ export const useStyles = makeStyles((theme: any) => {
   return {
     newLandingPage: {
       backgroundImage: `url(./images/newPage/background.svg)`,
-      backgroundRepeat:'no-repeat',
-      backgroundSize:'cover',
+      backgroundRepeat: 'no-repeat',
+      backgroundSize: 'cover',
       // background: 'linear-gradient(90deg, #06071D 0%, #290A4B 100%)',
       minHeight: '100vh',
     },
@@ -15,7 +15,9 @@ export const useStyles = makeStyles((theme: any) => {
       marginBottom: '50px',
       [theme.breakpoints.down('sm')]: {
         flexDirection: 'column',
+        padding: '0px',
       },
+      padding: '20px 60px',
     },
     // carousel: {
     //   width: '65%',
@@ -84,9 +86,9 @@ export const useStyles = makeStyles((theme: any) => {
         marginRight: 0,
       },
       [theme.breakpoints.down('sm')]: {
-        "& > img": {
-          width: 50
-        }
+        '& > img': {
+          width: 50,
+        },
       },
     },
   };
