@@ -1,15 +1,16 @@
-import { Input } from '@material-ui/core';
+import { Button } from 'components/Base/Form/Button';
 import { useRef, useState } from 'react';
 import { BorderOutline } from '../BorderOutline';
 import { useStyles } from './style';
 
 interface MintFormProps {
   maxAllow: number;
+  disabled?: boolean;
 }
 
-const MintForm = ({ maxAllow }: MintFormProps) => {
+const MintForm = ({ maxAllow, disabled }: MintFormProps) => {
   const styles = useStyles();
-  const [amount, setAmount] = useState<number>(1);
+  const [amount, setAmount] = useState<number | string>(1);
   const lastValidInput = useRef(1);
 
   function reValidate() {
@@ -20,21 +21,21 @@ const MintForm = ({ maxAllow }: MintFormProps) => {
     }
 
     lastValidInput.current = Number(amount);
-    setAmount(Number(amount));
+    updateAmount(Number(amount));
   }
 
   function updateAmount(value: string | number) {
-    setAmount((amount) => {
-      const currentAmount = Number(amount);
+    setAmount(() => {
       const newValue = Number(value);
 
-      if (isNaN(newValue)) {
-        return lastValidInput.current;
+      if (newValue > maxAllow) {
+        lastValidInput.current = maxAllow;
+        return maxAllow;
       }
 
-      if (newValue > maxAllow || newValue < 0) {
-        lastValidInput.current = currentAmount;
-        return currentAmount;
+      if (newValue < 1) {
+        lastValidInput.current = 1;
+        return 1;
       }
 
       lastValidInput.current = newValue;
@@ -44,36 +45,49 @@ const MintForm = ({ maxAllow }: MintFormProps) => {
 
   return (
     <div>
-      <div className={styles.formControl}>
-        <div className={styles.boxNumber}>
-          <BorderOutline>
-            <Input
-              onBlur={reValidate}
-              className={styles.input}
-              value={amount}
-              onChange={(e) => updateAmount(e.target.value)}
-            />
-          </BorderOutline>
-
-          <button
+      <div className={styles.mintForm}>
+        <div className={styles.formControl}>
+          <div className={styles.boxNumber}>
+            <BorderOutline>
+              <input
+                onBlur={reValidate}
+                type="text"
+                className={styles.input}
+                value={amount}
+                onChange={(e) => setAmount(e.target.value)}
+                disabled={disabled}
+              />
+            </BorderOutline>
+            <Button
+              className={`${styles.quantity} form`}
+              // style={{cursor: `${count <=1 ? 'not-allowed' :'pointer'}`}}
+              onClick={() => updateAmount(Number(amount) - 1)}
+              disabled={disabled}
+            >
+              -
+            </Button>
+          </div>
+          <Button
             className={styles.quantity}
-            // style={{cursor: `${count <=1 ? 'not-allowed' :'pointer'}`}}
-            onClick={() => updateAmount(Number(amount) - 1)}
+            //  style={{cursor: `${count >=5 ? 'not-allowed' :'pointer'}`}}
+            onClick={() => updateAmount(Number(amount) + 1)}
+            disabled={disabled}
           >
-            -
-          </button>
+            +
+          </Button>
         </div>
-        <button
-          className={styles.quantitysum}
+        <Button
+          className={styles.max}
           //  style={{cursor: `${count >=5 ? 'not-allowed' :'pointer'}`}}
-          onClick={() => updateAmount(Number(amount) + 1)}
+          onClick={() => updateAmount(maxAllow)}
+          disabled={disabled}
         >
-          +
-        </button>
+          MAX
+        </Button>
       </div>
-      <div className={styles.boxMint}>
-        <button className={styles.nameMint}>MINT</button>
-      </div>
+      <Button disabled={disabled} className={styles.mint}>
+        MINT
+      </Button>
     </div>
   );
 };

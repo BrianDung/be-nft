@@ -63,7 +63,7 @@ const InfoLandingPage = (props: Props) => {
         <span className={styles.priceBigSize}>0.08 ETH</span>
         <span className={styles.priceMediumSize}>/ NFT</span>
       </p>
-      <MintForm maxAllow={9} />
+      <MintForm maxAllow={9} disabled={false} />
     </div>
   );
 };
