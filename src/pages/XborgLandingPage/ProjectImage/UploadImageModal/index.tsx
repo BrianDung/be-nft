@@ -7,6 +7,7 @@ import { useDispatch } from 'react-redux';
 import { BaseRequest } from '../../../../request/Request';
 import { alertFailure, alertSuccess } from 'store/actions/alert';
 import styles from './styles.module.scss';
+import { useState } from 'react';
 
 interface UploadImageModalProps {
   open: boolean;
@@ -91,6 +92,7 @@ export const UploadImageModal = ({ open, onClose, onSuccess, admins }: UploadIma
   const { web3Sign } = useWalletSignatureAsync();
   const { connectedAccount } = useAuth();
   const dispatch = useDispatch();
+  const [loading, setLoading] = useState(false);
 
   async function handleUpload() {
     try {
@@ -98,6 +100,8 @@ export const UploadImageModal = ({ open, onClose, onSuccess, admins }: UploadIma
         onClose();
         return;
       }
+
+      setLoading(true);
 
       const signature = await web3Sign(connectedAccount, true);
 
@@ -120,6 +124,8 @@ export const UploadImageModal = ({ open, onClose, onSuccess, admins }: UploadIma
       onSuccess();
     } catch (e: any) {
       dispatch(alertFailure(e.massage));
+    } finally {
+      setLoading(false);
     }
   }
 
@@ -147,7 +153,7 @@ export const UploadImageModal = ({ open, onClose, onSuccess, admins }: UploadIma
             Cancel
           </Button>
           <Button
-            disabled={hasNotUpload || fileRejections.length > 0}
+            disabled={hasNotUpload || fileRejections.length > 0 || loading}
             onClick={handleUpload}
             className={styles.confirm}
           >
