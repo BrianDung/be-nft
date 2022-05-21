@@ -88,12 +88,12 @@ export const UploadImageModal = ({ open, onClose, onSuccess, admins }: UploadIma
     },
     getFilesFromEvent: getFileSize,
     validator: function (file: any) {
-      //   if (file?.width !== 1024 || file?.height !== 1024) {
-      //     return {
-      //       code: 'invalid-file-dimension',
-      //       message: 'The size of the file must be 1024x1024 px',
-      //     };
-      //   }
+        if (file?.width !== 1024 || file?.height !== 1024) {
+          return {
+            code: 'invalid-file-dimension',
+            message: 'The size of the file must be 1024x1024 px',
+          };
+        }
 
       return null;
     },
