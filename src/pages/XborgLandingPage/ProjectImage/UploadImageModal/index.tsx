@@ -42,7 +42,7 @@ function getFileName(fileName: string) {
 const getFileSize = async (event: any): Promise<any> => {
   const file = await (event.dataTransfer ? event?.dataTransfer?.files[0] : event[0].getFile());
 
-  if (!file.type.includes('image')) {
+  if (!file?.type?.includes('image')) {
     return [file];
   }
 

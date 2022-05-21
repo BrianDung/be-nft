@@ -127,7 +127,7 @@ export const useStyles = makeStyles((theme: any) => {
     //   },
     // }
     xborgPageWrapper: {
-      paddingTop: '40px',
+      paddingTop: '20px',
       color: '#FFFFFF',
       fontWeight: 500,
       width: '50%',
