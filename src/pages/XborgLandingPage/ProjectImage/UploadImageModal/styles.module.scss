@@ -1,0 +1,159 @@
+.modal {
+  & :global(.MuiDialog-paperWidthSm) {
+    max-width: none;
+  }
+
+  .container {
+    background-color: #fff;
+    padding: 48px 75px;
+    .title {
+      font-family: Montserrat-SemiBold;
+      font-size: 40px;
+      text-align: center;
+      line-height: 20px;
+      margin-bottom: 35px;
+    }
+
+    .dropzone {
+      background-color: #d9d9d9;
+      border: 2px dashed #000000;
+      width: 100%;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      padding: 20px 162px;
+      margin-bottom: 35px;
+      cursor: pointer;
+
+      &:hover {
+        opacity: 0.5;
+      }
+
+      & > img {
+        margin-bottom: 31px;
+        width: 50px;
+      }
+
+      & > p {
+        font-family: Montserrat-SemiBold;
+        font-size: 27px;
+        line-height: 26px;
+        color: #000000;
+
+        & > span {
+          text-decoration: underline;
+        }
+      }
+    }
+
+    .tips {
+      padding: 14px 22px;
+      border: 2px solid #000000;
+      margin-bottom: 25px;
+
+      & > p {
+        font-family: Montserrat-SemiBold;
+        font-size: 20px;
+        line-height: 26px;
+        color: #000000;
+      }
+    }
+
+    .preview {
+      padding: 14px 22px;
+      border: 2px solid #000000;
+      margin-bottom: 26px;
+
+      &.success {
+        display: flex;
+        align-items: center;
+
+        & > img:first-child {
+          width: 240px;
+          height: 240px;
+          margin-right: 19px;
+        }
+
+        & > p {
+          font-family: Montserrat-SemiBold;
+          font-size: 16px;
+          text-align: center;
+          line-height: 26px;
+          word-wrap: break-word;
+          margin-bottom: 0;
+        }
+
+        & > img:last-child {
+          margin-bottom: 10px;
+          margin-left: 5px;
+        }
+      }
+
+      &.failed {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        padding: 70px 0 82px;
+
+        & > img {
+          margin-bottom: 20px;
+        }
+
+        & > h3 {
+          font-family: Montserrat-SemiBold;
+          font-size: 24px;
+          text-align: center;
+          line-height: 26px;
+          word-wrap: break-word;
+          margin-bottom: 5px;
+        }
+
+        & > p {
+          font-family: Montserrat-SemiBold;
+          font-size: 18px;
+          text-align: center;
+          line-height: 26px;
+          word-wrap: break-word;
+          margin-bottom: 0;
+        }
+
+        & > span {
+          font-family: Montserrat-SemiBold;
+          font-size: 16 px;
+          text-align: center;
+          line-height: 26px;
+          word-wrap: break-word;
+          margin-bottom: 0;
+          text-decoration: underline;
+          cursor: pointer;
+        }
+      }
+    }
+
+    .action {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+
+      & > button {
+        border-radius: 0;
+        background: none;
+        border: 2px solid #000000;
+      }
+
+      & > button.cancel {
+        background-color: #d70000;
+      }
+
+      & > button.confirm {
+        background-color: #60a444;
+
+        &:disabled {
+          color: #fff;
+          opacity: 0.5;
+        }
+      }
+    }
+  }
+}

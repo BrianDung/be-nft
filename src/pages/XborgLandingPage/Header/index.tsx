@@ -98,6 +98,7 @@ const HeaderPage = (props: any) => {
           onClose={() => {
             setOpenAccount(false);
           }}
+          rawAddress={account ?? ''}
           balance={balance}
           walletAddress={formatAddress(account)}
         />

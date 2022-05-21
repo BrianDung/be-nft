@@ -70,13 +70,14 @@ export class BaseRequest {
     }
   }
 
-  async postImage(url: string, data: FormData) {
+  async postImage(url: string, signature: string, wallet: string, data: FormData) {
     try {
       return fetch(this.buildUrl(url), {
         method: 'POST',
         headers: {
-          Accept: 'application/json',
-          Authorization: 'Bearer ' + localStorage.getItem('access_token'),
+          Accept: '*/*',
+          signature,
+          wallet_address: wallet,
         },
         body: data,
       });

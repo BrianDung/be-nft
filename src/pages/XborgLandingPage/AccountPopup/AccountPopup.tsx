@@ -9,6 +9,7 @@ interface AccountPopupProps {
   onClose: () => void;
   walletAddress: string;
   balance: any;
+  rawAddress: string;
 }
 
 const WalletIcon = ({ icon, name }: { icon: string; name: string }) => {
@@ -27,6 +28,7 @@ export function AccountPopup({
   open,
   onClose,
   walletAddress,
+  rawAddress,
   balance,
 }: AccountPopupProps) {
   const { logout } = useAuth();
@@ -66,7 +68,7 @@ export function AccountPopup({
                     src="/images/icons/copy.svg"
                     alt="copy"
                     onClick={() => {
-                      navigator.clipboard.writeText(walletAddress);
+                      navigator.clipboard.writeText(rawAddress);
                       setOpenTooltip(true);
                     }}
                   />
