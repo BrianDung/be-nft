@@ -1,6 +1,6 @@
 import useAuth from 'hooks/useAuth';
 import { useWeb3ReactLocal } from 'hooks/useWeb3ReactLocal';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { AccountPopup } from '../AccountPopup/AccountPopup';
 import { useStyles } from './style';
 import { InjectedConnector } from '@web3-react/injected-connector';
@@ -22,58 +22,26 @@ function formatAddress(address: string) {
   return `${suffix}...${prefix}`;
 }
 const HeaderPage = (props: any) => {
-  const { handleClose } = props;
   const classes = useStyles();
   const injected = new InjectedConnector({});
   const { isAuth } = useAuth();
-  const {
-    balance,
-    connectWallet: web3ConnectWallet,
-    checkWhiteList: checkWhiteListUser,
-    account,
-    connected,
-  } = useWeb3ReactLocal();
+  const { balance, connectWallet: web3ConnectWallet, account } = useWeb3ReactLocal();
   const [openAccount, setOpenAccount] = useState(false);
   const { width } = useWindowDimensions();
 
-  function checkWhiteList() {
-    return checkWhiteListUser()
-      .then((result: boolean) => {
-        if (!result) {
-          return;
-        }
-
-        handleClose();
-      })
-      .catch((error) => {});
-  }
-
-  const connectWeb3Wallet = () => {
-    if (connected && account) {
-      checkWhiteList();
-      return;
-    }
+  const connectWallet = () => {
     web3ConnectWallet(injected, ConnectorNames.MetaMask).catch((e) => {});
   };
-
-  const connectWallet = () => {
-    connectWeb3Wallet();
-  };
-
-  useEffect(() => {
-    if (!connected || !account) {
-      return;
-    }
-
-    checkWhiteList();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, connected]);
 
   return (
     <header className={classes.root}>
       <div className={classes.container}>
         <div className={classes.logoField}>
-        {width >= 960 ?  <img alt="logo-icon" src={logoIcon} /> : <img alt="logo-icon" src={logoMin} width={38} height={48} /> }
+          {width >= 960 ? (
+            <img alt="logo-icon" src={logoIcon} />
+          ) : (
+            <img alt="logo-icon" src={logoMin} width={38} height={48} />
+          )}
         </div>
         <div className={classes.pageHeader}>
           {isAuth ? (

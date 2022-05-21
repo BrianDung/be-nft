@@ -1,47 +1,47 @@
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core';
-import { useWalletSignatureAsync } from 'hooks/useWalletSignatureAsync';
 import { createContext, FC, useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { alertFailure } from 'store/actions/alert';
-import { userActions } from 'store/constants/user';
 import { useTypedSelector } from 'hooks/useTypedSelector';
 import { ConnectorNames, connectorsByName } from 'constants/connectors';
 import { ETH_CHAIN_ID, NETWORK_NAME_MAPPINGS } from 'constants/network';
 import { switchNetwork } from 'utils/setupNetwork';
 import { NetworkUpdateType, settingAppNetwork, settingCurrentConnector } from 'store/actions/appNetwork';
 import { connectWalletSuccess, disconnectWallet } from 'store/actions/wallet';
-import { BaseRequest } from '../../request/Request';
 import getAccountBalance from 'utils/getAccountBalance';
 import BigNumber from 'bignumber.js';
 import { WalletConnectionState } from 'store/reducers/wallet';
-import { ERROR_CODE } from 'constants/alert';
+import { useUserMinted } from 'hooks/useUserMinted';
 
 interface Web3ReactLocalContextValues {
   logout: () => Promise<void>;
   balance: string | number;
   connector?: AbstractConnector;
   library: any;
-  checkWhiteList: (account?: string) => Promise<any>;
   connectWallet: (connector: AbstractConnector, walletName: string) => Promise<any>;
   account: string;
   walletName: string;
   connected: boolean;
   connecting: boolean;
-  isWhiteList: boolean;
+  whitelistUser: boolean;
+}
+
+export interface MintedData {
+  maxNumberMinted: number;
+  type: number;
 }
 
 export const Web3ReactLocalContext = createContext<Web3ReactLocalContextValues>({
   balance: 0,
   library: undefined,
-  checkWhiteList: () => Promise.resolve(false),
   logout: () => Promise.resolve(),
   connectWallet: () => Promise.resolve(false),
   account: '',
   walletName: '',
   connected: false,
   connecting: false,
-  isWhiteList: false,
+  whitelistUser: false,
 });
 
 export const WEB3_ACCESS_TOKEN = 'access_token';
@@ -51,14 +51,14 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
   const { appChainID, walletChainID } = useTypedSelector((state) => state.appNetwork).data;
   const walletsInfo = useTypedSelector((state) => state.wallet).entities;
   const { account: connectedAccount, activate, active, error, deactivate, library, chainId } = useWeb3React();
-  const { web3Sign } = useWalletSignatureAsync();
   const dispatch = useDispatch();
+  const { getUserMinted } = useUserMinted();
 
   const [currentConnector, setCurrentConnector] = useState<AbstractConnector | undefined>();
   const [balance, setBalance] = useState('0');
   const [walletName, setWalletName] = useState<string>('');
   const [connecting, setConnecting] = useState(false);
-  const [isWhiteList, setIsWhiteList] = useState(false);
+  const [whitelistUser, setWhitelistUser] = useState(false);
 
   const connectWallet = useCallback(
     async (connector: AbstractConnector, wallet: string) => {
@@ -107,8 +107,8 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
     dispatch(disconnectWallet());
     dispatch(settingCurrentConnector(undefined));
     dispatch(settingAppNetwork(NetworkUpdateType.Wallet, undefined));
-    setIsWhiteList(false);
 
+    setWhitelistUser(false);
     sessionStorage.removeItem(SESSION_STORAGE);
     setWalletName('');
     setCurrentConnector(undefined);
@@ -121,50 +121,6 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
       resolve();
     });
   }, [deactivate, clearWalletState]);
-
-  const checkWhiteList = useCallback(
-    async (account?: string) => {
-      try {
-        const baseRequest = new BaseRequest();
-        const storagedSignature = sessionStorage.getItem(SESSION_STORAGE);
-        const signature = !storagedSignature ? await web3Sign(account) : storagedSignature;
-        if (!signature) {
-          return false;
-        }
-
-        sessionStorage.setItem(SESSION_STORAGE, signature);
-        const response = await baseRequest.get(
-          `/number-minted?wallet_address=${account ?? connectedAccount}&signature=${signature}`
-        );
-
-        const resultObj = await response.json();
-
-        if (!resultObj) {
-          throw new Error('Check whitelist user fail');
-        }
-
-        if (resultObj.status !== 200) {
-          setIsWhiteList(false);
-          throw new Error(resultObj.message);
-        }
-
-        setIsWhiteList(true);
-        return true;
-      } catch (error: any) {
-        logout();
-        dispatch(alertFailure(error.message));
-        dispatch({
-          type: userActions.USER_LOGIN_FAILURE,
-          message: '',
-        });
-
-        if (error?.code === ERROR_CODE.USER_REJECT) {
-          throw error;
-        }
-      }
-    },
-    [web3Sign, connectedAccount, logout, dispatch]
-  );
 
   // Setup event for web3react
   useEffect(() => {
@@ -231,6 +187,23 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
     getAccountDetails();
   }, [connectedAccount, appChainID, active, walletChainID, dispatch, walletName]);
 
+  // Check user is whitelist user
+  useEffect(() => {
+    if (!active || !connectedAccount) {
+      return;
+    }
+
+    getUserMinted(connectedAccount)
+      .then(() => {
+        setWhitelistUser(true);
+      })
+      .catch((error: any) => {
+        setWhitelistUser(false);
+        dispatch(alertFailure(error?.message));
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [active, connectedAccount]);
+
   // Check and init wallet connect
   useEffect(() => {
     if (!walletsInfo) {
@@ -269,7 +242,6 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
     <Web3ReactLocalContext.Provider
       value={{
         balance,
-        checkWhiteList,
         logout,
         connectWallet,
         connector: currentConnector,
@@ -278,7 +250,7 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
         walletName,
         connected: active,
         connecting,
-        isWhiteList,
+        whitelistUser,
       }}
     >
       {children}
