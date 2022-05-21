@@ -124,7 +124,7 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
     async (account?: string) => {
       try {
         const baseRequest = new BaseRequest();
-        const signature = await web3Sign(walletName, account);
+        const signature = await web3Sign(account);
         if (!signature) {
           return false;
         }
@@ -168,7 +168,7 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
         }
       }
     },
-    [connectedAccount, dispatch, web3Sign, walletName, logout]
+    [connectedAccount, dispatch, web3Sign, logout]
   );
 
   // Setup event for web3react
