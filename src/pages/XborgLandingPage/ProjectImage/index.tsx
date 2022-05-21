@@ -4,7 +4,7 @@ import useAuth from 'hooks/useAuth';
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { BaseRequest } from '../../../request/Request';
-import { alertFailure } from 'store/actions/alert';
+import { alert } from 'store/actions/alert';
 import styles from './style.module.scss';
 
 const defaultImage = '/images/newPage/project-image.svg';
@@ -46,7 +46,7 @@ export const ProjectImage = () => {
 
         setAdmin(data?.data?.map((item: any) => item.wallet_address));
       } catch (e: any) {
-        dispatch(alertFailure(e.message));
+        dispatch(alert(e.message));
       }
     }
 

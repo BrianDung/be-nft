@@ -41,6 +41,7 @@ export const useStyles = makeStyles((theme: any) => {
         fontSize: '100px',
         fontWeight: 620,
         fontFamily: 'Mokoto',
+        textShadow: '2px 2px 4px #000000',
         [theme.breakpoints.down('sm')]: {
             fontSize: '80px',
         },

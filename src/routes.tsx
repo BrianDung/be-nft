@@ -20,14 +20,14 @@ const Routes: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   const { history } = props;
 
   useEffect(() => {
-    const { type, message } = alert;
-    if (type && message) {
-      NotificationManager[type](message);
+    const { message } = alert;
+    if (message) {
+      message.info(message);
     }
   }, [alert]);
 
   useEffect(() => {
-    history.listen((location, action) => {
+    history.listen(() => {
       dispatch(clearAlert());
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps

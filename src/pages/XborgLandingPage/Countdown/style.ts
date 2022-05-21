@@ -13,7 +13,7 @@ const useStyles = makeStyles((theme) => {
       width: '87px',
       height: '87px',
       margin: '0px 5px',
-      [theme.breakpoints.down('md')]: {
+      [theme.breakpoints.down('sm')]: {
         width: '72px',
         height: '72px',
       },
@@ -55,6 +55,9 @@ const useStyles = makeStyles((theme) => {
         justifyContent: 'flex-start',
         marginLeft: '-5px'
       },
+      "@media only screen and (min-width: 960px) and (max-width: 1370px)": {
+        marginLeft: 0
+      }
     },
 
     countdownInfo: {
