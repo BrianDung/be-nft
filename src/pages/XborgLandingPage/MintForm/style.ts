@@ -10,7 +10,7 @@ export const useStyles = makeStyles((theme: any) => {
         width: '100%',
       },
       [theme.breakpoints.down('xs')]: {
-        marginBottom: '10px'
+        marginBottom: '10px',
       },
     },
     boxNumber: {
@@ -102,13 +102,12 @@ export const useStyles = makeStyles((theme: any) => {
         },
       },
       [theme.breakpoints.down('md')]: {
-        padding: '0px 25px',
+        padding: '0px 22px',
         lineHeight: 'normal',
       },
       [theme.breakpoints.down('xs')]: {
         marginLeft: 0,
-        width: '100%',
-        marginBottom: 30
+        marginBottom: 30,
       },
     },
     mint: {
@@ -144,9 +143,6 @@ export const useStyles = makeStyles((theme: any) => {
     },
     mintForm: {
       display: 'flex',
-      [theme.breakpoints.down('xs')]: {
-        flexDirection: 'column',
-      },
     },
   };
 });

@@ -19,6 +19,13 @@ export const useStyles = makeStyles((theme: any) => {
       },
       padding: '0px 60px',
     },
+    priceBigSize: {
+      fontSize: '50px',
+      fontFamily: 'Montserrat-Medium',
+    },
+    priceMediumSize: {
+      fontSize: '24px',
+    },
     // carousel: {
     //   width: '65%',
 

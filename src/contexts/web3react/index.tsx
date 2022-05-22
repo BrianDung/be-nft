@@ -23,6 +23,7 @@ interface Web3ReactLocalContextValues {
   walletName: string;
   connected: boolean;
   connecting: boolean;
+  getUserBalance: () => Promise<void>;
 }
 
 export interface MintedData {
@@ -39,6 +40,7 @@ export const Web3ReactLocalContext = createContext<Web3ReactLocalContextValues>(
   walletName: '',
   connected: false,
   connecting: false,
+  getUserBalance: () => Promise.resolve(),
 });
 
 export const WEB3_ACCESS_TOKEN = 'access_token';
@@ -102,6 +104,7 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
     dispatch(disconnectWallet());
     dispatch(settingCurrentConnector(undefined));
     dispatch(settingAppNetwork(NetworkUpdateType.Wallet, undefined));
+    setBalance('0');
 
     sessionStorage.removeItem(SESSION_STORAGE);
     setWalletName('');
@@ -158,29 +161,30 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
     };
   }, [currentConnector, connectedAccount, active, appChainID, dispatch, error, clearWalletState, logout]);
 
+  const getAccountDetails = async () => {
+    if (!active || !appChainID || !connectedAccount) {
+      return;
+    }
+
+    const accountBalance = await getAccountBalance(appChainID, walletChainID, connectedAccount as string, walletName);
+
+    const userBalance = new BigNumber(accountBalance._hex).div(new BigNumber(10).pow(18)).toFixed(5);
+
+    dispatch(
+      connectWalletSuccess(walletName, [connectedAccount], {
+        [connectedAccount]: userBalance,
+      })
+    );
+
+    dispatch(clearAlert());
+
+    setBalance(userBalance);
+  };
+
   // Get account balance when change network
   useEffect(() => {
-    const getAccountDetails = async () => {
-      if (!active || !appChainID || !connectedAccount) {
-        return;
-      }
-
-      const accountBalance = await getAccountBalance(appChainID, walletChainID, connectedAccount as string, walletName);
-
-      const userBalance = new BigNumber(accountBalance._hex).div(new BigNumber(10).pow(18)).toFixed(5);
-
-      dispatch(
-        connectWalletSuccess(walletName, [connectedAccount], {
-          [connectedAccount]: userBalance,
-        })
-      );
-
-      dispatch(clearAlert());
-
-      setBalance(userBalance);
-    };
-
     getAccountDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connectedAccount, appChainID, active, walletChainID, dispatch, walletName]);
 
   // Check and init wallet connect
@@ -214,6 +218,18 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
   }, [appChainID, walletName, active, connecting]);
 
   useEffect(() => {
+    const providerChainId = (window as any)?.ethereum?.chainId ?? 0;
+    const currentChainId = chainId === undefined ? Number(providerChainId) : chainId;
+    if (!currentChainId) {
+      return;
+    }
+
+    if (currentChainId.toString() !== ETH_CHAIN_ID) {
+      dispatch(alert('You connected to the wrong chain!'));
+    }
+  }, [chainId, dispatch]);
+
+  useEffect(() => {
     chainId && dispatch(settingAppNetwork(NetworkUpdateType.Wallet, chainId.toString()));
   }, [chainId, dispatch]);
 
@@ -229,6 +245,7 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
         walletName,
         connected: active,
         connecting,
+        getUserBalance: getAccountDetails,
       }}
     >
       {children}
