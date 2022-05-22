@@ -22,7 +22,7 @@ const Routes: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
 
   useEffect(() => {
     if (alert?.message) {
-      notification.info({message: alert.message, placement:'top', duration: 30000 , className: 'alertMessage', icon: <></>, closeIcon: <img src='./images/icons/x-icon.svg' alt='x'/>});
+      notification.info({message: alert.message, placement:'top', duration: 900000 , className: 'alertMessage', icon: <></>, closeIcon: <img src='./images/icons/x-icon.svg' alt='x'/>});
     }
   }, [alert]);
 

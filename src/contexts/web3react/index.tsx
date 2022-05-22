@@ -2,7 +2,7 @@ import { AbstractConnector } from '@web3-react/abstract-connector';
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core';
 import { createContext, FC, useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { alert } from 'store/actions/alert';
+import { alert, clearAlert } from 'store/actions/alert';
 import { useTypedSelector } from 'hooks/useTypedSelector';
 import { ConnectorNames, connectorsByName } from 'constants/connectors';
 import { ETH_CHAIN_ID, NETWORK_NAME_MAPPINGS } from 'constants/network';
@@ -174,6 +174,8 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
           [connectedAccount]: userBalance,
         })
       );
+
+      dispatch(clearAlert());
 
       setBalance(userBalance);
     };

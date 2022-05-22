@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core';
 export const useStyles = makeStyles((theme: any) => {
    return{
     soldProgress: {
-       margin: '40px 0'
+       margin: '10px 0 20px'
     },
     jubValue: {
         display: 'flex',
