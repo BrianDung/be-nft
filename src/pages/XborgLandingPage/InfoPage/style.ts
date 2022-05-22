@@ -27,13 +27,6 @@ export const useStyles = makeStyles((theme: any) => {
         marginLeft: 0
       },
     },
-    priceBigSize: {
-      fontSize: '50px',
-      fontFamily: 'Montserrat-Medium',
-    },
-    priceMediumSize: {
-      fontSize: '24px',
-    },
     roundInfo: {
       padding: '13px',
       textAlign: 'center',

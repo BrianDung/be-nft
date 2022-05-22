@@ -1,16 +1,12 @@
-import { alert } from 'store/actions/alert';
-import { useDispatch } from 'react-redux';
 import { CONTRACT_ADDRESS, MintTimeLine } from 'constants/mint';
 import { getContractInstance } from 'services/web3';
 import XBORG_ABI from '../abi/Xborg.json';
 import Web3 from 'web3';
 
 export function useMint() {
-  const dispatch = useDispatch();
-
   function retrieveContract() {
     if (!CONTRACT_ADDRESS) {
-      throw new Error('Invalid public key or contract address');
+      throw new Error('Invalid contract address');
     }
 
     const contract = getContractInstance(XBORG_ABI, CONTRACT_ADDRESS);
@@ -29,7 +25,8 @@ export function useMint() {
 
       return Web3.utils.fromWei(rate);
     } catch (e: any) {
-      dispatch(alert(e.message));
+      //dispatch(alert(e.message));
+      console.log(e);
       return 0;
     }
   }
@@ -41,7 +38,8 @@ export function useMint() {
 
       return totalSupply;
     } catch (e: any) {
-      dispatch(alert(e.message));
+      //dispatch(alert(e.message));
+      console.log(e);
       return 0;
     }
   }

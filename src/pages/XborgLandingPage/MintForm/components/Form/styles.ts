@@ -36,6 +36,9 @@ export const useStyles = makeStyles((theme: any) => {
         lineHeight: 'normal',
         width: '100%',
       },
+      '&:disabled': {
+        opacity: 0.5,
+      },
     },
     quantity: {
       background: 'transparent !important',
@@ -65,6 +68,7 @@ export const useStyles = makeStyles((theme: any) => {
       },
       [theme.breakpoints.down('sm')]: {
         padding: '0px 25px',
+        marginLeft: 5,
         '& > span.MuiButton-label': {
           lineHeight: 'normal',
           fontSize: '36px',
@@ -95,8 +99,7 @@ export const useStyles = makeStyles((theme: any) => {
         padding: '0px 25px',
         lineHeight: 'normal',
         fontSize: '34px',
-        marginLeft: 0,
-        width: '100%',
+        marginLeft: 5,
         marginBottom: 20,
       },
     },
@@ -104,7 +107,7 @@ export const useStyles = makeStyles((theme: any) => {
       background: '#60A444 !important',
       border: '4px solid #FFFFFF !important',
       marginBottom: 0,
-      padding: '12px 84px',
+      padding: '7px 95px',
       borderRadius: '10px',
       '& > span.MuiButton-label': {
         fontFamily: 'Montserrat-SemiBold',
@@ -126,9 +129,6 @@ export const useStyles = makeStyles((theme: any) => {
     },
     mintForm: {
       display: 'flex',
-      [theme.breakpoints.down('sm')]: {
-        flexDirection: 'column',
-      },
     },
   };
 });

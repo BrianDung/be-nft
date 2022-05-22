@@ -2,23 +2,26 @@ import { BorderOutline } from '../../../BorderOutline/index';
 import { Button } from 'components/Base/Form/Button';
 import { useTypedSelector } from 'hooks/useTypedSelector';
 import { isInteger } from 'lodash';
-import { useEffect, useRef, useState } from 'react';
+import { useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { alert } from 'store/actions/alert';
 import { Mint } from 'store/reducers/mint';
 import { useStyles } from './styles';
+import { useWeb3ReactLocal } from 'hooks/useWeb3ReactLocal';
 
 interface MintFormProps {
   maxAllow: number;
   disabled?: boolean;
   onSubmit: (amount: number) => Promise<boolean>;
+  rate: number;
 }
 
-const MintForm = ({ maxAllow, disabled, onSubmit }: MintFormProps) => {
+const MintForm = ({ maxAllow, disabled, rate, onSubmit }: MintFormProps) => {
   const styles = useStyles();
   const [amount, setAmount] = useState<number | string>(1);
   const [disabling, setDisabling] = useState(false);
   const lastValidInput = useRef(1);
+  const { balance, connected } = useWeb3ReactLocal();
 
   const dispatch = useDispatch();
   const { totalSupply } = useTypedSelector((state) => state.mint) as Mint;
@@ -57,21 +60,46 @@ const MintForm = ({ maxAllow, disabled, onSubmit }: MintFormProps) => {
     });
   }
 
-  useEffect(() => {
-    if (totalSupply + Number(amount) > 5500) {
-      setDisabling(true);
-      dispatch(alert('Total NFT are over than maximum supply'));
+  function validate(amount: number | string) {
+    if (!connected) {
+      dispatch(alert('Please connect your wallet address'));
+      return false;
     }
 
-    setDisabling(false);
-  }, [amount, dispatch, totalSupply]);
+    if (amount > maxAllow) {
+      dispatch(alert('Total number of NFT mint over than limit per Wallet'));
+      return false;
+    }
+
+    if (Number(amount) * rate > Number(balance)) {
+      dispatch(alert('User balance lower than total price. Please try again later.'));
+      return false;
+    }
+
+    if (totalSupply + Number(amount) > 5500) {
+      dispatch(alert('Total NFT are over than maximum supply'));
+      return false;
+    }
+
+    return true;
+  }
 
   function handleSumit() {
+    if (!validate(amount)) {
+      return;
+    }
+
     setDisabling(true);
 
-    return onSubmit(Number(amount)).finally(() => {
-      setDisabling(false);
-    });
+    return onSubmit(Number(amount))
+      .then((success) => {
+        if (success) {
+          setAmount(1);
+        }
+      })
+      .finally(() => {
+        setDisabling(false);
+      });
   }
 
   return (

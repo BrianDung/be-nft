@@ -13,6 +13,8 @@ export interface MintedData {
   type: number;
 }
 
+export const PREV_ACCOUNT = 'prev_account';
+
 export function useUserMinted() {
   const { web3Sign } = useWalletSignatureAsync();
   const { account } = useWeb3React();
@@ -21,12 +23,17 @@ export function useUserMinted() {
     async (account: string, userSign?: boolean): Promise<MintedData | null> => {
       const baseRequest = new BaseRequest();
       const storagedSignature = sessionStorage.getItem(SESSION_STORAGE);
+      const prevAccount = sessionStorage.getItem(PREV_ACCOUNT);
+
       const signature =
-        userSign || !storagedSignature ? await web3Sign(account) : sessionStorage.getItem(SESSION_STORAGE);
+        userSign || !storagedSignature || prevAccount !== account
+          ? await web3Sign(account)
+          : sessionStorage.getItem(SESSION_STORAGE);
       if (!signature) {
         return null;
       }
 
+      sessionStorage.setItem(PREV_ACCOUNT, account);
       sessionStorage.setItem(SESSION_STORAGE, signature);
       const response = await baseRequest.get(`/number-minted?wallet_address=${account}&signature=${signature}`);
 

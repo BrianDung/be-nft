@@ -5,7 +5,10 @@ export const SALE_RATE = 0.008;
 export const PUBLIC_SALE_RATE = 0.0095;
 
 export enum MintTimeLine {
+  NotSet,
   PreSaleRound,
   SaleRound,
   PublicSaleRound,
 }
+
+export const NOT_SET = 'not-set';

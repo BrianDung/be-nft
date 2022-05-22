@@ -1,21 +1,27 @@
-import { MintTimeLine } from 'constants/mint';
+import { MintTimeLine, NOT_SET } from 'constants/mint';
 import { useMint } from 'hooks/useMint';
-import { useTypedSelector } from 'hooks/useTypedSelector';
 import { MintedData, useUserMinted } from 'hooks/useUserMinted';
 import { useWeb3ReactLocal } from 'hooks/useWeb3ReactLocal';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { alert } from 'store/actions/alert';
-import { Mint } from 'store/reducers/mint';
 import MintForm from './components/Form';
+import { useStyles } from '../style';
+import { alert } from 'store/actions/alert';
+
+const initialMintData = {
+  status: NOT_SET,
+  maxNumberMinted: 1,
+  type: 0,
+};
 
 const MintFormContainer = () => {
-  const [userMinted, setUserMinted] = useState<MintedData | null>(null);
-  const [currentTimeline, setCurrentTimeline] = useState<MintTimeLine>(MintTimeLine.PreSaleRound);
+  const styles = useStyles();
+  const [userMinted, setUserMinted] = useState<(MintedData & { status?: string }) | null>({ ...initialMintData });
+  const [currentTimeline, setCurrentTimeline] = useState<MintTimeLine>(MintTimeLine.NotSet);
+  const [rate, setRate] = useState<number>(0);
 
-  const { account, connected } = useWeb3ReactLocal();
+  const { account, connected, getUserBalance } = useWeb3ReactLocal();
   const dispatch = useDispatch();
-  const { totalSupply } = useTypedSelector((state) => state.mint) as Mint;
 
   const { getRate, checkTimeline } = useMint();
   const { mint, getUserMinted } = useUserMinted();
@@ -23,13 +29,13 @@ const MintFormContainer = () => {
   function retrieveUserMinted() {
     getUserMinted(account)
       .then((data) => {
+        if (data?.maxNumberMinted === 0) {
+          dispatch(alert('You have minted the maximum number of NFTs. Thank you for your support.'));
+        }
+
         setUserMinted(data);
       })
       .catch((error: any) => {
-        if (currentTimeline !== MintTimeLine.PreSaleRound) {
-          dispatch(alert(error.message));
-        }
-
         setUserMinted(null);
       });
   }
@@ -37,22 +43,15 @@ const MintFormContainer = () => {
   async function userMint(amount: number) {
     try {
       if (!userMinted) {
-        throw new Error('You are not in the whitelist');
+        throw new Error('You are not on the whitelist. Public Sale starts June 2nd at 1pm UTC.');
       }
-
-      if (userMinted.maxNumberMinted === 0) {
-        throw new Error('Total number of NFT mint over than limit per Wallet');
-      }
-
-      if (amount + totalSupply > 5500) {
-        throw new Error('Total NFT are over than maximum supply');
-      }
-
-      const rate = await getRate();
 
       await mint(amount, Number(rate));
 
+      dispatch(alert('The NFTs have been minted successfully to your wallet address. Thank you for your support.'));
+
       await retrieveUserMinted();
+      getUserBalance();
 
       return true;
     } catch (error: any) {
@@ -64,29 +63,66 @@ const MintFormContainer = () => {
 
   // Check user is whitelist user
   useEffect(() => {
-    if (!connected || !account) {
-      setUserMinted(null);
+    setUserMinted({ ...initialMintData });
+    if (!account) {
       return;
     }
 
     retrieveUserMinted();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [connected, account]);
+  }, [account]);
 
   useEffect(() => {
+    getRate().then((data) => {
+      setRate(Number(data));
+    });
+
     checkTimeline()
       .then((data) => {
         setCurrentTimeline(data);
       })
       .catch((error) => {
-        dispatch(alert(error.message));
+        console.log(error);
+
+        //dispatch(alert(error.message));
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const formDisabled = currentTimeline === MintTimeLine.PreSaleRound || !userMinted;
+  useEffect(() => {
+    if (userMinted?.status === NOT_SET || currentTimeline === MintTimeLine.NotSet) {
+      return;
+    }
 
-  return <MintForm maxAllow={userMinted?.maxNumberMinted ?? 0} onSubmit={userMint} disabled={formDisabled} />;
+    if (!userMinted && currentTimeline === MintTimeLine.SaleRound) {
+      dispatch(alert('You are not on the whitelist. Public Sale starts June 2nd at 1pm UTC.'));
+      return;
+    }
+  }, [userMinted, currentTimeline, dispatch]);
+
+  const formDisabled = (function () {
+    if (!connected && currentTimeline > MintTimeLine.PreSaleRound) {
+      return false;
+    }
+
+    return (
+      currentTimeline === MintTimeLine.PreSaleRound ||
+      currentTimeline === MintTimeLine.NotSet ||
+      !userMinted ||
+      userMinted.status === NOT_SET ||
+      userMinted.maxNumberMinted === 0
+    );
+  })();
+
+  return (
+    <>
+      <div>
+        <span className={styles.priceBigSize}>{rate} ETH</span>
+        <span className={styles.priceMediumSize}>/ NFT</span>
+      </div>
+      <MintForm maxAllow={userMinted?.maxNumberMinted ?? 0} onSubmit={userMint} disabled={formDisabled} rate={rate} />
+    </>
+  );
 };
 
 export default MintFormContainer;
