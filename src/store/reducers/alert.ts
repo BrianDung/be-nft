@@ -15,7 +15,13 @@ export const alertReducer = (state: StateType = initialState, action: AnyAction)
   switch (action.type) {
     case alertActions.ALERT_MESSAGE: {
       return {
-        type: 'success',
+        type: alertActions.ALERT_MESSAGE,
+        message: action.payload
+      }
+    }
+    case alertActions.CLEAR_MESSAGE: {
+      return {
+        type: alertActions.CLEAR_MESSAGE,
         message: action.payload
       }
     }

@@ -17,7 +17,7 @@ export const useStyles = makeStyles((theme: any) => {
         flexDirection: 'column',
         padding: '0px',
       },
-      padding: '20px 60px',
+      padding: '0px 60px',
     },
     // carousel: {
     //   width: '65%',

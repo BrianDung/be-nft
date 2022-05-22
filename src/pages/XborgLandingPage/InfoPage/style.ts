@@ -95,7 +95,7 @@ export const useStyles = makeStyles((theme: any) => {
     timer: {
       display: 'flex',
       justifyContent: 'space-between',
-      '&>div:last-child': {
+      '&>div:nth-child(2)': {
         margin: 'auto'
       },
       [theme.breakpoints.down('md')]: {
@@ -107,14 +107,14 @@ export const useStyles = makeStyles((theme: any) => {
         '&>div:first-child': {
           width: 'fit-content'
         },
-        '&>div:last-child': {
+        '&>div:nth-child(2)': {
           marginTop: 20,
           marginLeft: 'unset'
         }
       },
       [theme.breakpoints.down('xs')]: {
         flexDirection: 'column',
-        '&>div:last-child': {
+        '&>div:nth-child(2)': {
           marginTop: 20,
           margin: 'auto'
         }
