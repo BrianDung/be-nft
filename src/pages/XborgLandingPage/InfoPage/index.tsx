@@ -49,7 +49,7 @@ const InfoLandingPage = (props: Props) => {
             )}
           </div>
         </BorderOutline>
-        {currentTimeline === MintTimeLine.SaleRound && startPreSaleTime && <Countdown currentDate={new Date(currentTime)} startDate={unixToDate(startPreSaleTime)} />}
+        {currentTimeline === MintTimeLine.PreSaleRound && startPreSaleTime && <Countdown currentDate={new Date(currentTime)} startDate={unixToDate(startPreSaleTime)} />}
       </div>
 
       <SoldProgress />
