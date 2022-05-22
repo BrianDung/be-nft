@@ -5,7 +5,7 @@ import { useWalletSignatureAsync } from 'hooks/useWalletSignatureAsync';
 import { FileRejection, useDropzone } from 'react-dropzone';
 import { useDispatch } from 'react-redux';
 import { BaseRequest } from '../../../../request/Request';
-import { alertFailure, alertSuccess } from 'store/actions/alert';
+import {alert } from 'store/actions/alert';
 import styles from './styles.module.scss';
 import { useState } from 'react';
 
@@ -120,10 +120,10 @@ export const UploadImageModal = ({ open, onClose, onSuccess, admins }: UploadIma
         throw new Error(data.message);
       }
 
-      dispatch(alertSuccess('Change image success'));
+      dispatch(alert('Change image success'));
       onSuccess();
     } catch (e: any) {
-      dispatch(alertFailure(e.massage));
+      dispatch(alert(e.massage));
     } finally {
       setLoading(false);
     }

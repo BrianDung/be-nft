@@ -127,10 +127,13 @@ export const useStyles = makeStyles((theme: any) => {
     //   },
     // }
     xborgPageWrapper: {
-      paddingTop: '20px',
+      paddingTop: '15px',
       color: '#FFFFFF',
       fontWeight: 500,
       width: '50%',
+      "@media only screen and (min-width: 960px) and (max-width: 1370px)": {
+        width: '60%',
+      },
       [theme.breakpoints.down('sm')]: {
         width: '100%',
       },
@@ -213,17 +216,31 @@ export const useStyles = makeStyles((theme: any) => {
     timer: {
       display: 'flex',
       justifyContent: 'space-between',
-      // flexWrap: 'wrap',
-      [theme.breakpoints.down('xs')]: {
-        flexDirection: 'column'
-      },
       '&>div:first-child': {
-        marginBottom: 20,
         marginRight: 10
       },
       '&>div:last-child': {
         margin: 'auto'
-      }
+      },
+      // flexWrap: 'wrap',
+      "@media only screen and (min-width: 960px) and (max-width: 1370px)": {
+        flexDirection: 'column',
+        '&>div:first-child': {
+          width: 'fit-content'
+        },
+        '&>div:last-child': {
+          marginTop: 20,
+          marginLeft: 0
+        }
+      },
+      [theme.breakpoints.down('xs')]: {
+        flexDirection: 'column',
+        '&>div:last-child': {
+          marginTop: 20,
+          marginLeft: 0
+        }
+      },
+     
     }
   };
 });

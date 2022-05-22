@@ -7,6 +7,7 @@ import { InjectedConnector } from '@web3-react/injected-connector';
 import { ConnectorNames } from 'constants/connectors';
 import { Button } from 'components/Base/Form/Button';
 import useWindowDimensions from 'hooks/useWindowDimensions';
+import { Link } from 'react-router-dom';
 
 const logoIcon = '/images/dashboard/icon-logo.svg';
 const logoMin = '/images/dashboard/icon-logo-min-2.png';
@@ -37,11 +38,13 @@ const HeaderPage = (props: any) => {
     <header className={classes.root}>
       <div className={classes.container}>
         <div className={classes.logoField}>
-          {width >= 960 ? (
-            <img alt="logo-icon" src={logoIcon} />
-          ) : (
-            <img alt="logo-icon" src={logoMin} width={38} height={48} />
-          )}
+          <Link to={'/'}>
+            {width >= 960 ? (
+              <img alt="logo-icon" src={logoIcon} />
+            ) : (
+              <img alt="logo-icon" src={logoMin} width={38} height={48} />
+            )}
+          </Link>
         </div>
         <div className={classes.pageHeader}>
           {isAuth ? (

@@ -9,7 +9,7 @@ import { ThemeProvider } from '@material-ui/core/styles';
 import defaultTheme from './themes/DefaultTheme/DefaultTheme';
 import BigNumber from 'bignumber.js';
 import './styles/common.scss';
-// import 'antd/dist/antd.css';
+import 'antd/dist/antd.css';
 
 export const getLibrary = (provider: any): Web3Provider => {
   const library = new ethers.providers.Web3Provider(provider, 'any');

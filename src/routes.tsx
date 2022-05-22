@@ -2,7 +2,7 @@ import { Web3ReactLocalProvider } from 'contexts/web3react';
 import MintPage from 'pages/XborgLandingPage';
 import React, { useEffect } from 'react';
 //@ts-ignore
-import { NotificationContainer, NotificationManager } from 'react-notifications';
+import { NotificationContainer } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import { useDispatch, useSelector } from 'react-redux';
 import { BrowserRouter as Router, Redirect, Route, RouteComponentProps, Switch, withRouter } from 'react-router-dom';
@@ -10,6 +10,7 @@ import { clearAlert } from 'store/actions/alert';
 import ErrorBoundary from './components/Base/ErrorBoundary';
 // eslint-disable-next-line
 import NewLanding from './pages/NewLanding';
+import { notification } from 'antd';
 
 /**
  * Main App routes.
@@ -20,14 +21,13 @@ const Routes: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   const { history } = props;
 
   useEffect(() => {
-    const { type, message } = alert;
-    if (type && message) {
-      NotificationManager[type](message);
+    if (alert?.message) {
+      notification.info({message: alert.message, placement:'top', duration: 30000 , className: 'alertMessage', icon: <></>, closeIcon: <img src='./images/icons/x-icon.svg' alt='x'/>});
     }
   }, [alert]);
 
   useEffect(() => {
-    history.listen((location, action) => {
+    history.listen(() => {
       dispatch(clearAlert());
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
