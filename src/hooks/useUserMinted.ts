@@ -37,7 +37,7 @@ export function useUserMinted() {
       }
 
       if (resultObj.status !== 200) {
-        throw new Error(resultObj.message);
+        throw new Error('You are not in the whitelist');
       }
 
       return { ...resultObj.data } as MintedData;
