@@ -69,18 +69,18 @@ const Countdown = (props:CountDownProps) => {
     <div id="countdown">
       <ul className={styles.listCountDown}>
         <li className={styles.countdownPart + ' number'}>
-          <span className={styles.countdownInfo1} id="days">{day}</span><span className={styles.countdownInfo}>Days</span>
+          <span className={styles.countdownInfo1} id="days">{day}</span><span className={styles.countdownInfo}>days</span>
         </li>
         <li className={styles.countdown}>:</li>
         <li className={styles.countdownPart + ' number'}>
-          <span className={styles.countdownInfo1} id="hours">{hour}</span><span className={styles.countdownInfo}>Hours</span>
+          <span className={styles.countdownInfo1} id="hours">{hour}</span><span className={styles.countdownInfo}>hours</span>
         </li>
         <li className={styles.countdown}>:</li>
         <li className={styles.countdownPart + ' number'}>
-          <span className={styles.countdownInfo1} id="minutes">{minute}</span><span className={styles.countdownInfo}>Minutes</span></li>
+          <span className={styles.countdownInfo1} id="minutes">{minute}</span><span className={styles.countdownInfo}>minutes</span></li>
         <li className={styles.countdown}>:</li>
         <li className={styles.countdownPart + ' number'}>
-          <span className={styles.countdownInfo1} id="seconds">{second}</span><span className={styles.countdownInfo}>Seconds</span></li>
+          <span className={styles.countdownInfo1} id="seconds">{second}</span><span className={styles.countdownInfo}>seconds</span></li>
       </ul>
     </div>
   )

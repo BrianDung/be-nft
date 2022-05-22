@@ -22,14 +22,15 @@
 }
 
 .ant-notification {
-  width: 100%;
+  width: fit-content;
   .alertMessage {
     &.ant-notification-notice {
-      margin-left: 23vw;
       width: fit-content;
       max-width: 500px;
       border-radius: 10px;
       padding: 16px;
+      font-family: 'Montserrat-Medium';
+      color: #000000;
       &:first-child {
         margin-top: 40px;
       }
@@ -56,7 +57,7 @@
       &.ant-notification-notice {
         max-width: 80vw;
         &:first-child {
-          margin-top: 5px;
+          margin-top: 0;
         }
 
         margin-left: 40px;

@@ -67,6 +67,7 @@ export const useStyles = makeStyles((theme: any) => {
       padding: '12px 33px',
       borderRadius: 8,
       position: 'relative',
+      whiteSpace: 'nowrap',
       '&::before': {
         opacity: 1,
         content: '""',
@@ -122,10 +123,13 @@ export const useStyles = makeStyles((theme: any) => {
         '& > p': {
           marginBottom: 0,
           fontSize: 26,
-          fontFamily: 'Montserrat-Regular',
+          fontFamily: 'Montserrat-Medium',
           lineHeight: '24px',
           [theme.breakpoints.down('sm')]: {
-            fontSize: 16,
+            fontSize: 18
+          },
+          [theme.breakpoints.down('xs')]: {
+            fontSize: 14,
           },
         },
       },
@@ -133,12 +137,15 @@ export const useStyles = makeStyles((theme: any) => {
         color: '#FFFFFF',
         fontSize: 26,
         marginBottom: 0,
-        fontFamily: 'Montserrat-Regular',
+        fontFamily: 'Montserrat-Medium',
         lineHeight: '24px',
         display: 'flex',
         alignItems: 'center',
         [theme.breakpoints.down('sm')]: {
-          fontSize: 16,
+          fontSize: 18
+        },
+        [theme.breakpoints.down('xs')]: {
+          fontSize: 14,
         },
       },
     },

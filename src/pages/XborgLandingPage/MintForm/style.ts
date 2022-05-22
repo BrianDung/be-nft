@@ -5,10 +5,13 @@ export const useStyles = makeStyles((theme: any) => {
     formControl: {
       display: 'flex',
       alignItems: 'center',
-      margin: '20px 0',
+      margin: '10px 0 20px',
       [theme.breakpoints.down('sm')]: {
-        width: '100%'
-      }
+        width: '100%',
+      },
+      [theme.breakpoints.down('xs')]: {
+        marginBottom: '10px'
+      },
     },
     boxNumber: {
       display: 'flex',
@@ -84,11 +87,11 @@ export const useStyles = makeStyles((theme: any) => {
         color: '#FFFFFF',
         [theme.breakpoints.down('sm')]: {
           fontSize: '28px',
-          lineHeight: '40px'
+          lineHeight: '40px',
         },
       },
       cursor: 'pointer',
-      margin: '20px 0 20px 15px',
+      margin: '10px 0 20px 15px',
       padding: '12px 22px',
       lineHeight: 'normal',
       '&:disabled': {
@@ -105,7 +108,7 @@ export const useStyles = makeStyles((theme: any) => {
       [theme.breakpoints.down('xs')]: {
         marginLeft: 0,
         width: '100%',
-        marginBottom: 20,
+        marginBottom: 30
       },
     },
     mint: {
