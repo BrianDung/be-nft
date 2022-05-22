@@ -1,47 +1,45 @@
-import { formatTimeInDate } from 'constants/formatDate';
-import moment from 'moment';
-import React, { useCallback, useEffect,useState }  from 'react';
+import { useEffect,useState }  from 'react';
 import useStyles from './style';
 
 type CountDownProps = {
+  currentDate: Date;
   startDate?: Date,
   getCurrentDateRealTime?: (currentDate: Date) => void
 }
 
 const Countdown = (props:CountDownProps) => {
-  const { getCurrentDateRealTime } = props;
+  const { startDate, currentDate } = props;
   const styles = useStyles();
   const [second, setSecond] = useState('0');
   const [minute, setMinute] = useState('0');
   const [hour, setHour] = useState('0');
   const [day, setDay] = useState('0');
-  const emitCurrentDate = useCallback((now: Date) => {
-    getCurrentDateRealTime && getCurrentDateRealTime(now);
-  }, [getCurrentDateRealTime]);
-  const today = new Date();
-  const startDate = formatTimeInDate(moment().unix() + 4000);
+  // const emitCurrentDate = useCallback((now: Date) => {
+  //   getCurrentDateRealTime && getCurrentDateRealTime(now);
+  // }, [getCurrentDateRealTime]);
+
   useEffect(() => {
     let countDownInterval = undefined as any;
-    if (startDate && startDate >= today) {
+    if (startDate && currentDate && startDate >= currentDate) {
       const second = 1000,
       minute = second * 60,
       hour = minute * 60,
       day = hour * 24;
       let countDown = startDate.getTime();
       countDownInterval = setInterval(function() {
-        let now = new Date().getTime() ,distance = countDown - now;
+        let now = currentDate.getTime() ,distance = countDown - now;
 
         if (distance >= 0) {
-          const currentDay = Math.floor(now / (day));
-          const currentHour = Math.floor((now % (day)) / (hour))
-          const currentMinute = Math.floor((now % (hour)) / (minute));
-          const currentSecond = Math.floor((now % (minute)) / second)
-
-          setDay(currentDay < 20000 ? `0${'0'}`: `${currentDay}`);
-          setHour(currentHour < 10 ? `0${currentHour}`: `${currentHour}`);
-          setMinute(currentMinute < 10 ? `0${currentMinute}`: `${currentMinute}`);
-          setSecond(currentSecond < 10 ? `0${currentSecond}`: `${currentSecond}`);
-          emitCurrentDate(new Date(now));
+          const currentDay = Math.floor(distance / day);
+          const currentHour = Math.floor((distance % day) / hour);
+          const currentMinute = Math.floor((distance % hour) / minute);
+          const currentSecond = Math.floor((distance % minute) / second);
+  
+          setDay(currentDay < 10 ? `0${currentDay}` : `${currentDay}`);
+          setHour(currentHour < 10 ? `0${currentHour}` : `${currentHour}`);
+          setMinute(currentMinute < 10 ? `0${currentMinute}` : `${currentMinute}`);
+          setSecond(currentSecond < 10 ? `0${currentSecond}` : `${currentSecond}`);
+          // emitCurrentDate(new Date(now));
         }
 
         //do something later when date is reached
