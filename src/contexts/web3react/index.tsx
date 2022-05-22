@@ -12,7 +12,6 @@ import { connectWalletSuccess, disconnectWallet } from 'store/actions/wallet';
 import getAccountBalance from 'utils/getAccountBalance';
 import BigNumber from 'bignumber.js';
 import { WalletConnectionState } from 'store/reducers/wallet';
-import { useUserMinted } from 'hooks/useUserMinted';
 
 interface Web3ReactLocalContextValues {
   logout: () => Promise<void>;
@@ -24,7 +23,6 @@ interface Web3ReactLocalContextValues {
   walletName: string;
   connected: boolean;
   connecting: boolean;
-  whitelistUser: boolean;
 }
 
 export interface MintedData {
@@ -41,7 +39,6 @@ export const Web3ReactLocalContext = createContext<Web3ReactLocalContextValues>(
   walletName: '',
   connected: false,
   connecting: false,
-  whitelistUser: false,
 });
 
 export const WEB3_ACCESS_TOKEN = 'access_token';
@@ -52,13 +49,11 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
   const walletsInfo = useTypedSelector((state) => state.wallet).entities;
   const { account: connectedAccount, activate, active, error, deactivate, library, chainId } = useWeb3React();
   const dispatch = useDispatch();
-  const { getUserMinted } = useUserMinted();
 
   const [currentConnector, setCurrentConnector] = useState<AbstractConnector | undefined>();
   const [balance, setBalance] = useState('0');
   const [walletName, setWalletName] = useState<string>('');
   const [connecting, setConnecting] = useState(false);
-  const [whitelistUser, setWhitelistUser] = useState(false);
 
   const connectWallet = useCallback(
     async (connector: AbstractConnector, wallet: string) => {
@@ -108,7 +103,6 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
     dispatch(settingCurrentConnector(undefined));
     dispatch(settingAppNetwork(NetworkUpdateType.Wallet, undefined));
 
-    setWhitelistUser(false);
     sessionStorage.removeItem(SESSION_STORAGE);
     setWalletName('');
     setCurrentConnector(undefined);
@@ -187,23 +181,6 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
     getAccountDetails();
   }, [connectedAccount, appChainID, active, walletChainID, dispatch, walletName]);
 
-  // Check user is whitelist user
-  useEffect(() => {
-    if (!active || !connectedAccount) {
-      return;
-    }
-
-    getUserMinted(connectedAccount)
-      .then(() => {
-        setWhitelistUser(true);
-      })
-      .catch((error: any) => {
-        setWhitelistUser(false);
-        dispatch(alert(error?.message));
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [active, connectedAccount]);
-
   // Check and init wallet connect
   useEffect(() => {
     if (!walletsInfo) {
@@ -250,7 +227,6 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
         walletName,
         connected: active,
         connecting,
-        whitelistUser,
       }}
     >
       {children}

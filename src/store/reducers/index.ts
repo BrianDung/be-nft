@@ -1,3 +1,4 @@
+import { mintReducer } from './mint';
 import { combineReducers } from 'redux';
 import { alertReducer } from './alert';
 import userReducer, {
@@ -23,6 +24,7 @@ const rootReducer = combineReducers({
   appNetwork: appNetworkReducer,
   connector: connectorReducer,
   wallet: walletReducer,
+  mint: mintReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

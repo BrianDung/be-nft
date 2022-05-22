@@ -1,6 +1,6 @@
 import { BorderOutline } from '../BorderOutline';
 import Countdown from '../Countdown';
-import MintForm from '../MintForm';
+import MintFormContainer from '../MintForm';
 import SoldProgress from '../SoldProgress';
 import { useStyles } from './style';
 interface Props {
@@ -34,7 +34,7 @@ const InfoLandingPage = (props: Props) => {
         <span className={styles.priceBigSize}>0.08 ETH</span>
         <span className={styles.priceMediumSize}>/ NFT</span>
       </div>
-      <MintForm maxAllow={9} disabled={false} />
+      <MintFormContainer />
     </div>
   );
 };
