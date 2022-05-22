@@ -6,13 +6,16 @@ export const useStyles = makeStyles((theme: any) => {
       display: 'flex',
       alignItems: 'center',
       margin: '20px 0',
+      [theme.breakpoints.down('sm')]: {
+        width: '100%'
+      }
     },
     boxNumber: {
       display: 'flex',
       alignItems: 'center',
       position: 'relative',
       [theme.breakpoints.down('sm')]: {
-        width: '73.5%',
+        width: '100%',
         '&>div:first-child': {
           width: '100%',
         },
@@ -79,6 +82,10 @@ export const useStyles = makeStyles((theme: any) => {
         fontFamily: 'Montserrat-SemiBold',
         fontSize: '34px',
         color: '#FFFFFF',
+        [theme.breakpoints.down('sm')]: {
+          fontSize: '28px',
+          lineHeight: '40px'
+        },
       },
       cursor: 'pointer',
       margin: '20px 0 20px 15px',
@@ -91,10 +98,11 @@ export const useStyles = makeStyles((theme: any) => {
           opacity: 0.5,
         },
       },
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('md')]: {
         padding: '0px 25px',
         lineHeight: 'normal',
-        fontSize: '34px',
+      },
+      [theme.breakpoints.down('xs')]: {
         marginLeft: 0,
         width: '100%',
         marginBottom: 20,
@@ -106,15 +114,22 @@ export const useStyles = makeStyles((theme: any) => {
       marginBottom: 0,
       padding: '12px 84px',
       borderRadius: '10px',
+      width: '80%',
+      maxWidth: '390px',
       '& > span.MuiButton-label': {
         fontFamily: 'Montserrat-SemiBold',
         fontSize: '34px',
         lineHeight: '58px',
         color: '#FFFFFF',
+        [theme.breakpoints.down('sm')]: {
+          fontSize: '28px',
+          lineHeight: '30px',
+        },
       },
       [theme.breakpoints.down('sm')]: {
         fontSize: '28px',
         width: '100%',
+        maxWidth: 'unset',
       },
       '&:disabled': {
         background: '#8C8C8C !important',
@@ -126,7 +141,7 @@ export const useStyles = makeStyles((theme: any) => {
     },
     mintForm: {
       display: 'flex',
-      [theme.breakpoints.down('sm')]: {
+      [theme.breakpoints.down('xs')]: {
         flexDirection: 'column',
       },
     },

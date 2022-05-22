@@ -17,7 +17,8 @@ export const useStyles = makeStyles((theme: any) => {
             color: 'white !important',
             fontSize: '16px !important',
             fontFamily: 'Montserrat-Regular !important',
-            background: 'rgba(196, 196, 196, 0.25) !important'
+            background: 'rgba(196, 196, 196, 0.25) !important',
+            whiteSpace:'nowrap'
         },
         buttonOpensea: {
             textTransform: 'none',

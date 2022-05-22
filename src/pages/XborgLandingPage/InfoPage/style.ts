@@ -131,6 +131,9 @@ export const useStyles = makeStyles((theme: any) => {
       color: '#FFFFFF',
       fontWeight: 500,
       width: '50%',
+      "@media only screen and (min-width: 960px) and (max-width: 1370px)": {
+        width: '60%',
+      },
       [theme.breakpoints.down('sm')]: {
         width: '100%',
       },
