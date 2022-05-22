@@ -50,6 +50,7 @@ export const useStyles = makeStyles((theme: any) => {
     container: {
       position: 'relative',
       minHeight: '90vh',
+      fontFamily: 'Montserrat-Medium',
       [theme.breakpoints.down('sm')]: {
         padding: '0 45px',
         // marginBottom: '50px',
@@ -76,7 +77,7 @@ export const useStyles = makeStyles((theme: any) => {
       justifyContent: 'flex-end',
       padding: '5px 120px 20px 0',
       [theme.breakpoints.down('sm')]: {
-        padding: '5px 0 53px',
+        padding: '5px 0 30px',
         justifyContent: 'center',
       },
     },

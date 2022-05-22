@@ -42,11 +42,17 @@ export const useStyles = makeStyles((theme: any) => {
         fontWeight: 620,
         fontFamily: 'Mokoto',
         textShadow: '2px 2px 4px #000000',
+        marginBottom: 0,
+        marginTop: '15px',
         [theme.breakpoints.down('sm')]: {
             fontSize: '80px',
         },
+        "@media only screen and (min-width: 500px) and (max-width: 670px)": {
+            fontSize: '75px !important'
+          },
         [theme.breakpoints.down('xs')]: {
             fontSize: '70px',
+            textAlign: 'center',
         },
     },
     progressFull: {

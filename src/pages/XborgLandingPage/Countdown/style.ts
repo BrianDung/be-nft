@@ -14,8 +14,16 @@ const useStyles = makeStyles((theme) => {
       height: '87px',
       margin: '0px 5px',
       [theme.breakpoints.down('sm')]: {
-        width: '72px',
-        height: '72px',
+        width: '12vw',
+        height: '12vw',
+      },
+      [theme.breakpoints.down('xs')]: {
+        width: '20vw',
+        height: '20vw',
+      },
+      "@media only screen and (min-width: 500px) and (max-width: 600px)": {
+        width: '18vw',
+        height: '18vw',
       },
       '& span': {
         // display: 'block',
@@ -29,7 +37,13 @@ const useStyles = makeStyles((theme) => {
         fontWeight: 500,
         color: '#FFFFFF',
         [theme.breakpoints.down('sm')]: {
+          fontSize: '20px',
+        },
+        [theme.breakpoints.down('xs')]: {
           fontSize: '18px',
+        },
+        "@media only screen and (min-width: 500px) and (max-width: 600px)": {
+          fontSize: '22px'
         },
       }
     },
@@ -38,7 +52,6 @@ const useStyles = makeStyles((theme) => {
       fontSize: '30px',
     },
     countdownInfo1: {
-      fontFamily: 'Montserrat-Medium',
       lineHeight: '25px',
     },
 
@@ -55,16 +68,13 @@ const useStyles = makeStyles((theme) => {
         justifyContent: 'flex-start',
         marginLeft: '-5px'
       },
-      "@media only screen and (min-width: 960px) and (max-width: 1370px)": {
-        marginLeft: 0
-      }
     },
 
     countdownInfo: {
       color: '#FFFFFF',
       fontSize: 14,
       lineHeight: '21px',
-      fontFamily: 'Montserrat-Regular',
+      fontFamily: 'Montserrat-Medium',
     },
     [theme.breakpoints.down('md')]: {
       countdownPart: {
