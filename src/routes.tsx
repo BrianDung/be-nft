@@ -23,6 +23,9 @@ const Routes: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   useEffect(() => {
     console.log({ alert });
     if (alert?.message) {
+      notification.config({
+        maxCount: 1,
+      });
       notification.info({
         message: alert.message,
         placement: 'top',
