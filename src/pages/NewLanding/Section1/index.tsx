@@ -17,7 +17,7 @@ const Section1 = () => {
   const classes = useStyles();
   const history = useHistory();
   const { data: currentTime } = useFetch<any>(`api/current-time`);
-  const startPublicSaleTime = process.env.REACT_APP_START_PUBLIC_SALE_TIME;
+  const startPublicSaleTime = process.env.REACT_APP_START_PRE_SALE_TIME;
   return (
     <section className={styles.section1}>
       <div className={classes.texthedear}>
@@ -34,7 +34,7 @@ const Section1 = () => {
               <Button
                 className={classes.buttonTheMint}
                 style={{ textTransform: 'none' }}
-                onClick={() => history.push('/mint')}
+                // onClick={() => history.push('/mint')}
               >
                 The Mint
               </Button>
