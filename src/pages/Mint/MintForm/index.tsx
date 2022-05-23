@@ -89,6 +89,11 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
   }, [userMinted, currentTimeline, dispatch]);
 
   const formDisabled = (function () {
+    // Note : Behavior disconnected will disable form
+    if (!connected) {
+      return true;
+    }
+
     if (!connected && currentTimeline > MintTimeLine.PreSaleRound) {
       return false;
     }
