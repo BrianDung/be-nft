@@ -5,14 +5,17 @@ export const useStyles = makeStyles((theme: any) => {
     formControl: {
       display: 'flex',
       alignItems: 'center',
-      margin: '20px 0',
+      margin: '10px 0 20px',
+      [theme.breakpoints.down('sm')]: {
+        width: '100%',
+      },
     },
     boxNumber: {
       display: 'flex',
       alignItems: 'center',
       position: 'relative',
       [theme.breakpoints.down('sm')]: {
-        width: '73.5%',
+          width: '100%',
         '&>div:first-child': {
           width: '100%',
         },
@@ -83,9 +86,13 @@ export const useStyles = makeStyles((theme: any) => {
         fontFamily: 'Montserrat-SemiBold',
         fontSize: '34px',
         color: '#FFFFFF',
+        [theme.breakpoints.down('sm')]: {
+          fontSize: '28px',
+          lineHeight: '40px',
+        },
       },
       cursor: 'pointer',
-      margin: '20px 0 20px 15px',
+      margin: '10px 0 20px 15px',
       padding: '12px 22px',
       lineHeight: 'normal',
       '&:disabled': {
@@ -95,29 +102,32 @@ export const useStyles = makeStyles((theme: any) => {
           opacity: 0.5,
         },
       },
-      [theme.breakpoints.down('sm')]: {
-        padding: '0px 25px',
+      [theme.breakpoints.down('md')]: {
+        padding: '0px 22px',
         lineHeight: 'normal',
-        fontSize: '34px',
-        marginLeft: 5,
-        marginBottom: 20,
       },
     },
     mint: {
       background: '#60A444 !important',
       border: '4px solid #FFFFFF !important',
       marginBottom: 0,
-      padding: '7px 95px',
+      width: '80%',
+      maxWidth: '390px',
       borderRadius: '10px',
       '& > span.MuiButton-label': {
         fontFamily: 'Montserrat-SemiBold',
         fontSize: '34px',
         lineHeight: '58px',
         color: '#FFFFFF',
+        [theme.breakpoints.down('sm')]: {
+          fontSize: '28px',
+          lineHeight: '30px',
+        },
       },
       [theme.breakpoints.down('sm')]: {
         fontSize: '28px',
         width: '100%',
+        maxWidth: 'unset',
       },
       '&:disabled': {
         background: '#8C8C8C !important',
