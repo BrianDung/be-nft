@@ -49,7 +49,6 @@ export const USER_SIGNATURE_KEY = 'user_signature';
 export const Web3ReactLocalProvider: FC = ({ children }) => {
   const { appChainID, walletChainID } = useTypedSelector((state) => state.appNetwork).data;
   const walletsInfo = useTypedSelector((state) => state.wallet).entities;
-  const { message } = useTypedSelector((state) => state.alert);
   const { account: connectedAccount, activate, active, error, deactivate, library, chainId } = useWeb3React();
   const dispatch = useDispatch();
 
