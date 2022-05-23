@@ -21,11 +21,15 @@ const Routes: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   const { history } = props;
 
   useEffect(() => {
+    console.log({ alert });
     if (alert?.message) {
+      notification.config({
+        maxCount: 1,
+      });
       notification.info({
         message: alert.message,
         placement: 'top',
-        duration: 900000,
+        duration: 3,
         className: 'alertMessage',
         icon: <></>,
         closeIcon: <img src="./images/icons/x-icon.svg" alt="x" />,

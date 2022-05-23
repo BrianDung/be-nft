@@ -4,7 +4,7 @@ import { useMint } from 'hooks/useMint';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { alert } from 'store/actions/alert';
-import { MINT_INFO } from 'store/constants/mint';
+import { UPDATE_TOTAL_SUPPLY } from 'store/constants/mint';
 import { BorderOutline } from '../BorderOutline';
 import { useStyles } from './style';
 
@@ -26,7 +26,7 @@ const SoldProgress = (props: SoldProgressProps) => {
       const requestTotalSupply = await getTotalSupply();
 
       dispatch({
-        type: MINT_INFO.UPDATE_MINT_INFO,
+        type: UPDATE_TOTAL_SUPPLY,
         payload: {
           totalSupply: Number(requestTotalSupply),
         },

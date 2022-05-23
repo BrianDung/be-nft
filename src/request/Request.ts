@@ -1,5 +1,5 @@
+import { updateUserSignature } from 'store/actions/user';
 import configureStore from '../store/configureStore';
-import { logout } from '../store/actions/user';
 const MESSAGE_INVESTOR_SIGNATURE = process.env.REACT_APP_MESSAGE_INVESTOR_SIGNATURE || '';
 
 // const version = 9;
@@ -35,7 +35,7 @@ export class BaseRequest {
   buildUrl(url: string) {
     // remove both leading and trailing a slash
     url = url.replace(/^\/+|\/+$/g, '');
-    return `${this.getUrlPrefix()}/${url}`;
+    return `${this.getUrlPrefix()}/api/${url}`;
   }
 
   getUrlPrefix() {
@@ -58,9 +58,7 @@ export class BaseRequest {
         })
         .then((data) => {
           if (data.status && data.status === 401) {
-            if (data.message === 'Token Expired') {
-              configureStore().store.dispatch(logout(this.isSolana));
-            }
+            configureStore().store.dispatch(updateUserSignature(null));
           }
 
           return resObj;
@@ -127,8 +125,8 @@ export class BaseRequest {
           return response.json();
         })
         .then((data) => {
-          if (data.status && data.status === 401 && data.message === 'Token Expired') {
-            configureStore().store.dispatch(logout(this.isSolana));
+          if (data.status && data.status === 401) {
+            configureStore().store.dispatch(updateUserSignature(null));
           }
 
           return resObj;

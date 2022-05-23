@@ -12,6 +12,7 @@ import { connectWalletSuccess, disconnectWallet } from 'store/actions/wallet';
 import getAccountBalance from 'utils/getAccountBalance';
 import BigNumber from 'bignumber.js';
 import { WalletConnectionState } from 'store/reducers/wallet';
+import { updateUserSignature } from 'store/actions/user';
 
 interface Web3ReactLocalContextValues {
   logout: () => Promise<void>;
@@ -43,8 +44,7 @@ export const Web3ReactLocalContext = createContext<Web3ReactLocalContextValues>(
   getUserBalance: () => Promise.resolve(),
 });
 
-export const WEB3_ACCESS_TOKEN = 'access_token';
-export const SESSION_STORAGE = 'user_signature';
+export const USER_SIGNATURE_KEY = 'user_signature';
 
 export const Web3ReactLocalProvider: FC = ({ children }) => {
   const { appChainID, walletChainID } = useTypedSelector((state) => state.appNetwork).data;
@@ -107,7 +107,8 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
     dispatch(settingAppNetwork(NetworkUpdateType.Wallet, undefined));
     setBalance('0');
 
-    sessionStorage.removeItem(SESSION_STORAGE);
+    dispatch(updateUserSignature(null));
+    sessionStorage.removeItem(USER_SIGNATURE_KEY);
     setWalletName('');
     setCurrentConnector(undefined);
   }, [dispatch]);
@@ -139,6 +140,15 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
       logout();
     };
 
+    const hanldWeb3ReactChangeAccount = (updated: any) => {
+      if (!updated?.account) {
+        return;
+      }
+
+      dispatch(updateUserSignature(null));
+      sessionStorage.removeItem(USER_SIGNATURE_KEY);
+    };
+
     const handleWeb3ReactError = (err: any) => {
       if (err === 'NaN ChainId') {
         dispatch(settingAppNetwork(NetworkUpdateType.Wallet, undefined));
@@ -150,11 +160,13 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
     };
 
     currentConnector.on('Web3ReactUpdate', handleWeb3ReactUpdate);
+    currentConnector.on('Web3ReactUpdate', hanldWeb3ReactChangeAccount);
     currentConnector.on('Web3ReactError', handleWeb3ReactError);
     currentConnector.on('Web3ReactDeactivate', handleWeb3ReactDisconnect);
 
     return () => {
       if (currentConnector && currentConnector.removeListener && active) {
+        currentConnector.removeListener('Web3ReactUpdate', hanldWeb3ReactChangeAccount);
         currentConnector.removeListener('Web3ReactUpdate', handleWeb3ReactUpdate);
         currentConnector.removeListener('Web3ReactError', handleWeb3ReactError);
         currentConnector.removeListener('Web3ReactDeactivate', handleWeb3ReactDisconnect);
@@ -225,14 +237,14 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
       return;
     }
 
-    if (currentChainId.toString() !== ETH_CHAIN_ID && message !== 'You connected to the wrong chain!') {
+    if (currentChainId.toString() !== ETH_CHAIN_ID) {
       dispatch(alert('You connected to the wrong chain!'));
     }
 
     setTimeout(() => {
       dispatch(clearAlert());
     }, 500);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chainId, dispatch]);
 
   useEffect(() => {
