@@ -63,10 +63,13 @@ export function useUserMinted() {
       throw new Error('Failed to get contract');
     }
 
-    const totalAmount = amount * rate;
+    const totalAmount = new BigNumber(amount).multipliedBy(rate);
+    console.log({
+      value: new BigNumber(totalAmount).multipliedBy(Math.pow(10, 18)).toString(),
+    });
     const result = await contract.methods.mint(amount, 1, PUBLIC_KEY).send({
       from: account,
-      value: new BigNumber(totalAmount).multipliedBy(Math.pow(10, 18)),
+      value: new BigNumber(totalAmount).multipliedBy(Math.pow(10, 18)).toString(),
     });
 
     return result;

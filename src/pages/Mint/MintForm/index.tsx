@@ -46,7 +46,11 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
       if (!userMinted) {
         throw new Error('You are not on the whitelist. Public Sale starts June 2nd at 1pm UTC.');
       }
-
+      console.log({
+        amount,
+        rate,
+        userMinted,
+      });
       await mint(amount, Number(rate));
 
       dispatch(alert('The NFTs have been minted successfully to your wallet address. Thank you for your support.'));
