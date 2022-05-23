@@ -6,6 +6,7 @@ type CountDownProps = {
   currentDate: number | string;
   startDate: number | string;
   getCurrentDateRealTime?: (currentDate: Date) => void;
+  landingPage?: boolean;
 };
 
 function getTimer() {
@@ -27,8 +28,8 @@ function getTimer() {
 }
 
 const Countdown = (props: CountDownProps) => {
-  const { startDate, currentDate, getCurrentDateRealTime } = props;
-  const styles = useStyles();
+  const { startDate, currentDate, getCurrentDateRealTime, landingPage } = props;
+  const styles = useStyles({ landingPage });
   const [second, setSecond] = useState('0');
   const [minute, setMinute] = useState('0');
   const [hour, setHour] = useState('0');
