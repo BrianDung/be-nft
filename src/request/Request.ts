@@ -1,7 +1,6 @@
-import configureStore from "../store/configureStore";
-import { logout } from "../store/actions/user";
-import { SOLANA_ACCESS_TOKEN } from "../constants/solana";
-const MESSAGE_INVESTOR_SIGNATURE = process.env.REACT_APP_MESSAGE_INVESTOR_SIGNATURE || "";
+import configureStore from '../store/configureStore';
+import { logout } from '../store/actions/user';
+const MESSAGE_INVESTOR_SIGNATURE = process.env.REACT_APP_MESSAGE_INVESTOR_SIGNATURE || '';
 
 // const version = 9;
 // console.log('Version: ', version);
@@ -23,23 +22,19 @@ export class BaseRequest {
   }
 
   getHeader(isInvestor: boolean = false) {
-    const token = this.isSolana
-      ? localStorage.getItem(SOLANA_ACCESS_TOKEN)
-      : !isInvestor
-      ? localStorage.getItem("access_token")
-      : localStorage.getItem("investor_access_token");
+    const token = localStorage.getItem('access_token');
 
     return {
-      "Content-Type": "application/json",
-      Accept: "application/json",
-      Authorization: "Bearer " + token,
+      'Content-Type': 'application/json',
+      Accept: 'application/json',
+      Authorization: 'Bearer ' + token,
       msgSignature: this.getSignatureMessage(isInvestor),
     };
   }
 
   buildUrl(url: string) {
     // remove both leading and trailing a slash
-    url = url.replace(/^\/+|\/+$/g, "");
+    url = url.replace(/^\/+|\/+$/g, '');
     return `${this.getUrlPrefix()}/${url}`;
   }
 
@@ -53,7 +48,7 @@ export class BaseRequest {
 
     try {
       return fetch(this.buildUrl(url), {
-        method: "POST",
+        method: 'POST',
         headers: this.getHeader(isInvestor),
         body: JSON.stringify(data),
       })
@@ -63,7 +58,7 @@ export class BaseRequest {
         })
         .then((data) => {
           if (data.status && data.status === 401) {
-            if (data.message === "Token Expired") {
+            if (data.message === 'Token Expired') {
               configureStore().store.dispatch(logout(this.isSolana));
             }
           }
@@ -75,13 +70,14 @@ export class BaseRequest {
     }
   }
 
-  async postImage(url: string, data: FormData) {
+  async postImage(url: string, signature: string, wallet: string, data: FormData) {
     try {
       return fetch(this.buildUrl(url), {
-        method: "POST",
+        method: 'POST',
         headers: {
-          Accept: "application/json",
-          Authorization: "Bearer " + localStorage.getItem("access_token"),
+          Accept: '*/*',
+          signature,
+          wallet_address: wallet,
         },
         body: data,
       });
@@ -94,7 +90,7 @@ export class BaseRequest {
     try {
       return this._responseHandler(
         fetch(this.buildUrl(url), {
-          method: "PUT",
+          method: 'PUT',
           headers: this.getHeader(),
           body: JSON.stringify(data),
         })
@@ -108,7 +104,7 @@ export class BaseRequest {
     try {
       return this._responseHandler(
         fetch(this.buildUrl(url), {
-          method: "PATH",
+          method: 'PATH',
           headers: this.getHeader(),
           body: JSON.stringify(data),
         })
@@ -123,7 +119,7 @@ export class BaseRequest {
 
     try {
       return fetch(this.buildUrl(url), {
-        method: "GET",
+        method: 'GET',
         headers: this.getHeader(),
       })
         .then((response) => {
@@ -131,7 +127,7 @@ export class BaseRequest {
           return response.json();
         })
         .then((data) => {
-          if (data.status && data.status === 401 && data.message === "Token Expired") {
+          if (data.status && data.status === 401 && data.message === 'Token Expired') {
             configureStore().store.dispatch(logout(this.isSolana));
           }
 
@@ -146,7 +142,7 @@ export class BaseRequest {
     try {
       return this._responseHandler(
         fetch(this.buildUrl(url), {
-          method: "DELETE",
+          method: 'DELETE',
           headers: this.getHeader(),
           body: JSON.stringify(data),
         })

@@ -13,34 +13,18 @@ const initialState = {
 
 export const alertReducer = (state: StateType = initialState, action: AnyAction) => {
   switch (action.type) {
-    case alertActions.SUCCESS_MESSAGE: {
+    case alertActions.ALERT_MESSAGE: {
       return {
-        type: 'success',
+        type: alertActions.ALERT_MESSAGE,
         message: action.payload
       }
     }
-
-    case alertActions.WARNING_MESSAGE: {
-      return {
-        type: 'warning',
-        message: action.payload
-      }
-    }
-
-    case alertActions.ERROR_MESSAGE: {
-      return {
-        type: 'error',
-        message: action.payload
-      }
-    }
-
     case alertActions.CLEAR_MESSAGE: {
       return {
-        type: "",
-        message: ""
+        type: alertActions.CLEAR_MESSAGE,
+        message: action.payload
       }
     }
-
     default: {
       return state;
     }

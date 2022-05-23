@@ -7,6 +7,8 @@ import { Provider } from 'react-redux'
 import configureStore from './store/configureStore'
 import { ThemeProvider } from '@material-ui/core/styles';
 import defaultTheme from './themes/DefaultTheme/DefaultTheme';
+import BigNumber from 'bignumber.js';
+import './styles/common.scss';
 import 'antd/dist/antd.css';
 
 export const getLibrary = (provider: any): Web3Provider => {
@@ -15,9 +17,11 @@ export const getLibrary = (provider: any): Web3Provider => {
   return library;
 }
 
+BigNumber.config({ EXPONENTIAL_AT: 50 });
+BigNumber.config({ ROUNDING_MODE: BigNumber.ROUND_DOWN });
+
 const App = () => {
   const { store, persistor } = configureStore();
-
 
   return (
     <Provider store={store}>

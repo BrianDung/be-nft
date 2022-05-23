@@ -1,7 +1,8 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import { useStyles } from './style';
 
-const logoIcon = '/images/dashboard/icon-logo.svg';
+const logoIcon = '/images/dashboard/icon-logo-new.svg';
 const twitterIcon = '/images/newLanding/twitterIcon.svg';
 const discordIcon = '/images/newLanding/discordIcon.svg';
 const websiteIcon = '/images/newLanding/websiteIcon.svg';
@@ -15,7 +16,9 @@ const Header = () => {
     <header className={classes.root}>
       <div className={classes.container}>
         <div className={classes.logoField}>
-          <img alt="logo-icon" src={logoIcon}></img>
+          <Link to={'/'}>
+            <img alt="logo-icon" src={logoIcon} />
+          </Link>
         </div>
         <div className={classes.linkField}>
           <div className={classes.linkItem}>

@@ -1,66 +1,56 @@
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core';
-import { useWalletSignatureAsync } from 'hooks/useWalletSignatureAsync';
 import { createContext, FC, useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
-import { alertFailure } from 'store/actions/alert';
-import { userActions } from 'store/constants/user';
-import { walletActions } from 'store/constants/wallet';
+import { alert, clearAlert } from 'store/actions/alert';
 import { useTypedSelector } from 'hooks/useTypedSelector';
 import { ConnectorNames, connectorsByName } from 'constants/connectors';
-import {
-  APP_NETWORKS_ID,
-  ChainId,
-  ChainIdNameMapping,
-  ETH_CHAIN_ID,
-  NETWORK_NAME_MAPPINGS,
-  POLYGON_CHAIN_ID,
-  SOLANA_CHAIN_ID,
-} from 'constants/network';
+import { ETH_CHAIN_ID, NETWORK_NAME_MAPPINGS } from 'constants/network';
 import { switchNetwork } from 'utils/setupNetwork';
-import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
 import { NetworkUpdateType, settingAppNetwork, settingCurrentConnector } from 'store/actions/appNetwork';
 import { connectWalletSuccess, disconnectWallet } from 'store/actions/wallet';
-import { getAppNetworkName } from 'utils/network/getAppNetworkName';
-import { logout as logoutAction } from 'store/actions/user';
-import { BaseRequest } from '../../request/Request';
 import getAccountBalance from 'utils/getAccountBalance';
 import BigNumber from 'bignumber.js';
 import { WalletConnectionState } from 'store/reducers/wallet';
-import { ERROR_CODE } from 'constants/solana';
 
 interface Web3ReactLocalContextValues {
   logout: () => Promise<void>;
   balance: string | number;
   connector?: AbstractConnector;
   library: any;
-  login: (account?: string) => Promise<any>;
   connectWallet: (connector: AbstractConnector, walletName: string) => Promise<any>;
   account: string;
   walletName: string;
   connected: boolean;
   connecting: boolean;
+  getUserBalance: () => Promise<void>;
+}
+
+export interface MintedData {
+  maxNumberMinted: number;
+  type: number;
 }
 
 export const Web3ReactLocalContext = createContext<Web3ReactLocalContextValues>({
   balance: 0,
   library: undefined,
-  login: () => Promise.resolve(false),
   logout: () => Promise.resolve(),
   connectWallet: () => Promise.resolve(false),
   account: '',
   walletName: '',
   connected: false,
   connecting: false,
+  getUserBalance: () => Promise.resolve(),
 });
 
-const WEB3_ACCESS_TOKEN = 'access_token';
+export const WEB3_ACCESS_TOKEN = 'access_token';
+export const SESSION_STORAGE = 'user_signature';
 
 export const Web3ReactLocalProvider: FC = ({ children }) => {
   const { appChainID, walletChainID } = useTypedSelector((state) => state.appNetwork).data;
   const walletsInfo = useTypedSelector((state) => state.wallet).entities;
+  const { message } = useTypedSelector((state) => state.alert);
   const { account: connectedAccount, activate, active, error, deactivate, library, chainId } = useWeb3React();
-  const { web3Sign } = useWalletSignatureAsync();
   const dispatch = useDispatch();
 
   const [currentConnector, setCurrentConnector] = useState<AbstractConnector | undefined>();
@@ -74,12 +64,8 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
       setCurrentConnector(connector);
       setWalletName(wallet);
 
-      if (wallet === ConnectorNames.MetaMask && appChainID !== SOLANA_CHAIN_ID) {
-        await switchNetwork(appChainID, wallet);
-      }
-
-      if (connector instanceof WalletConnectConnector && connector.walletConnectProvider?.wc?.uri) {
-        connector.walletConnectProvider = undefined;
+      if (wallet === ConnectorNames.MetaMask) {
+        await switchNetwork(ETH_CHAIN_ID, wallet);
       }
 
       if (!connector || !wallet) {
@@ -101,7 +87,7 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
           const currentChainId = await connector?.getChainId();
 
           dispatch(
-            alertFailure(
+            alert(
               `App network (${NETWORK_NAME_MAPPINGS[appChainID]}) doesn't mach to network selected in wallet: ${NETWORK_NAME_MAPPINGS[currentChainId]}. Please change network in wallet  or  change app network.`
             )
           );
@@ -119,8 +105,9 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
     dispatch(disconnectWallet());
     dispatch(settingCurrentConnector(undefined));
     dispatch(settingAppNetwork(NetworkUpdateType.Wallet, undefined));
+    setBalance('0');
 
-    localStorage.removeItem('walletconnect');
+    sessionStorage.removeItem(SESSION_STORAGE);
     setWalletName('');
     setCurrentConnector(undefined);
   }, [dispatch]);
@@ -128,62 +115,10 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
   const logout = useCallback(() => {
     return new Promise<void>((resolve) => {
       deactivate();
-      dispatch(logoutAction());
       clearWalletState();
       resolve();
     });
-  }, [deactivate, dispatch, clearWalletState]);
-
-  const login = useCallback(
-    async (account?: string) => {
-      try {
-        const baseRequest = new BaseRequest();
-        const signature = await web3Sign(walletName, account);
-        if (!signature) {
-          return false;
-        }
-
-        const response = await baseRequest.post(`/user/login`, {
-          signature,
-          wallet_address: account ?? connectedAccount,
-        });
-
-        const resultObj = await response.json();
-
-        if (!resultObj) {
-          throw new Error('Login fail');
-        }
-
-        if (resultObj.status !== 200) {
-          throw new Error(resultObj.message);
-        }
-
-        const { token, user } = resultObj.data;
-
-        localStorage.setItem(WEB3_ACCESS_TOKEN, token.token);
-
-        dispatch({ type: walletActions.WALLET_CONNECT_LAYER2_SUCCESS });
-        dispatch({
-          type: userActions.USER_LOGIN_SUCCESS,
-          payload: user,
-        });
-
-        return true;
-      } catch (error: any) {
-        logout();
-        dispatch(alertFailure(error.message));
-        dispatch({
-          type: userActions.USER_LOGIN_FAILURE,
-          message: '',
-        });
-
-        if (error?.code === ERROR_CODE.USER_REJECT) {
-          throw error;
-        }
-      }
-    },
-    [connectedAccount, dispatch, web3Sign, walletName, logout]
-  );
+  }, [deactivate, clearWalletState]);
 
   // Setup event for web3react
   useEffect(() => {
@@ -197,18 +132,11 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
       }
 
       const chainId = Number(updated.chainId).toString();
-
-      if (APP_NETWORKS_ID.indexOf(chainId.toString()) < 0) {
-        switchNetworkError(appChainID, chainId);
-        chainId && dispatch(settingAppNetwork(NetworkUpdateType.Wallet, chainId.toString()));
+      if (chainId === ETH_CHAIN_ID) {
         return;
       }
 
-      dispatch(
-        settingAppNetwork(NetworkUpdateType.App, APP_NETWORKS_ID[APP_NETWORKS_ID.indexOf(chainId.toString())] as string)
-      );
-
-      switchNetworkError(APP_NETWORKS_ID[APP_NETWORKS_ID.indexOf(chainId.toString())] as string, chainId);
+      logout();
     };
 
     const handleWeb3ReactError = (err: any) => {
@@ -232,29 +160,32 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
         currentConnector.removeListener('Web3ReactDeactivate', handleWeb3ReactDisconnect);
       }
     };
-  }, [currentConnector, connectedAccount, active, appChainID, dispatch, error, clearWalletState]);
+  }, [currentConnector, connectedAccount, active, appChainID, dispatch, error, clearWalletState, logout]);
+
+  const getAccountDetails = async () => {
+    if (!active || !appChainID || !connectedAccount) {
+      return;
+    }
+
+    const accountBalance = await getAccountBalance(appChainID, walletChainID, connectedAccount as string, walletName);
+
+    const userBalance = new BigNumber(accountBalance._hex).div(new BigNumber(10).pow(18)).toFixed(5);
+
+    dispatch(
+      connectWalletSuccess(walletName, [connectedAccount], {
+        [connectedAccount]: userBalance,
+      })
+    );
+
+    dispatch(clearAlert());
+
+    setBalance(userBalance);
+  };
 
   // Get account balance when change network
   useEffect(() => {
-    const getAccountDetails = async () => {
-      if (!active || !appChainID || !connectedAccount) {
-        return;
-      }
-
-      const accountBalance = await getAccountBalance(appChainID, walletChainID, connectedAccount as string, walletName);
-
-      const userBalance = new BigNumber(accountBalance._hex).div(new BigNumber(10).pow(18)).toFixed(5);
-
-      dispatch(
-        connectWalletSuccess(walletName, [connectedAccount], {
-          [connectedAccount]: userBalance,
-        })
-      );
-
-      setBalance(userBalance);
-    };
-
     getAccountDetails();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [connectedAccount, appChainID, active, walletChainID, dispatch, walletName]);
 
   // Check and init wallet connect
@@ -274,40 +205,35 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
       return;
     }
 
-    if (connectedWallet !== ConnectorNames.WalletConnect) {
-      connectWallet(connectorsByName[connectedWallet], connectedWallet);
-      return;
-    }
-
-    const storagedWalletInfo = localStorage.getItem('walletconnect');
-    if (!storagedWalletInfo) {
-      logout();
-      return;
-    }
-
-    const connectedAppChainId = JSON.parse(storagedWalletInfo).chainId;
-    switch (connectedAppChainId.toString()) {
-      case ETH_CHAIN_ID:
-        connectWallet(connectorsByName[ConnectorNames.WalletConnect], connectedWallet);
-        break;
-      case POLYGON_CHAIN_ID:
-        connectWallet(connectorsByName[ConnectorNames.WalletConnectPolygon], connectedWallet);
-        break;
-      default:
-        console.log(connectedAppChainId);
-        break;
-    }
+    connectWallet(connectorsByName[connectedWallet], connectedWallet).catch((e) => {});
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Switch network when appChainId change
   useEffect(() => {
-    if (appChainID === SOLANA_CHAIN_ID || !active || connecting || !walletName) {
+    if (!active || connecting || !walletName || appChainID !== ETH_CHAIN_ID) {
       return;
     }
 
     switchNetwork(appChainID, walletName).catch(() => {});
   }, [appChainID, walletName, active, connecting]);
+
+  useEffect(() => {
+    const providerChainId = (window as any)?.ethereum?.chainId ?? 0;
+    const currentChainId = chainId === undefined ? Number(providerChainId) : chainId;
+    if (!currentChainId) {
+      return;
+    }
+
+    if (currentChainId.toString() !== ETH_CHAIN_ID && message !== 'You connected to the wrong chain!') {
+      dispatch(alert('You connected to the wrong chain!'));
+    }
+
+    setTimeout(() => {
+      dispatch(clearAlert());
+    }, 500);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [chainId, dispatch]);
 
   useEffect(() => {
     chainId && dispatch(settingAppNetwork(NetworkUpdateType.Wallet, chainId.toString()));
@@ -317,7 +243,6 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
     <Web3ReactLocalContext.Provider
       value={{
         balance,
-        login,
         logout,
         connectWallet,
         connector: currentConnector,
@@ -326,19 +251,10 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
         walletName,
         connected: active,
         connecting,
+        getUserBalance: getAccountDetails,
       }}
     >
       {children}
     </Web3ReactLocalContext.Provider>
   );
 };
-
-function switchNetworkError(appChainID: string, walletChainID: string) {
-  if (appChainID && walletChainID && Number(appChainID) !== Number(walletChainID)) {
-    return `App network (${getAppNetworkName(appChainID)}) doesn't mach to network selected in wallet: ${
-      ChainIdNameMapping[Number(walletChainID) as ChainId]
-    }.`;
-  }
-
-  return;
-}

@@ -98,37 +98,6 @@ export const TOKEN_STAKE_NAMES = {
   SPKF: 'sPKF',
 };
 
-export const CONVERSION_RATE = [
-  {
-    name: TOKEN_STAKE_NAMES.LP_PKF,
-    rate: 150,
-    symbol: TOKEN_STAKE_SYMBOLS.LP_PKF,
-    address: process.env.REACT_APP_UNI_LP,
-    key: 'UPKF',
-    keyMainnet: 'UNI-V2'
-  },
-  // {
-  //   name: 'Staked sPKF',
-  //   rate: 1,
-  //   symbol: 'sPKF',
-  //   address: process.env.REACT_APP_MANTRA_LP,
-  //   key: 'sPKF',
-  //   keyMainnet: 'sPKF'
-  // },
-  {
-    name: 'Red Kite Point',
-    rate: 1,
-    symbol: TOKEN_STAKE_SYMBOLS.EPKF,
-    address: process.env.REACT_APP_MANTRA_LP,
-    key: 'ePKF',
-    keyMainnet: 'ePKF'
-  },
-  // {
-  //   name: 'NFT',
-  //   rate: 100
-  // },
-]
-
 export const TIERS = [
   {
     name: '--',
@@ -191,7 +160,6 @@ export const NETWORK_AVAILABLE = {
   ETH: 'eth',
   BSC: 'bsc',
   POLYGON: 'polygon',
-  SOLANA: 'sol'
 };
 
 export const ETHERSCAN_BASE_URL: any = {
