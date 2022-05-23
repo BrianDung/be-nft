@@ -7,13 +7,7 @@ import thunk from 'redux-thunk';
 
 import rootReducer, { RootState } from './reducers';
 
-const initialState = {
-  user: {
-    data: '',
-    loading: false,
-    error: '',
-  },
-};
+const initialState = {};
 
 const middlewares = [thunk];
 
@@ -25,7 +19,7 @@ const persistConfig = {
   storage,
   blacklist: [],
   whitelist: ['wallet', 'connector', 'appNetwork'],
-  transforms: [userStateFilter, investorStateFilter]
+  transforms: [userStateFilter, investorStateFilter],
 };
 
 const persistedReducer = persistReducer<RootState>(persistConfig, rootReducer);
@@ -34,7 +28,7 @@ let store = createStore(persistedReducer, initialState, composeWithDevTools(appl
 let persistor = persistStore(store);
 
 const getStore = () => {
-  return { store, persistor }
+  return { store, persistor };
 };
 
 export default getStore;

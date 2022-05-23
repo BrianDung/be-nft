@@ -1,7 +1,7 @@
 import { MintTimeLine, NOT_SET } from 'constants/mint';
 import { MintedData, useUserMinted } from 'hooks/useUserMinted';
 import { useWeb3ReactLocal } from 'hooks/useWeb3ReactLocal';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import MintForm from './components/Form';
 import { useStyles } from '../style';
@@ -21,10 +21,10 @@ interface MintFormContainerProps {
 const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) => {
   const styles = useStyles();
   const [userMinted, setUserMinted] = useState<(MintedData & { status?: string }) | null>({ ...initialMintData });
+  const error = useRef<any>();
 
-  const { account, connected, getUserBalance } = useWeb3ReactLocal();
+  const { account, connected, getUserBalance, logout } = useWeb3ReactLocal();
   const dispatch = useDispatch();
-
   const { mint, getUserMinted } = useUserMinted();
 
   function retrieveUserMinted() {
@@ -36,7 +36,13 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
 
         setUserMinted(data);
       })
-      .catch((error: any) => {
+      .catch((e: any) => {
+        if (e.code === 4001) {
+          logout();
+          return;
+        }
+
+        error.current = e;
         setUserMinted(null);
       });
   }
@@ -69,13 +75,13 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
   // Check user is whitelist user
   useEffect(() => {
     setUserMinted({ ...initialMintData });
-    if (!account) {
+    if (!connected || !account) {
       return;
     }
 
     retrieveUserMinted();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account]);
+  }, [account, connected]);
 
   useEffect(() => {
     if (userMinted?.status === NOT_SET || currentTimeline === MintTimeLine.NotSet) {
@@ -83,8 +89,8 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
     }
 
     if (!userMinted && currentTimeline > MintTimeLine.PreSaleRound) {
-      dispatch(alert('You are not on the whitelist. Public Sale starts June 2nd at 1pm UTC.'));
-      return;
+      dispatch(alert(error?.current?.message));
+      error.current = null;
     }
   }, [userMinted, currentTimeline, dispatch]);
 

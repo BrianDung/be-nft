@@ -5,7 +5,7 @@ import { useWalletSignatureAsync } from 'hooks/useWalletSignatureAsync';
 import { FileRejection, useDropzone } from 'react-dropzone';
 import { useDispatch } from 'react-redux';
 import { BaseRequest } from '../../../../request/Request';
-import {alert } from 'store/actions/alert';
+import { alert } from 'store/actions/alert';
 import styles from './styles.module.scss';
 import { useState } from 'react';
 
@@ -39,8 +39,18 @@ function getFileName(fileName: string) {
   return `${first32Character}...${lastCharacter}.${fileExtension}`;
 }
 
+const getOnChangeEventFile = (event: any) => {
+  let file = event?.[0]?.getFile();
+
+  if (file) {
+    return file;
+  }
+
+  return event?.target?.files?.[0];
+};
+
 const getFileSize = async (event: any): Promise<any> => {
-  const file = await (event.dataTransfer ? event?.dataTransfer?.files[0] : event[0].getFile());
+  const file = await (event.dataTransfer ? event?.dataTransfer?.files?.[0] : getOnChangeEventFile(event));
 
   if (!file?.type?.includes('image')) {
     return [file];

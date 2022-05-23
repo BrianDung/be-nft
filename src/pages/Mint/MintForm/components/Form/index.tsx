@@ -24,7 +24,7 @@ const MintForm = ({ maxAllow, disabled, rate, onSubmit }: MintFormProps) => {
   const { balance, connected } = useWeb3ReactLocal();
 
   const dispatch = useDispatch();
-  const { totalSupply } = useTypedSelector((state) => state.mint) as Mint;
+  const { totalSupply } = useTypedSelector((state) => state.totalSupply) as Mint;
 
   function reValidate() {
     let currentValue = Number(amount);
