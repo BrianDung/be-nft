@@ -22,7 +22,14 @@ const Routes: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
 
   useEffect(() => {
     if (alert?.message) {
-      notification.info({message: alert.message, placement:'top', duration: 900000 , className: 'alertMessage', icon: <></>, closeIcon: <img src='./images/icons/x-icon.svg' alt='x'/>});
+      notification.info({
+        message: alert.message,
+        placement: 'top',
+        duration: 900000,
+        className: 'alertMessage',
+        icon: <></>,
+        closeIcon: <img src="./images/icons/x-icon.svg" alt="x" />,
+      });
     }
   }, [alert]);
 
@@ -36,7 +43,9 @@ const Routes: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   return (
     <Switch>
       <Route exact path={'/'} component={NewLanding} />
-      <Route path={'/mint'} component={MintPage} />
+      <Web3ReactLocalProvider>
+        <Route path={'/mint'} component={MintPage} />
+      </Web3ReactLocalProvider>
       <Redirect to="/" />
     </Switch>
   );
@@ -50,9 +59,7 @@ const routing = function createRouting() {
       <NotificationContainer />
       <Router>
         <ErrorBoundary>
-          <Web3ReactLocalProvider>
-            <RoutesHistory />
-          </Web3ReactLocalProvider>
+          <RoutesHistory />
         </ErrorBoundary>
       </Router>
     </>

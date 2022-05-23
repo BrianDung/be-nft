@@ -49,6 +49,7 @@ export const SESSION_STORAGE = 'user_signature';
 export const Web3ReactLocalProvider: FC = ({ children }) => {
   const { appChainID, walletChainID } = useTypedSelector((state) => state.appNetwork).data;
   const walletsInfo = useTypedSelector((state) => state.wallet).entities;
+  const { message } = useTypedSelector((state) => state.alert);
   const { account: connectedAccount, activate, active, error, deactivate, library, chainId } = useWeb3React();
   const dispatch = useDispatch();
 
@@ -224,9 +225,14 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
       return;
     }
 
-    if (currentChainId.toString() !== ETH_CHAIN_ID) {
+    if (currentChainId.toString() !== ETH_CHAIN_ID && message !== 'You connected to the wrong chain!') {
       dispatch(alert('You connected to the wrong chain!'));
     }
+
+    setTimeout(() => {
+      dispatch(clearAlert());
+    }, 500);
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chainId, dispatch]);
 
   useEffect(() => {
