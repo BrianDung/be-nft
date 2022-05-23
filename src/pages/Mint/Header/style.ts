@@ -23,16 +23,21 @@ export const useStyles = makeStyles((theme: any) => {
         borderRadius: 10,
         padding: '8px 28px',
         border: '4px solid #fff',
+        [theme.breakpoints.down('sm')]: {
+          borderWidth: '2px',
+          padding: '8px 20px',
+        },
         '& > span.MuiButton-label': {
           fontSize: 30,
           lineHeight: '58px',
           fontFamily: 'Montserrat-Regular',
+          [theme.breakpoints.down('sm')]: {
+            fontSize: 18,
+            lineHeight: '25px',
+          },
         },
       },
-      // [theme.breakpoints.down('sm')]: {
-      //   flexDirection: 'column',
-      //   alignItems: 'center',
-      // },
+
     },
     networks: {
       width: 62,
