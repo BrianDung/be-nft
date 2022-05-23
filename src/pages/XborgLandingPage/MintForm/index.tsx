@@ -1,5 +1,4 @@
 import { MintTimeLine, NOT_SET } from 'constants/mint';
-import { useMint } from 'hooks/useMint';
 import { MintedData, useUserMinted } from 'hooks/useUserMinted';
 import { useWeb3ReactLocal } from 'hooks/useWeb3ReactLocal';
 import { useEffect, useState } from 'react';
@@ -14,16 +13,18 @@ const initialMintData = {
   type: 0,
 };
 
-const MintFormContainer = () => {
+interface MintFormContainerProps {
+  rate: number | string;
+  currentTimeline: MintTimeLine;
+}
+
+const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) => {
   const styles = useStyles();
   const [userMinted, setUserMinted] = useState<(MintedData & { status?: string }) | null>({ ...initialMintData });
-  const [currentTimeline, setCurrentTimeline] = useState<MintTimeLine>(MintTimeLine.NotSet);
-  const [rate, setRate] = useState<number>(0);
 
   const { account, connected, getUserBalance } = useWeb3ReactLocal();
   const dispatch = useDispatch();
 
-  const { getRate, checkTimeline } = useMint();
   const { mint, getUserMinted } = useUserMinted();
 
   function retrieveUserMinted() {
@@ -73,28 +74,11 @@ const MintFormContainer = () => {
   }, [account]);
 
   useEffect(() => {
-    getRate().then((data) => {
-      setRate(Number(data));
-    });
-
-    checkTimeline()
-      .then((data) => {
-        setCurrentTimeline(data);
-      })
-      .catch((error) => {
-        console.log(error);
-
-        //dispatch(alert(error.message));
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
-  useEffect(() => {
     if (userMinted?.status === NOT_SET || currentTimeline === MintTimeLine.NotSet) {
       return;
     }
 
-    if (!userMinted && currentTimeline === MintTimeLine.SaleRound) {
+    if (!userMinted && currentTimeline > MintTimeLine.PreSaleRound) {
       dispatch(alert('You are not on the whitelist. Public Sale starts June 2nd at 1pm UTC.'));
       return;
     }
@@ -120,7 +104,12 @@ const MintFormContainer = () => {
         <span className={styles.priceBigSize}>{rate} ETH</span>
         <span className={styles.priceMediumSize}>/ NFT</span>
       </div>
-      <MintForm maxAllow={userMinted?.maxNumberMinted ?? 0} onSubmit={userMint} disabled={formDisabled} rate={rate} />
+      <MintForm
+        maxAllow={userMinted?.maxNumberMinted ?? 0}
+        onSubmit={userMint}
+        disabled={formDisabled}
+        rate={Number(rate)}
+      />
     </>
   );
 };

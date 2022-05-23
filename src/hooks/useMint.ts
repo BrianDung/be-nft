@@ -1,69 +1,67 @@
-import { CONTRACT_ADDRESS, MintTimeLine } from 'constants/mint';
-import { getContractInstance } from 'services/web3';
-import XBORG_ABI from '../abi/Xborg.json';
+import { useDispatch } from 'react-redux';
+import { BaseRequest } from './../request/Request';
+import { MintTimeLine } from 'constants/mint';
 import Web3 from 'web3';
 
 export function useMint() {
-  function retrieveContract() {
-    if (!CONTRACT_ADDRESS) {
-      throw new Error('Invalid contract address');
-    }
-
-    const contract = getContractInstance(XBORG_ABI, CONTRACT_ADDRESS);
-
-    if (!contract) {
-      throw new Error('Failed to get contract');
-    }
-
-    return contract;
-  }
-
-  async function getRate() {
-    try {
-      const contract = retrieveContract();
-      const rate = await contract.methods.NFT_PRICE().call();
-
-      return Web3.utils.fromWei(rate);
-    } catch (e: any) {
-      //dispatch(alert(e.message));
-      console.log(e);
-      return 0;
-    }
-  }
+  const dispatch = useDispatch();
 
   async function getTotalSupply() {
     try {
-      const contract = retrieveContract();
-      const totalSupply = await contract.methods.totalSupply().call();
+      const request = new BaseRequest();
+      const res = await request.get('/total-supply');
 
-      return totalSupply;
+      if (res.status !== 200) {
+        throw new Error('Fail to get total supply');
+      }
+
+      const body = await res.json();
+
+      if (body.status !== 200) {
+        throw new Error(body.message);
+      }
+
+      return body.data.totalSupply;
     } catch (e: any) {
-      //dispatch(alert(e.message));
+      dispatch(alert(e.message));
       console.log(e);
       return 0;
     }
   }
 
-  async function checkTimeline() {
-    const contract = retrieveContract();
+  async function getMintInfo() {
+    const request = new BaseRequest();
+    const res = await request.get('/get-status');
 
-    const isSale = await contract.methods.saleIsActive().call();
-    const isPublicSale = await contract.methods.PublicsaleIsActive().call();
-
-    if (!isSale && !isPublicSale) {
-      return MintTimeLine.PreSaleRound;
+    if (res.status !== 200) {
+      throw new Error('Fail to get total supply');
     }
 
-    if (isSale && !isPublicSale) {
-      return MintTimeLine.SaleRound;
+    const body = await res.json();
+
+    if (body.status !== 200) {
+      throw new Error(body.message);
     }
 
-    return MintTimeLine.PublicSaleRound;
+    if (body.status !== 200) {
+      throw new Error(body.message);
+    }
+
+    const { NFT_PRICE, PublicsaleIsActive, saleIsActive } = body.data;
+
+    if (!saleIsActive && !PublicsaleIsActive) {
+      return { status: MintTimeLine.PreSaleRound, rate: Web3.utils.fromWei(NFT_PRICE) };
+    }
+
+    if (saleIsActive && !PublicsaleIsActive) {
+      return { status: MintTimeLine.SaleRound, rate: Web3.utils.fromWei(NFT_PRICE) };
+    }
+
+    return { status: MintTimeLine.PublicSaleRound, rate: Web3.utils.fromWei(NFT_PRICE) };
   }
 
   return {
-    checkTimeline,
     getTotalSupply,
-    getRate,
+    getMintInfo,
   };
 }

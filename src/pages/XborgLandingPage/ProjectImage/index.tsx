@@ -35,7 +35,7 @@ export const ProjectImage = () => {
         const res = await request.get('/getlist-admin');
 
         if (res.status !== 200) {
-          throw new Error('Fail to upload image');
+          throw new Error('Fail to get list admin');
         }
 
         const data = await res.json();

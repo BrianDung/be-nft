@@ -2,6 +2,7 @@ import { MintTimeLine } from 'constants/mint';
 import useFetch from 'hooks/useFetch';
 import { useMint } from 'hooks/useMint';
 import { useEffect, useState } from 'react';
+import { useDispatch } from 'react-redux';
 //import { useDispatch } from 'react-redux';
 import { unixToDate } from 'utils/convertDate';
 import { BorderOutline } from '../BorderOutline';
@@ -14,22 +15,24 @@ interface Props {
 }
 const InfoLandingPage = (props: Props) => {
   const styles = useStyles();
-  const [currentTimeline, setCurrentTimeline] = useState<MintTimeLine>(MintTimeLine.SaleRound);
+  const [currentTimeline, setCurrentTimeline] = useState<MintTimeLine>(MintTimeLine.NotSet);
+  const [rate, setRate] = useState<number | string>(0);
 
-  const { checkTimeline } = useMint();
-  //const dispatch = useDispatch();
+  const { getMintInfo } = useMint();
+  const dispatch = useDispatch();
 
   const { data: currentTime } = useFetch<any>(`/current-time`);
 
   const startPreSaleTime = process.env.REACT_APP_START_PRE_SALE_TIME;
 
   useEffect(() => {
-    checkTimeline()
+    getMintInfo()
       .then((data) => {
-        setCurrentTimeline(data);
+        setCurrentTimeline(data.status);
+        setRate(data.rate);
       })
       .catch((error) => {
-        //dispatch(alert(error.message));
+        dispatch(alert(error.message));
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
@@ -39,11 +42,10 @@ const InfoLandingPage = (props: Props) => {
       <div className={styles.timer}>
         <BorderOutline>
           <div className={styles.roundInfo}>
-            {' '}
             <p className={styles.roundType}>
               {currentTimeline === MintTimeLine.PublicSaleRound ? 'Public sale round' : 'Pre-Sale Round'}
             </p>
-            {currentTimeline === MintTimeLine.PreSaleRound ? (
+            {currentTimeline <= MintTimeLine.PreSaleRound ? (
               <p className={styles.deActiveStatus}>Live soon</p>
             ) : (
               <p className={styles.activeStatus}>
@@ -57,7 +59,7 @@ const InfoLandingPage = (props: Props) => {
         )}
       </div>
       <SoldProgress />
-      <MintFormContainer />
+      <MintFormContainer currentTimeline={currentTimeline} rate={rate} />
     </div>
   );
 };
