@@ -225,14 +225,14 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
       return;
     }
 
-    if (currentChainId.toString() !== ETH_CHAIN_ID && message !== 'You connected to the wrong chain!') {
+    if (currentChainId.toString() !== ETH_CHAIN_ID) {
       dispatch(alert('You connected to the wrong chain!'));
     }
 
     setTimeout(() => {
       dispatch(clearAlert());
     }, 500);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [chainId, dispatch]);
 
   useEffect(() => {
