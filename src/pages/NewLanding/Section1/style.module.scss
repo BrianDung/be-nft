@@ -31,6 +31,9 @@
 .buttonItem {
     &:first-child {
         margin-right: 36px;
+        @media screen and (max-width: 912px) and (orientation:landscape) {
+            margin-right: 6px;
+        }
         @media only screen and(max-width: 600px) {
             margin-bottom: 36px;
             margin-right: 0;
@@ -47,5 +50,12 @@
 @media only screen and (max-width: 390px){
     .textXborg {
         font-size: 70px !important;
+    }
+}
+
+@media screen and(max-width: 960px) and (orientation:landscape) {
+    .bigContainer {
+        display: flex;
+        align-items: center;
     }
 }
