@@ -2,10 +2,7 @@ import { NETWORK_AVAILABLE } from '../constants';
 
 export const ETH_CHAIN_ID = process.env.REACT_APP_ETH_CHAIN_ID as string;
 
-export const POLYGON_RPC_URL = process.env.REACT_APP_POLYGON_RPC_URL || '';
-
 export const ETHERSCAN_URL = process.env.REACT_APP_ETHERSCAN_BASE_URL || '';
-export const POLYGONSCAN_URL = process.env.REACT_APP_POLSCAN_BASE_URL || '';
 
 export enum ChainId {
   MAINNET = 1,
@@ -71,10 +68,8 @@ export const APP_NETWORKS: { [key: string]: NetworkInfo } = {
 
 export const APP_NETWORKS_ID: (string | undefined)[] = [ETH_CHAIN_ID];
 export const NETWORK_URL = process.env.REACT_APP_NETWORK_URL;
-export const NETWORK_POLYGON_URL = process.env.REACT_APP_POLYGON_RPC_URL;
 
 export const NETWORK_ETH_NAME = process.env.REACT_APP_NETWORK_ETH_NAME;
-export const NETWORK_POLYGON_NAME = process.env.REACT_APP_NETWORK_POLYGON_NAME;
 
 export const appNetwork: { [key: string]: string } = {
   [ETH_CHAIN_ID]: NETWORK_ETH_NAME as string,
