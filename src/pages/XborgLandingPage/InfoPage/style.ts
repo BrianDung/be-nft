@@ -76,7 +76,7 @@ export const useStyles = makeStyles((theme: any) => {
       fontFamily: 'Montserrat-Medium',
     },
     deActiveStatus: {
-      backgroundColor: '#AF47FF',
+      backgroundColor: '#8C8C8C',
       marginBottom: '0 !important'
     },
     activeStatus: {
