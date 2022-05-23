@@ -26,34 +26,7 @@ export const useStyles = makeStyles((theme: any) => {
     priceMediumSize: {
       fontSize: '24px',
     },
-    // carousel: {
-    //   width: '65%',
 
-    //   [theme.breakpoints.down('sm')]: {
-    //     width: '100%',
-    //     marginBottom: '50px',
-    //   },
-    //   '& .slick-dots li button': {
-    //     color: '#A0A0A0',
-    //     [theme.breakpoints.down('sm')]: {
-    //       marginBottom: '40px',
-    //     },
-    //   },
-    //   '& .slick-dots': {
-    //     [theme.breakpoints.down('sm')]: {
-    //       bottom: '-50px',
-    //     },
-    //   },
-    //   '& .slick-dots li': {
-    //     [theme.breakpoints.down('xs')]: {
-    //       margin: '0',
-    //     },
-    //   },
-    //   '& .react-stacked-center-carousel ': {
-    //     overflow: 'unset !important',
-    //     minHeight: '30vh !important',
-    //   },
-    // },
     container: {
       position: 'relative',
       minHeight: '90vh',
