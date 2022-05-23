@@ -10,7 +10,8 @@ import useWindowDimensions from 'hooks/useWindowDimensions';
 import { Link } from 'react-router-dom';
 
 const logoIcon = '/images/dashboard/icon-logo.svg';
-const logoMin = '/images/dashboard/icon-logo-min-2.png';
+const logoMobile = '/images/dashboard/icon-logo-mobile.svg';
+const logoMobileShort = '/images/dashboard/icon-logo-mobile-2.png';
 
 function formatAddress(address: string) {
   if (!address) {
@@ -41,8 +42,10 @@ const HeaderPage = (props: any) => {
           <Link to={'/'}>
             {width >= 960 ? (
               <img alt="logo-icon" src={logoIcon} />
+            ) : account ? (
+              <img alt="logo-icon" src={logoMobileShort} width={38} height={48} />
             ) : (
-              <img alt="logo-icon" src={logoMin} width={38} height={48} />
+              <img alt="logo-icon" src={logoMobile} />
             )}
           </Link>
         </div>
