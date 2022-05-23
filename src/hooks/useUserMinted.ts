@@ -1,5 +1,7 @@
+import { updateUserSignature } from 'store/actions/user';
+import { useDispatch } from 'react-redux';
 import { BigNumber } from 'bignumber.js';
-import { SESSION_STORAGE } from './../contexts/web3react/index';
+import { USER_SIGNATURE_KEY } from './../contexts/web3react/index';
 import { useWeb3React } from '@web3-react/core';
 import { useWalletSignatureAsync } from 'hooks/useWalletSignatureAsync';
 import { useCallback } from 'react';
@@ -18,23 +20,25 @@ export const PREV_ACCOUNT = 'prev_account';
 export function useUserMinted() {
   const { web3Sign } = useWalletSignatureAsync();
   const { account } = useWeb3React();
+  const dispatch = useDispatch();
 
   const getUserMinted = useCallback(
     async (account: string, userSign?: boolean): Promise<MintedData | null> => {
       const baseRequest = new BaseRequest();
-      const storagedSignature = sessionStorage.getItem(SESSION_STORAGE);
+      const storagedSignature = sessionStorage.getItem(USER_SIGNATURE_KEY);
       const prevAccount = sessionStorage.getItem(PREV_ACCOUNT);
 
       const signature =
         userSign || !storagedSignature || prevAccount !== account
           ? await web3Sign(account)
-          : sessionStorage.getItem(SESSION_STORAGE);
+          : sessionStorage.getItem(USER_SIGNATURE_KEY);
       if (!signature) {
         return null;
       }
 
       sessionStorage.setItem(PREV_ACCOUNT, account);
-      sessionStorage.setItem(SESSION_STORAGE, signature);
+      sessionStorage.setItem(USER_SIGNATURE_KEY, signature);
+      dispatch(updateUserSignature(signature));
       const response = await baseRequest.get(`/number-minted?wallet_address=${account}&signature=${signature}`);
 
       const resultObj = await response.json();
@@ -49,7 +53,7 @@ export function useUserMinted() {
 
       return { ...resultObj.data } as MintedData;
     },
-    [web3Sign]
+    [dispatch, web3Sign]
   );
 
   async function mint(amount: number, rate: number) {

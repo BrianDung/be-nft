@@ -1,30 +1,8 @@
-import { ConnectorNames } from '../../constants/connectors';
-import { userActions } from '../constants/user';
+import { UPDATE_USER_SIGNATURE } from '../constants/user';
 
-const MESSAGE_INVESTOR_SIGNATURE = process.env.REACT_APP_MESSAGE_INVESTOR_SIGNATURE || '';
-
-export const INVESTOR_ACCESS_TOKEN_KEY = 'investor_access_token';
-export const ACCESS_TOKEN_KEY = 'access_token';
-
-export const getParamsWithConnector = (connectedAccount: string) => ({
-  [ConnectorNames.WalletConnect]: {
-    method: 'eth_sign',
-    params: [connectedAccount, MESSAGE_INVESTOR_SIGNATURE],
-  },
-  [ConnectorNames.WalletLinkConnect]: {
-    method: 'eth_sign',
-    params: [connectedAccount, MESSAGE_INVESTOR_SIGNATURE],
-  },
-  [ConnectorNames.MetaMask]: {
-    method: 'personal_sign',
-    params: [MESSAGE_INVESTOR_SIGNATURE, connectedAccount],
-  },
-});
-
-export const logout = (isSolana: boolean = false) => {
-  localStorage.removeItem(ACCESS_TOKEN_KEY);
-
+export function updateUserSignature(data: string | null) {
   return {
-    type: userActions.USER_LOGOUT,
+    type: UPDATE_USER_SIGNATURE,
+    payload: data,
   };
-};
+}

@@ -1,12 +1,8 @@
-import { useDispatch } from 'react-redux';
 import { BaseRequest } from './../request/Request';
 import { MintTimeLine } from 'constants/mint';
 import Web3 from 'web3';
-import { alert } from 'store/actions/alert';
 
 export function useMint() {
-  const dispatch = useDispatch();
-
   async function getTotalSupply() {
     try {
       const request = new BaseRequest();
@@ -24,7 +20,6 @@ export function useMint() {
 
       return body.data.totalSupply;
     } catch (e: any) {
-      dispatch(alert(e.message));
       console.log(e);
       return 0;
     }
