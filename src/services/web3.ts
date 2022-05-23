@@ -1,10 +1,7 @@
 import Web3 from 'web3';
 import { NETWORK_AVAILABLE } from '../constants';
 
-const POOL_ABI = require('../abi/Pool.json');
-
 const NETWORK_URL = process.env.REACT_APP_NETWORK_URL || '';
-const POLYGON_NETWORK_URL = process.env.REACT_APP_POLYGON_RPC_URL || '';
 export const MAX_INT = '0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff';
 
 export enum SmartContractMethod {
@@ -33,14 +30,6 @@ export const getContractInstance = (ABIContract: any, contractAddress: string) =
 export const getContractInstanceWeb3 = (networkAvailable: string) => {
   let provider;
   switch (networkAvailable) {
-    // case NETWORK_AVAILABLE.BSC:
-    //   provider = new Web3.providers.HttpProvider(BSC_NETWORK_URL);
-    //   return new Web3(provider);
-
-    case NETWORK_AVAILABLE.POLYGON:
-      provider = new Web3.providers.HttpProvider(POLYGON_NETWORK_URL);
-      return new Web3(provider);
-
     case NETWORK_AVAILABLE.ETH:
       provider = new Web3.providers.HttpProvider(NETWORK_URL);
       return new Web3(provider);
@@ -48,15 +37,6 @@ export const getContractInstanceWeb3 = (networkAvailable: string) => {
     default:
       return null;
   }
-};
-
-export const getPoolContract = ({ networkAvailable, poolHash }: any) => {
-  const web3Instance = getContractInstanceWeb3(networkAvailable);
-  if (!web3Instance) {
-    return null;
-  }
-
-  return new web3Instance.eth.Contract(POOL_ABI, poolHash);
 };
 
 export const getContractInstanceWithEthereum = (ABIContract: any, contractAddress: string) => {

@@ -1,5 +1,5 @@
 import { Web3ReactLocalProvider } from 'contexts/web3react';
-import MintPage from 'pages/XborgLandingPage';
+import MintPage from 'pages/Mint';
 import React, { useEffect } from 'react';
 //@ts-ignore
 import { NotificationContainer } from 'react-notifications';

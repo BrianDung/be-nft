@@ -1,8 +1,7 @@
 import { ethers } from 'ethers';
-import { ETH_CHAIN_ID, POLYGON_CHAIN_ID } from '../constants/network';
+import { ETH_CHAIN_ID } from '../constants/network';
 
 const ETH_RPC_URL = process.env.REACT_APP_NETWORK_URL || "";
-const POLYGON_RPC_URL = process.env.REACT_APP_POLYGON_RPC_URL || "";
 
 const getAccountBalance = async (appChainID: string, walletChainID: string, connectedAccount: string, connector: string) => {
 if (appChainID && connectedAccount && connector) {
@@ -10,8 +9,6 @@ if (appChainID && connectedAccount && connector) {
 
   const provider = (()=>{
     switch (appChainID) {
-      case POLYGON_CHAIN_ID:
-        return new ethers.providers.JsonRpcProvider(POLYGON_RPC_URL);
       case ETH_CHAIN_ID:
       default:
         return new ethers.providers.JsonRpcProvider(ETH_RPC_URL);

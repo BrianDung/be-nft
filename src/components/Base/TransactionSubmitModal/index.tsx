@@ -1,19 +1,18 @@
 import React, { useState, useEffect } from 'react';
-import {createStyles, Theme, withStyles, WithStyles} from '@material-ui/core/styles';
+import { createStyles, Theme, withStyles, WithStyles } from '@material-ui/core/styles';
 import Dialog from '@material-ui/core/Dialog';
 import MuiDialogTitle from '@material-ui/core/DialogTitle';
 import MuiDialogContent from '@material-ui/core/DialogContent';
 import IconButton from '@material-ui/core/IconButton';
 import CloseIcon from '@material-ui/icons/Close';
 import Typography from '@material-ui/core/Typography';
-import {ClipLoader} from "react-spinners";
-import {useTypedSelector} from '../../../hooks/useTypedSelector';
-import {ETH_CHAIN_ID, POLYGON_CHAIN_ID} from '../../../constants/network';
+import { ClipLoader } from 'react-spinners';
+import { useTypedSelector } from '../../../hooks/useTypedSelector';
+import { ETH_CHAIN_ID } from '../../../constants/network';
 
 import useStyles from './style';
 
-const ETHERSCAN_URL = process.env.REACT_APP_ETHERSCAN_BASE_URL || "";
-const POLSCAN_URL = process.env.REACT_APP_POLSCAN_BASE_URL || "";
+const ETHERSCAN_URL = process.env.REACT_APP_ETHERSCAN_BASE_URL || '';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -21,7 +20,7 @@ const styles = (theme: Theme) =>
       margin: 0,
       padding: theme.spacing(2),
       background: '#020616',
-      paddingTop: 0
+      paddingTop: 0,
     },
     closeButton: {
       position: 'absolute',
@@ -31,25 +30,25 @@ const styles = (theme: Theme) =>
       backgroundColor: '#4B4B4B',
       padding: 4,
 
-      "&:hover" : {
-        backgroundColor: '#D4D4D4'
-      }
+      '&:hover': {
+        backgroundColor: '#D4D4D4',
+      },
     },
     svgIcon: {
-      fontSize: 5
-    }
+      fontSize: 5,
+    },
   });
 
 export interface DialogTitleProps extends WithStyles<typeof styles> {
   id: string;
   children: React.ReactNode;
   onClose: () => void;
-  customClass: string,
-  networkAvailable?: string,
+  customClass: string;
+  networkAvailable?: string;
 }
 
 export interface ComponentProps {
-  opened: boolean,
+  opened: boolean;
   handleClose: () => void;
 }
 
@@ -58,7 +57,7 @@ const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
 
   const customStyles = {
     color: 'white',
-  }
+  };
 
   return (
     <MuiDialogTitle disableTypography className={`${classes.root} ${customClass}`} {...other} style={customStyles}>
@@ -75,66 +74,69 @@ const DialogTitle = withStyles(styles)((props: DialogTitleProps) => {
 const DialogContent = withStyles((theme: Theme) => ({
   root: {
     padding: theme.spacing(2),
-    color: '#999999'
+    color: '#999999',
   },
 }))(MuiDialogContent);
 
 const TransactionSubmitModal: React.FC<any> = (props: any) => {
   const styles = useStyles();
-  const { appChainID } = useTypedSelector(state => state.appNetwork).data;
+  const { appChainID } = useTypedSelector((state) => state.appNetwork).data;
   const { opened, handleClose, transactionHash, additionalText } = props;
 
   const [explorerUrl, setExplorerUrl] = useState<String>(ETHERSCAN_URL);
-  const [explorerName, setExplorerName] = useState<String>("Etherscan");
+  const [explorerName, setExplorerName] = useState<String>('Etherscan');
 
-  useEffect(()=>{
-    switch(appChainID) {
-      case POLYGON_CHAIN_ID:
-        setExplorerUrl(POLSCAN_URL);
-        setExplorerName("Polygonscan");
-      break;
-
+  useEffect(() => {
+    switch (appChainID) {
       case ETH_CHAIN_ID:
       default:
         setExplorerUrl(ETHERSCAN_URL);
-        setExplorerName("Etherscan");
+        setExplorerName('Etherscan');
         break;
     }
-  }, [appChainID])
+  }, [appChainID]);
 
   return (
-      <Dialog open={opened} onClose={handleClose} className={styles.dialog}>
-        <DialogTitle id="customized-dialog-title" onClose={handleClose} customClass={styles.dialogTitle} >
-          Transaction {transactionHash ? 'Submitted': 'Submitting'}
-        </DialogTitle>
-        <DialogContent>
-          <div>
-            {
-              transactionHash ? (
-                <>
-                <span className={styles.dialogLabel}>TXn Hash</span>
-                <input value={transactionHash} className={styles.dialogInput} disabled={true} />
-                <a
-                  href={`${explorerUrl}/tx/${transactionHash}`}
-                  className={styles.dialogButton}
-                  target="_blank" rel="noreferrer"
+    <Dialog open={opened} onClose={handleClose} className={styles.dialog}>
+      <DialogTitle id="customized-dialog-title" onClose={handleClose} customClass={styles.dialogTitle}>
+        Transaction {transactionHash ? 'Submitted' : 'Submitting'}
+      </DialogTitle>
+      <DialogContent>
+        <div>
+          {transactionHash ? (
+            <>
+              <span className={styles.dialogLabel}>TXn Hash</span>
+              <input value={transactionHash} className={styles.dialogInput} disabled={true} />
+              <a
+                href={`${explorerUrl}/tx/${transactionHash}`}
+                className={styles.dialogButton}
+                target="_blank"
+                rel="noreferrer"
+              >
+                View on {`${explorerName}`}
+              </a>
+              {additionalText && (
+                <p
+                  style={{
+                    marginTop: 30,
+                    fontWeight: 'bold',
+                    lineHeight: '18px',
+                    fontSize: 15.5,
+                    color: '#8db4ff',
+                    fontFamily: 'Helvetica',
+                  }}
                 >
-                  View on {`${explorerName}`}
-                </a>
-                {
-                  additionalText && (
-                    <p style={{ marginTop: 30, fontWeight: 'bold', lineHeight: '18px', fontSize: 15.5, color: '#8db4ff', fontFamily: 'Helvetica' }}>
-                      {additionalText}
-                    </p>
-                  )
-                }
-                </>
-              ): <ClipLoader color={'white'}/>
-            }
-          </div>
-        </DialogContent>
-      </Dialog>
-  )
-}
+                  {additionalText}
+                </p>
+              )}
+            </>
+          ) : (
+            <ClipLoader color={'white'} />
+          )}
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+};
 
 export default TransactionSubmitModal;
