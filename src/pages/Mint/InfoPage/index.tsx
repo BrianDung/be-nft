@@ -4,7 +4,6 @@ import { useMint } from 'hooks/useMint';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { alert } from 'store/actions/alert';
-import { unixToDate } from 'utils/convertDate';
 import { BorderOutline } from '../BorderOutline';
 import Countdown from '../Countdown';
 import MintFormContainer from '../MintForm';
@@ -55,7 +54,7 @@ const InfoLandingPage = (props: Props) => {
           </div>
         </BorderOutline>
         {currentTimeline === MintTimeLine.PreSaleRound && startPreSaleTime && (
-          <Countdown currentDate={new Date(currentTime)} startDate={unixToDate(startPreSaleTime)} />
+          <Countdown currentDate={currentTime} startDate={startPreSaleTime} />
         )}
       </div>
       <SoldProgress />
