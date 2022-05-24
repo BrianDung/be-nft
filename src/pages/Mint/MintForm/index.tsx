@@ -27,11 +27,13 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
   const dispatch = useDispatch();
   const { mint, getUserMinted } = useUserMinted();
 
-  function retrieveUserMinted() {
+  function retrieveUserMinted(delay: number = 0) {
     getUserMinted(account)
       .then((data) => {
         if (data?.maxNumberMinted === 0) {
-          dispatch(alert('You have minted the maximum number of NFTs. Thank you for your support.'));
+          setTimeout(() => {
+            dispatch(alert('You have minted the maximum number of NFTs. Thank you for your support.'));
+          }, delay);
         }
 
         setUserMinted(data);
@@ -58,7 +60,7 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
 
       dispatch(alert('The NFTs have been minted successfully to your wallet address. Thank you for your support.'));
 
-      await retrieveUserMinted();
+      await retrieveUserMinted(4500);
       getUserBalance();
 
       return true;
@@ -76,7 +78,7 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
       return;
     }
 
-    retrieveUserMinted();
+    retrieveUserMinted(4500);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account, connected]);
 

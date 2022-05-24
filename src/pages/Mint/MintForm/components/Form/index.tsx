@@ -2,7 +2,7 @@ import { BorderOutline } from '../../../BorderOutline/index';
 import { Button } from 'components/Base/Form/Button';
 import { useTypedSelector } from 'hooks/useTypedSelector';
 import { isInteger } from 'lodash';
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { alert } from 'store/actions/alert';
 import { Mint } from 'store/reducers/mint';
@@ -59,6 +59,12 @@ const MintForm = ({ maxAllow, disabled, rate, onSubmit }: MintFormProps) => {
       return newValue;
     });
   }
+
+  useEffect(() => {
+    if (disabled) {
+      setAmount(1);
+    }
+  }, [disabled]);
 
   function validate(amount: number | string) {
     if (!connected) {
