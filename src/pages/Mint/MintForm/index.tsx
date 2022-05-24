@@ -78,7 +78,7 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
       return;
     }
 
-    retrieveUserMinted(4500);
+    retrieveUserMinted();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account, connected]);
 
