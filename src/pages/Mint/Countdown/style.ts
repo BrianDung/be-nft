@@ -10,8 +10,8 @@ const useStyles = makeStyles((theme) => {
       padding: '9px 0',
       background: (props: any) => props.landingPage ? '#2B347D' : '#000000',
       borderRadius: '50%',
-      width: (props: any) => props.landingPage ? '66px' : '87px',
-      height: (props: any) => props.landingPage ? '66px' : '87px',
+      width: '87px',
+      height: '87px',
       margin: '0px 5px',
       [theme.breakpoints.down('sm')]: {
         width: '12vw',
@@ -25,10 +25,10 @@ const useStyles = makeStyles((theme) => {
         width: '18vw',
         height: '18vw',
       },
-      '@media screen and (orientation: landscape)': {
-        width: '56px !important',
-        height: '56px !important'
-      },
+      // '@media screen and (orientation: landscape)': {
+      //   width: '56px !important',
+      //   height: '56px !important'
+      // },
       '& span': {
         // display: 'block',
         textAlign: 'center'
@@ -36,7 +36,7 @@ const useStyles = makeStyles((theme) => {
       '&.number': {
         // display: 'block',
         fontFamily: 'Montserrat-SemiBold',
-        fontSize: (props: any) => props.landingPage ? '22px' : '24px',
+        fontSize: '24px',
         lineHeight: '28px',
         fontWeight: 500,
         color: '#FFFFFF',
@@ -49,9 +49,9 @@ const useStyles = makeStyles((theme) => {
         "@media only screen and (min-width: 500px) and (max-width: 600px)": {
           fontSize: '22px'
         },
-        '@media screen and (orientation: landscape)': {
-          fontSize: '18px !important'
-        }
+        // '@media screen and (orientation: landscape)': {
+        //   fontSize: '18px !important'
+        // }
       }
     },
     countdown: {
