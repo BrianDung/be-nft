@@ -16,7 +16,7 @@ const OpenSeaIcon = () => {
 const Section1 = () => {
   const classes = useStyles();
   const history = useHistory();
-  const { data: currentTime } = useFetch<any>(`api/current-time`);
+  const { data: currentTime } = useFetch<any>(`current-time`);
   const startPublicSaleTime = process.env.REACT_APP_START_PRE_SALE_TIME;
   return (
     <section className={styles.section1}>
