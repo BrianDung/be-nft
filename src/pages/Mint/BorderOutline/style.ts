@@ -25,7 +25,10 @@ export const useStyles = makeStyles((theme: any) => {
               '-webkit-mask': 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
               '-webkit-mask-composite': 'xor',
               transition: 'all 0.25s ease-in-out',
-              [theme.breakpoints.down('sm')]: {
+              // [theme.breakpoints.down('md')]: {
+              //   padding: 3,
+              // },
+              "@media only screen and (max-width: 1700px)": {
                 padding: 3,
               },
             },

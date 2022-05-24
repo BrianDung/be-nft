@@ -5,6 +5,12 @@ export const useStyles = makeStyles((theme: any) => {
     root: {
       width: '100%',
       padding: '40px 60px',
+      // [theme.breakpoints.down('md')]: {
+      //   padding: '25px 60px',
+      // },
+      "@media only screen and (max-width: 1700px)": {
+        padding: '25px 60px',
+      },
       [theme.breakpoints.down('sm')]: {
         padding: '27px 0px',
       },
@@ -23,6 +29,14 @@ export const useStyles = makeStyles((theme: any) => {
         borderRadius: 10,
         padding: '8px 28px',
         border: '4px solid #fff',
+        "@media only screen and (max-width: 1700px)": {
+          borderWidth: '3px',
+          padding: '8px 20px',
+        },
+        // [theme.breakpoints.down('md')]: {
+        //   borderWidth: '3px',
+        //   padding: '8px 20px',
+        // },
         [theme.breakpoints.down('sm')]: {
           borderWidth: '2px',
           padding: '8px 20px',
@@ -31,10 +45,15 @@ export const useStyles = makeStyles((theme: any) => {
           fontSize: 30,
           lineHeight: '58px',
           fontFamily: 'Montserrat-Regular',
-          [theme.breakpoints.down('sm')]: {
+          "@media only screen and (max-width: 1700px)": {
             fontSize: 18,
             lineHeight: '25px',
           },
+          // [theme.breakpoints.down('md')]: {
+          //   fontSize: 18,
+          //   lineHeight: '25px',
+          // },
+        
         },
       },
 
@@ -73,6 +92,9 @@ export const useStyles = makeStyles((theme: any) => {
       borderRadius: 8,
       position: 'relative',
       whiteSpace: 'nowrap',
+      "@media only screen and (max-width: 1700px)": {
+        padding: '18px 24px',
+      },
       '&::before': {
         opacity: 1,
         content: '""',
@@ -87,6 +109,9 @@ export const useStyles = makeStyles((theme: any) => {
         '-webkit-mask': 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
         '-webkit-mask-composite': 'xor',
         transition: 'all 0.25s ease-in-out',
+        "@media only screen and (max-width: 1700px)": {
+          padding: 3
+        },
         [theme.breakpoints.down('sm')]: {
           padding: 2,
         },
@@ -130,9 +155,12 @@ export const useStyles = makeStyles((theme: any) => {
           fontSize: 26,
           fontFamily: 'Montserrat-Medium',
           lineHeight: '24px',
-          [theme.breakpoints.down('sm')]: {
+          "@media only screen and (max-width: 1700px)": {
             fontSize: 18
           },
+          // [theme.breakpoints.down('sm')]: {
+          //   fontSize: 18
+          // },
           [theme.breakpoints.down('xs')]: {
             fontSize: 14,
           },
@@ -146,9 +174,12 @@ export const useStyles = makeStyles((theme: any) => {
         lineHeight: '24px',
         display: 'flex',
         alignItems: 'center',
-        [theme.breakpoints.down('sm')]: {
+        "@media only screen and (max-width: 1700px)": {
           fontSize: 18
         },
+        // [theme.breakpoints.down('sm')]: {
+        //   fontSize: 18
+        // },
         [theme.breakpoints.down('xs')]: {
           fontSize: 14,
         },
