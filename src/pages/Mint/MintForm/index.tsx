@@ -1,4 +1,4 @@
-import { MintTimeLine, NOT_SET } from 'constants/mint';
+import { MESSAGES, MintTimeLine, NOT_SET } from 'constants/mint';
 import { MintedData, useUserMinted } from 'hooks/useUserMinted';
 import { useWeb3ReactLocal } from 'hooks/useWeb3ReactLocal';
 import { useEffect, useRef, useState } from 'react';
@@ -32,7 +32,11 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
       .then((data) => {
         if (data?.maxNumberMinted === 0) {
           setTimeout(() => {
-            dispatch(alert('You have minted the maximum number of NFTs. Thank you for your support.'));
+            const message =
+              currentTimeline === MintTimeLine.SaleRound
+                ? MESSAGES.MAX_ALLOW_SALE_ROUND
+                : MESSAGES.MAX_ALLOW_PUBLIC_SALE;
+            dispatch(alert(message));
           }, delay);
         }
 
@@ -58,7 +62,7 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
 
       await mint(amount, Number(rate));
 
-      dispatch(alert('The NFTs have been minted successfully to your wallet address. Thank you for your support.'));
+      dispatch(alert(MESSAGES.MINT_SUCCESS));
 
       await retrieveUserMinted(4500);
       getUserBalance();
