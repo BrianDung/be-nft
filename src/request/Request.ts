@@ -35,7 +35,7 @@ export class BaseRequest {
   buildUrl(url: string) {
     // remove both leading and trailing a slash
     url = url.replace(/^\/+|\/+$/g, '');
-    return `${this.getUrlPrefix()}/api/${url}`;
+    return `${this.getUrlPrefix()}/${url}`;
   }
 
   getUrlPrefix() {
