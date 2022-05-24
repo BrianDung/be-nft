@@ -5,9 +5,10 @@ import { isInteger } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { alert } from 'store/actions/alert';
-import { Mint } from 'store/reducers/mint';
+import { TotalSupply } from 'store/reducers/mint';
 import { useStyles } from './styles';
 import { useWeb3ReactLocal } from 'hooks/useWeb3ReactLocal';
+import { MESSAGES } from 'constants/mint';
 
 interface MintFormProps {
   maxAllow: number;
@@ -24,7 +25,7 @@ const MintForm = ({ maxAllow, disabled, rate, onSubmit }: MintFormProps) => {
   const { balance, connected } = useWeb3ReactLocal();
 
   const dispatch = useDispatch();
-  const { totalSupply } = useTypedSelector((state) => state.totalSupply) as Mint;
+  const { totalSupply } = useTypedSelector((state) => state.totalSupply) as TotalSupply;
 
   function reValidate() {
     let currentValue = Number(amount);
@@ -68,7 +69,7 @@ const MintForm = ({ maxAllow, disabled, rate, onSubmit }: MintFormProps) => {
 
   function validate(amount: number | string) {
     if (!connected) {
-      dispatch(alert('Please connect your wallet address'));
+      dispatch(alert(MESSAGES.NOT_CONNECT_WALLET));
       return false;
     }
 
@@ -78,7 +79,7 @@ const MintForm = ({ maxAllow, disabled, rate, onSubmit }: MintFormProps) => {
     }
 
     if (Number(amount) * rate > Number(balance)) {
-      dispatch(alert('User balance lower than total price. Please try again later.'));
+      dispatch(alert(MESSAGES.INSUFFICIENT_AMOUNT));
       return false;
     }
 

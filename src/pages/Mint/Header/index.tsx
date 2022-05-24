@@ -8,6 +8,9 @@ import { ConnectorNames } from 'constants/connectors';
 import { Button } from 'components/Base/Form/Button';
 import useWindowDimensions from 'hooks/useWindowDimensions';
 import { Link } from 'react-router-dom';
+import { useUserMinted } from 'hooks/useUserMinted';
+import { useDispatch } from 'react-redux';
+import { alert } from 'store/actions/alert';
 
 const logoIcon = '/images/dashboard/icon-logo.svg';
 const logoMobile = '/images/dashboard/icon-logo-mobile.svg';
@@ -23,16 +26,28 @@ function formatAddress(address: string) {
 
   return `${suffix}...${prefix}`;
 }
-const HeaderPage = (props: any) => {
-  const classes = useStyles();
-  const injected = new InjectedConnector({});
-  const { isAuth } = useAuth();
-  const { balance, connectWallet: web3ConnectWallet, account } = useWeb3ReactLocal();
+
+const injected = new InjectedConnector({});
+
+const HeaderPage = () => {
   const [openAccount, setOpenAccount] = useState(false);
+
+  const classes = useStyles();
+  const { isAuth } = useAuth();
+  const { balance, connectWallet: web3ConnectWallet, account, connected } = useWeb3ReactLocal();
   const { width } = useWindowDimensions();
+  const { retrieveUserMinted } = useUserMinted();
+  const dispatch = useDispatch();
 
   const connectWallet = () => {
-    web3ConnectWallet(injected, ConnectorNames.MetaMask).catch((e) => {});
+    if (account && connected) {
+      retrieveUserMinted(account);
+      return;
+    }
+
+    web3ConnectWallet(injected, ConnectorNames.MetaMask).catch((e) => {
+      dispatch(alert(e.message));
+    });
   };
 
   return (
@@ -41,7 +56,7 @@ const HeaderPage = (props: any) => {
         <div className={classes.logoField}>
           <Link to={'/'}>
             {width >= 960 ? (
-              <img alt="logo-icon" src={logoIcon} style={{width: '11vw'}}/>
+              <img alt="logo-icon" src={logoIcon} style={{ width: '11vw' }} />
             ) : account ? (
               <img alt="logo-icon" src={logoMobileShort} width={38} height={48} />
             ) : (

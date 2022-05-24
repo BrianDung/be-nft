@@ -13,6 +13,7 @@ import getAccountBalance from 'utils/getAccountBalance';
 import BigNumber from 'bignumber.js';
 import { WalletConnectionState } from 'store/reducers/wallet';
 import { updateUserSignature } from 'store/actions/user';
+import { MESSAGES } from 'constants/mint';
 
 interface Web3ReactLocalContextValues {
   logout: () => Promise<void>;
@@ -219,7 +220,7 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
   useEffect(() => {
     function handleChainChange(newChainId: string) {
       if (Number(newChainId).toString() !== ETH_CHAIN_ID) {
-        dispatch(alert('You connected to the wrong chain!'));
+        dispatch(alert(MESSAGES.WRONG_CHAIN));
       }
     }
 

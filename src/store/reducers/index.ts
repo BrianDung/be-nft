@@ -1,4 +1,4 @@
-import { totalSupplyReducer } from './mint';
+import { totalSupplyReducer, userMintedReducer } from './mint';
 import { combineReducers } from 'redux';
 import { alertReducer } from './alert';
 import { userSignatureReducer } from './user';
@@ -12,6 +12,7 @@ const rootReducer = combineReducers({
   wallet: walletReducer,
   totalSupply: totalSupplyReducer,
   userSignature: userSignatureReducer,
+  userMinted: userMintedReducer,
 });
 
 export type RootState = ReturnType<typeof rootReducer>;

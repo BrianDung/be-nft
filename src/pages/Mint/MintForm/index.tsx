@@ -1,17 +1,13 @@
-import { MintTimeLine, NOT_SET } from 'constants/mint';
-import { MintedData, useUserMinted } from 'hooks/useUserMinted';
+import { MESSAGES, MintTimeLine, NOT_SET } from 'constants/mint';
+import { useUserMinted } from 'hooks/useUserMinted';
 import { useWeb3ReactLocal } from 'hooks/useWeb3ReactLocal';
-import { useEffect, useRef, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import MintForm from './components/Form';
 import { useStyles } from '../style';
 import { alert } from 'store/actions/alert';
-
-const initialMintData = {
-  status: NOT_SET,
-  maxNumberMinted: 1,
-  type: 0,
-};
+import { clearUserMinted } from 'store/actions/mint';
+import { useTypedSelector } from 'hooks/useTypedSelector';
 
 interface MintFormContainerProps {
   rate: number | string;
@@ -20,35 +16,13 @@ interface MintFormContainerProps {
 
 const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) => {
   const styles = useStyles();
-  const [userMinted, setUserMinted] = useState<(MintedData & { status?: string }) | null>({ ...initialMintData });
-  const error = useRef<any>();
+  const { status, data: userMinted, error } = useTypedSelector((state) => state.userMinted);
 
-  const { account, connected, getUserBalance, logout } = useWeb3ReactLocal();
+  const delay = useRef<number>(0);
+
+  const { account, connected, getUserBalance } = useWeb3ReactLocal();
   const dispatch = useDispatch();
-  const { mint, getUserMinted } = useUserMinted();
-
-  function retrieveUserMinted(delay: number = 0) {
-    getUserMinted(account)
-      .then((data) => {
-        if (data?.maxNumberMinted === 0) {
-          setTimeout(() => {
-            dispatch(alert('You have minted the maximum number of NFTs. Thank you for your support.'));
-          }, delay);
-        }
-
-        setUserMinted(data);
-      })
-      .catch((e: any) => {
-        // 4001 is web error code, -32603 is mobile error code
-        if (e.code === 4001 || e.code === -32603) {
-          logout();
-          return;
-        }
-
-        error.current = e;
-        setUserMinted(null);
-      });
-  }
+  const { mint, retrieveUserMinted } = useUserMinted();
 
   async function userMint(amount: number) {
     try {
@@ -58,9 +32,10 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
 
       await mint(amount, Number(rate));
 
-      dispatch(alert('The NFTs have been minted successfully to your wallet address. Thank you for your support.'));
+      dispatch(alert(MESSAGES.MINT_SUCCESS));
 
-      await retrieveUserMinted(4500);
+      delay.current = 4500;
+      await retrieveUserMinted(account);
       getUserBalance();
 
       return true;
@@ -71,27 +46,40 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
     }
   }
 
-  // Check user is whitelist user
   useEffect(() => {
-    setUserMinted({ ...initialMintData });
+    dispatch(clearUserMinted());
     if (!connected || !account) {
       return;
     }
 
-    retrieveUserMinted();
+    // Get user minted after wallet connected or user change account
+    delay.current = 0;
+    retrieveUserMinted(account);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account, connected]);
 
   useEffect(() => {
-    if (userMinted?.status === NOT_SET || currentTimeline === MintTimeLine.NotSet) {
+    // If get user minted or get current time line api has not called
+    if (status === NOT_SET || currentTimeline === MintTimeLine.NotSet) {
       return;
     }
 
+    // If user is not whitelist user
     if (!userMinted && currentTimeline > MintTimeLine.PreSaleRound) {
-      dispatch(alert(error?.current?.message));
-      error.current = null;
+      dispatch(alert(error?.message));
+      return;
     }
-  }, [userMinted, currentTimeline, dispatch]);
+
+    // If user has minted maximum nft
+    if (userMinted?.maxNumberMinted === 0) {
+      const message =
+        currentTimeline === MintTimeLine.SaleRound ? MESSAGES.MAX_ALLOW_SALE_ROUND : MESSAGES.MAX_ALLOW_PUBLIC_SALE;
+
+      setTimeout(() => {
+        dispatch(alert(message));
+      }, delay.current);
+    }
+  }, [userMinted, currentTimeline, dispatch, status, error]);
 
   const formDisabled = (function () {
     // Note : Behavior disconnected will disable form
@@ -107,7 +95,7 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
       currentTimeline === MintTimeLine.PreSaleRound ||
       currentTimeline === MintTimeLine.NotSet ||
       !userMinted ||
-      userMinted.status === NOT_SET ||
+      status === NOT_SET ||
       userMinted.maxNumberMinted === 0
     );
   })();

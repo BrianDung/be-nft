@@ -1,5 +1,6 @@
 import { useWeb3React } from '@web3-react/core';
 import BigNumber from 'bignumber.js';
+import { MESSAGES } from 'constants/mint';
 import { useMint } from 'hooks/useMint';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -43,11 +44,14 @@ const SoldProgress = (props: SoldProgressProps) => {
 
   useEffect(() => {
     if (totalSupply >= 5500) {
-      dispatch(alert('100% of Xborg sold! Thank you for your support.'));
+      dispatch(alert(MESSAGES.SOLD_OUT));
     }
   }, [dispatch, totalSupply]);
 
-  const progress = new BigNumber((totalSupply === 0 ? 1 : totalSupply) - 1).div(5500).multipliedBy(100).toNumber();
+  const progress =
+    totalSupply >= 5500
+      ? 100
+      : new BigNumber((totalSupply === 0 ? 1 : totalSupply) - 1).div(5500).multipliedBy(100).toNumber();
 
   return (
     <div>
