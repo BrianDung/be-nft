@@ -10,6 +10,12 @@ export const useStyles = makeStyles((theme: any) => {
         justifyContent: 'space-between',
         marginBottom: 5,
         fontSize: '24px',
+        "@media only screen and (max-width: 1700px)": {
+            fontSize: '20px'
+        },
+        // [theme.breakpoints.down('md')]: {
+        //     fontSize: '20px'
+        // },
         [theme.breakpoints.down('sm')]: {
             fontSize: '18px'
         },
@@ -21,6 +27,12 @@ export const useStyles = makeStyles((theme: any) => {
         height: 47,
         textAlign: 'center',
         lineHeight: '35px',
+        "@media only screen and (max-width: 1700px)": {
+            height: 25,
+        },
+        // [theme.breakpoints.down('md')]: {
+        //     height: 25,
+        // },
         [theme.breakpoints.down('sm')]: {
             height: 30,
         },
@@ -44,6 +56,14 @@ export const useStyles = makeStyles((theme: any) => {
         textShadow: '2px 2px 4px #000000',
         marginBottom: 0,
         marginTop: '15px',
+        "@media only screen and (max-width: 1700px)": {
+            fontSize: '75px',
+            lineHeight: '100px'
+        },
+        // [theme.breakpoints.down('md')]: {
+        //     fontSize: '75px',
+        //     lineHeight: '100px'
+        // },
         [theme.breakpoints.down('sm')]: {
             fontSize: '80px',
         },

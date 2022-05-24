@@ -3,7 +3,7 @@ import { makeStyles } from '@material-ui/core';
 export const useStyles = makeStyles((theme: any) => {
   return {
     xborgPageWrapper: {
-      paddingTop: '15px',
+      // paddingTop: '15px',
       color: '#FFFFFF',
       fontWeight: 500,
       width: '50%',
@@ -17,15 +17,21 @@ export const useStyles = makeStyles((theme: any) => {
     nftImage: {
       width: '25vw',
       height: '200px',
-      [theme.breakpoints.down('md')]: {
+      "@media only screen and (max-width: 1700px)": {
         width: '100%',
       },
+      // [theme.breakpoints.down('md')]: {
+      //   width: '100%',
+      // },
     },
     pageInfo: {
       marginLeft: '100px',
-      [theme.breakpoints.down('md')]: {
+      "@media only screen and (max-width: 1700px)": {
         marginLeft: 0
       },
+      // [theme.breakpoints.down('md')]: {
+      //   marginLeft: 0
+      // },
     },
     roundInfo: {
       padding: '13px',
@@ -36,6 +42,12 @@ export const useStyles = makeStyles((theme: any) => {
       [theme.breakpoints.up('lg')]: {
         minWidth: '270px',
       },
+      "@media only screen and (max-width: 1700px)": {
+        padding: 10,
+      },
+      // [theme.breakpoints.down('md')]: {
+      //   padding: 10,
+      // },
       '&>p': {
         marginBottom: 10,
         padding: '0 25px',
@@ -50,9 +62,14 @@ export const useStyles = makeStyles((theme: any) => {
         padding: 0,
         fontSize: '34px',
         whiteSpace: 'nowrap',
-        [theme.breakpoints.down('md')]: {
-          fontSize: '24px',
+        "@media only screen and (max-width: 1700px)": {
+          fontSize: '22px',
+          marginBottom: 5
         },
+        // [theme.breakpoints.down('md')]: {
+        //   fontSize: '22px',
+        //   marginBottom: 5
+        // },
         [theme.breakpoints.down('sm')]: {
           fontSize: '20px',
         },
@@ -61,6 +78,12 @@ export const useStyles = makeStyles((theme: any) => {
       '&>p:last-child':{
         fontSize: '18px',
         textTransform: 'uppercase',
+        "@media only screen and (max-width: 1700px)": {
+          fontSize: '16px',
+        },
+        // [theme.breakpoints.down('md')]: {
+        //   fontSize: '16px',
+        // },
         [theme.breakpoints.down('sm')]: {
           padding: '0 15px',
         },
@@ -91,19 +114,25 @@ export const useStyles = makeStyles((theme: any) => {
       '&>div:nth-child(2)': {
         margin: 'auto'
       },
-      [theme.breakpoints.down('md')]: {
+      "@media only screen and (max-width: 1700px)": {
         marginLeft: 0,
       },
-      "@media only screen and (min-width: 960px) and (max-width: 1370px)": {
-        flexDirection: 'column',
-        marginLeft: 0,
-        '&>div:first-child': {
-          width: 'fit-content'
-        },
-        '&>div:nth-child(2)': {
-          marginTop: 20,
-          marginLeft: 'unset'
-        }
+      // [theme.breakpoints.down('md')]: {
+      //   marginLeft: 0,
+      // },
+      // "@media only screen and (min-width: 960px) and (max-width: 1370px)": {
+      //   // flexDirection: 'column',
+      //   marginLeft: 0,
+      //   '&>div:first-child': {
+      //     width: 'fit-content'
+      //   },
+      //   '&>div:nth-child(2)': {
+      //     marginTop: 20,
+      //     marginLeft: 'unset'
+      //   }
+      // },
+      [theme.breakpoints.down('sm')]: {
+        marginTop: 25
       },
       [theme.breakpoints.down('xs')]: {
         flexDirection: 'column',

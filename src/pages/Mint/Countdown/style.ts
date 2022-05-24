@@ -13,6 +13,14 @@ const useStyles = makeStyles((theme) => {
       width: '87px',
       height: '87px',
       margin: '0px 5px',
+      // [theme.breakpoints.down('md')]: {
+      //   width: '72px',
+      //   height: '72px',
+      // },
+      "@media only screen and (max-width: 1700px)": {
+        width: '72px',
+        height: '72px',
+      },
       [theme.breakpoints.down('sm')]: {
         width: '12vw',
         height: '12vw',
@@ -40,7 +48,10 @@ const useStyles = makeStyles((theme) => {
         lineHeight: '28px',
         fontWeight: 500,
         color: '#FFFFFF',
-        [theme.breakpoints.down('sm')]: {
+        // [theme.breakpoints.down('md')]: {
+        //   fontSize: '20px',
+        // },
+        "@media only screen and (max-width: 1700px)": {
           fontSize: '20px',
         },
         [theme.breakpoints.down('xs')]: {
@@ -49,9 +60,6 @@ const useStyles = makeStyles((theme) => {
         "@media only screen and (min-width: 500px) and (max-width: 600px)": {
           fontSize: '22px'
         },
-        // '@media screen and (orientation: landscape)': {
-        //   fontSize: '18px !important'
-        // }
       }
     },
     countdown: {
@@ -83,14 +91,22 @@ const useStyles = makeStyles((theme) => {
       lineHeight: '21px',
       fontFamily: 'Montserrat-Medium',
     },
-    [theme.breakpoints.down('md')]: {
+    // [theme.breakpoints.down('md')]: {
+    //   countdownPart: {
+    //     padding: '10px 5px',
+    //     '&.number': {
+    //       padding: '5px 5px 15px 5px'
+    //     }
+    //   }
+    // }
+    "@media only screen and (max-width: 1700px)": {
       countdownPart: {
-        padding: '10px 5px',
-        '&.number': {
-          padding: '5px 5px 15px 5px'
-        }
-      }
-    }
+            padding: '10px 5px',
+            '&.number': {
+              padding: '5px 5px 15px 5px'
+            }
+          }
+    },
   };
 });
 

@@ -41,7 +41,7 @@ const HeaderPage = (props: any) => {
         <div className={classes.logoField}>
           <Link to={'/'}>
             {width >= 960 ? (
-              <img alt="logo-icon" src={logoIcon} />
+              <img alt="logo-icon" src={logoIcon} style={{width: '11vw'}}/>
             ) : account ? (
               <img alt="logo-icon" src={logoMobileShort} width={38} height={48} />
             ) : (
