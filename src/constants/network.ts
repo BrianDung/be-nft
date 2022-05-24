@@ -1,7 +1,4 @@
-import { NETWORK_AVAILABLE } from '../constants';
-
 export const ETH_CHAIN_ID = process.env.REACT_APP_ETH_CHAIN_ID as string;
-
 export const ETHERSCAN_URL = process.env.REACT_APP_ETHERSCAN_BASE_URL || '';
 
 export enum ChainId {
@@ -48,14 +45,9 @@ export interface NetworkInfo {
 
 export enum APP_NETWORKS_NAME {
   METAMASK = 'METAMASK',
-  BSC = 'BSC',
-  POLYGON = 'POLYGON',
 }
 
-export type appNetworkType = Extract<
-  APP_NETWORKS_NAME,
-  APP_NETWORKS_NAME.METAMASK | APP_NETWORKS_NAME.BSC | APP_NETWORKS_NAME.POLYGON
->;
+export type appNetworkType = Extract<APP_NETWORKS_NAME, APP_NETWORKS_NAME.METAMASK>;
 
 export const APP_NETWORKS: { [key: string]: NetworkInfo } = {
   [APP_NETWORKS_NAME.METAMASK]: {
@@ -68,7 +60,6 @@ export const APP_NETWORKS: { [key: string]: NetworkInfo } = {
 
 export const APP_NETWORKS_ID: (string | undefined)[] = [ETH_CHAIN_ID];
 export const NETWORK_URL = process.env.REACT_APP_NETWORK_URL;
-
 export const NETWORK_ETH_NAME = process.env.REACT_APP_NETWORK_ETH_NAME;
 
 export const appNetwork: { [key: string]: string } = {
@@ -95,6 +86,10 @@ export const APP_NETWORKS_SUPPORT: { [key: number]: NetworkInfo } = {
       blockExplorerUrls: [],
     },
   },
+};
+
+export const NETWORK_AVAILABLE = {
+  ETH: 'eth',
 };
 
 export const NETWORK_AVAILABLE_MAP = {

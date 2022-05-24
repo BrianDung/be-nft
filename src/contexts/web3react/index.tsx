@@ -1,11 +1,11 @@
 import { AbstractConnector } from '@web3-react/abstract-connector';
-import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core';
+import { useWeb3React } from '@web3-react/core';
 import { createContext, FC, useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { alert, clearAlert } from 'store/actions/alert';
 import { useTypedSelector } from 'hooks/useTypedSelector';
 import { ConnectorNames, connectorsByName } from 'constants/connectors';
-import { ETH_CHAIN_ID, NETWORK_NAME_MAPPINGS } from 'constants/network';
+import { ETH_CHAIN_ID } from 'constants/network';
 import { switchNetwork } from 'utils/setupNetwork';
 import { NetworkUpdateType, settingAppNetwork, settingCurrentConnector } from 'store/actions/appNetwork';
 import { connectWalletSuccess, disconnectWallet } from 'store/actions/wallet';
@@ -49,7 +49,6 @@ export const USER_SIGNATURE_KEY = 'user_signature';
 export const Web3ReactLocalProvider: FC = ({ children }) => {
   const { appChainID, walletChainID } = useTypedSelector((state) => state.appNetwork).data;
   const walletsInfo = useTypedSelector((state) => state.wallet).entities;
-  const { message } = useTypedSelector((state) => state.alert);
   const { account: connectedAccount, activate, active, error, deactivate, library, chainId } = useWeb3React();
   const dispatch = useDispatch();
 
@@ -80,25 +79,12 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
         dispatch(disconnectWallet());
         setWalletName('');
 
-        if (error instanceof UnsupportedChainIdError) {
-          setCurrentConnector(undefined);
-          localStorage.removeItem('walletconnect');
-
-          const currentChainId = await connector?.getChainId();
-
-          dispatch(
-            alert(
-              `App network (${NETWORK_NAME_MAPPINGS[appChainID]}) doesn't mach to network selected in wallet: ${NETWORK_NAME_MAPPINGS[currentChainId]}. Please change network in wallet  or  change app network.`
-            )
-          );
-        }
-
         throw error;
       } finally {
         setConnecting(false);
       }
     },
-    [activate, dispatch, appChainID]
+    [activate, dispatch]
   );
 
   const clearWalletState = useCallback(() => {
@@ -231,21 +217,29 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
   }, [appChainID, walletName, active, connecting]);
 
   useEffect(() => {
-    const providerChainId = (window as any)?.ethereum?.chainId ?? 0;
-    const currentChainId = chainId === undefined ? Number(providerChainId) : chainId;
-    if (!currentChainId) {
+    function handleChainChange(newChainId: string) {
+      if (Number(newChainId).toString() !== ETH_CHAIN_ID) {
+        dispatch(alert('You connected to the wrong chain!'));
+      }
+    }
+
+    const windowObj = window as any;
+    const { ethereum } = windowObj;
+
+    if (!active && !!ethereum.chainId) {
+      handleChainChange(ethereum.chainId);
+    }
+
+    if (!ethereum) {
       return;
     }
 
-    if (currentChainId.toString() !== ETH_CHAIN_ID) {
-      dispatch(alert('You connected to the wrong chain!'));
-    }
+    ethereum.on('chainChanged', handleChainChange);
 
-    setTimeout(() => {
-      dispatch(clearAlert());
-    }, 500);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [chainId, dispatch]);
+    return () => {
+      ethereum.removeListener('chainChanged', handleChainChange);
+    };
+  }, [dispatch, active]);
 
   useEffect(() => {
     chainId && dispatch(settingAppNetwork(NetworkUpdateType.Wallet, chainId.toString()));

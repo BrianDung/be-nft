@@ -23,18 +23,9 @@ export interface WalletInfo {
 
 export enum ConnectorNames {
   MetaMask = 'MetaMask',
-  WalletConnect = 'WalletConnect',
-  WalletConnectBsc = 'WalletConnect',
-  WalletConnectPolygon = 'WalletConnectPolygon',
-  WalletLinkConnect = 'Coinbase Wallet',
-  Sollet = 'Sollet',
-  Phantom = 'Phantom',
 }
 
-export type connectorNames = Extract<
-  ConnectorNames,
-  ConnectorNames.MetaMask | ConnectorNames.WalletConnect | ConnectorNames.WalletLinkConnect
->;
+export type connectorNames = Extract<ConnectorNames, ConnectorNames.MetaMask>;
 
 export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
   METAMASK: {

@@ -31,11 +31,3 @@ export const disconnectWallet = () => {
     })
   }
 }
-
-export const disconnectWalletLayer2 = () => {
-  return async (dispatch: ThunkDispatch<{}, {}, AnyAction>, getState: () => any) => {
-    dispatch({
-      type: walletActions.WALLET_CONNECT_SUCCESS_WITHOUT_LAYER2
-    })
-  }
-}

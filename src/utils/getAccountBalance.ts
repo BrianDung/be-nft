@@ -1,28 +1,24 @@
 import { ethers } from 'ethers';
-import { ETH_CHAIN_ID } from '../constants/network';
 
-const ETH_RPC_URL = process.env.REACT_APP_NETWORK_URL || "";
+const ETH_RPC_URL = process.env.REACT_APP_NETWORK_URL || '';
 
-const getAccountBalance = async (appChainID: string, walletChainID: string, connectedAccount: string, connector: string) => {
-if (appChainID && connectedAccount && connector) {
-  const exactNetwork = appChainID === walletChainID;
+const getAccountBalance = async (
+  appChainID: string,
+  walletChainID: string,
+  connectedAccount: string,
+  connector: string
+) => {
+  if (appChainID && connectedAccount && connector) {
+    const exactNetwork = appChainID === walletChainID;
 
-  const provider = (()=>{
-    switch (appChainID) {
-      case ETH_CHAIN_ID:
-      default:
-        return new ethers.providers.JsonRpcProvider(ETH_RPC_URL);
-    }
-  })();
+    const provider = new ethers.providers.JsonRpcProvider(ETH_RPC_URL);
 
-  const accountBalance = exactNetwork 
-    ? await provider.getBalance(connectedAccount)
-    : { _hex: '0x00' }
+    const accountBalance = exactNetwork ? await provider.getBalance(connectedAccount) : { _hex: '0x00' };
 
-    return accountBalance; 
+    return accountBalance;
   }
-  
+
   return { _hex: '0x00' };
-}
+};
 
 export default getAccountBalance;
