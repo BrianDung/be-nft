@@ -21,7 +21,6 @@ const Routes: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
   const { history } = props;
 
   useEffect(() => {
-    console.log({ alert });
     if (alert?.message) {
       notification.config({
         maxCount: 1,
