@@ -48,7 +48,10 @@ const SoldProgress = (props: SoldProgressProps) => {
     }
   }, [dispatch, totalSupply]);
 
-  const progress = new BigNumber((totalSupply === 0 ? 1 : totalSupply) - 1).div(5500).multipliedBy(100).toNumber();
+  const progress =
+    totalSupply >= 5500
+      ? 100
+      : new BigNumber((totalSupply === 0 ? 1 : totalSupply) - 1).div(5500).multipliedBy(100).toNumber();
 
   return (
     <div>
