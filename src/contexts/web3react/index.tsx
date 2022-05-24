@@ -226,7 +226,7 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
     const windowObj = window as any;
     const { ethereum } = windowObj;
 
-    if (!active && !!ethereum.chainId) {
+    if (!active && !!ethereum?.chainId) {
       handleChainChange(ethereum.chainId);
     }
 
