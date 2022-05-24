@@ -28,7 +28,7 @@ export const useStyles = makeStyles((theme: any) => {
               // [theme.breakpoints.down('md')]: {
               //   padding: 3,
               // },
-              "@media only screen and (max-width: 1700px)": {
+              "@media only screen and (max-width: 1800px)": {
                 padding: 3,
               },
             },

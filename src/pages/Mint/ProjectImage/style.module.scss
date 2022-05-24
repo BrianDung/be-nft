@@ -2,9 +2,13 @@
   position: relative;   
   margin-right: 60px;
   // height: calc(100vh - 272px);
-  width: 45vw;
-  @media only screen and (max-width: 1700px){
+  width: 42%;
+  @media only screen and (min-width: 1440px) and (max-width: 1850px){
     width: 35%;
+  }
+
+  @media only screen and (min-width: 1185px) and (max-width: 1279px){
+    width: 50%;
   }
   & > img {
     width: 100%;
@@ -35,7 +39,7 @@
     }
   }
 
-  @media screen and (max-width: 959px) {
+  @media screen and (max-width: 1184px) {
     margin-right: 0;
     width: 100%;
   }

@@ -11,15 +11,15 @@ export const useStyles = makeStyles((theme: any) => {
     },
     pageInfo: {
       display: 'flex',
-      alignItems: 'start',
+      alignItems: 'stretch',
       marginBottom: '50px',
       // [theme.breakpoints.down('md')]: {
       //   marginBottom: '25px',
       // },
-      "@media only screen and (max-width: 1700px)": {
+      "@media only screen and (max-width: 1800px)": {
         marginBottom: '25px',
       },
-      [theme.breakpoints.down('sm')]: {
+      "@media only screen and (max-width: 1184px)": {
         flexDirection: 'column',
         padding: '0px',
       },
@@ -31,7 +31,7 @@ export const useStyles = makeStyles((theme: any) => {
       // [theme.breakpoints.down('md')]: {
       //   fontSize: '35px'
       // },
-      "@media only screen and (max-width: 1700px)": {
+      "@media only screen and (max-width: 1800px)": {
         fontSize: '35px'
       },
     },
@@ -40,7 +40,7 @@ export const useStyles = makeStyles((theme: any) => {
       // [theme.breakpoints.down('md')]: {
       //   fontSize: '20px'
       // },
-      "@media only screen and (max-width: 1700px)": {
+      "@media only screen and (max-width: 1800px)": {
         fontSize: '20px'
       },
     },
@@ -49,6 +49,9 @@ export const useStyles = makeStyles((theme: any) => {
       position: 'relative',
       minHeight: '90vh',
       fontFamily: 'Montserrat-Medium',
+      '@media screen and (max-width: 1184px)': {
+        padding: '0 60px',
+      },
       [theme.breakpoints.down('sm')]: {
         padding: '0 45px',
         // marginBottom: '50px',
@@ -77,7 +80,7 @@ export const useStyles = makeStyles((theme: any) => {
       // [theme.breakpoints.down('md')]: {
       //   paddingBottom: 15,
       // },
-      "@media only screen and (max-width: 1700px)": {
+      "@media only screen and (max-width: 1800px)": {
         paddingBottom: 15,
         paddingRight: 65
       },
@@ -88,23 +91,11 @@ export const useStyles = makeStyles((theme: any) => {
     },
     link: {
       marginRight: 17,
+      '& > img': {
+        width: 36,
+      },
       '&:last-child': {
         marginRight: 0,
-      },
-      // [theme.breakpoints.down('md')]: {
-      //   '& > img': {
-      //     width: 50,
-      //   },
-      // },
-      "@media only screen and (max-width: 1700px)": {
-        '& > img': {
-              width: 50,
-            },
-      },
-      [theme.breakpoints.down('sm')]: {
-        '& > img': {
-          width: 50,
-        },
       },
     },
   };

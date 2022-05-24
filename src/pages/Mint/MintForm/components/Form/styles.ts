@@ -34,14 +34,14 @@ export const useStyles = makeStyles((theme: any) => {
       position: 'relative',
       width: '294px',
       zIndex: 99,
-      "@media only screen and (max-width: 1700px)": {
+      "@media only screen and (max-width: 1800px)": {
         lineHeight: '30px',
       },
       // [theme.breakpoints.down('md')]: {
       //   lineHeight: '30px',
       // },
       [theme.breakpoints.down('sm')]: {
-        padding: '11px 80px 11px 15px',
+        padding: '7px 80px 11px 15px',
         lineHeight: 'normal',
         width: '100%',
       },
@@ -78,12 +78,16 @@ export const useStyles = makeStyles((theme: any) => {
       [theme.breakpoints.down('sm')]: {
         padding: '0px 25px',
         marginLeft: 5,
+        borderWidth: '3px !important',
         '& > span.MuiButton-label': {
-          lineHeight: 'normal',
-          fontSize: '36px',
+          lineHeight: '35px',
+          fontSize: '28px',
+          '&:nth-child(2)': {
+            lineHeight: '36px'
+          }
         },
       },
-      "@media only screen and (max-width: 1700px)": {
+      "@media only screen and (max-width: 1800px)": {
         padding: '3px 16px',
         '& > span.MuiButton-label': {
           fontSize: '31px',
@@ -100,25 +104,25 @@ export const useStyles = makeStyles((theme: any) => {
         background: 'none !important',
         border: '4px solid #FFFFFF',
         borderRadius: '10px',
+        [theme.breakpoints.down('sm')]: {
+          borderWidth: '3px !important'
+        },
         '& > span.MuiButton-label': {
           fontFamily: 'Montserrat-SemiBold',
           fontSize: '34px',
           color: '#FFFFFF',
-          [theme.breakpoints.down('sm')]: {
-            fontSize: '28px',
-            lineHeight: '40px',
-          },
-          "@media only screen and (max-width: 1700px)": {
+          "@media only screen and (max-width: 1800px)": {
             fontSize: '24px',
           },
-          // [theme.breakpoints.down('md')]: {
-          //   fontSize: '24px',
-          // },
+          [theme.breakpoints.down('sm')]: {
+            fontSize: '20px',
+            lineHeight: '30px',
+          },
         },
         cursor: 'pointer',
-        margin: '10px 0 20px 15px',
+        margin: '11.5px 0 20px 15px',
         padding: '12px 22px',
-        lineHeight: 'normal',
+        lineHeight: '35px',
         '&:disabled': {
           background: '#8C8C8C !important',
           border: '4px solid #FFFFFF',
@@ -126,18 +130,14 @@ export const useStyles = makeStyles((theme: any) => {
             opacity: 0.5,
           },
         },
-        "@media only screen and (max-width: 1700px)": {
+        "@media only screen and (max-width: 1800px)": {
           padding: '0px 16px',
           lineHeight: 'normal',
         },
-        // [theme.breakpoints.down('md')]: {
-        //   padding: '0px 16px',
-        //   lineHeight: 'normal',
-        // },
       },
       mint: {
         background: '#60A444 !important',
-        border: '4px solid #FFFFFF !important',
+        border: '4px solid #FFFFFF',
         marginBottom: 0,
         width: '80%',
         maxWidth: '390px',
@@ -147,29 +147,23 @@ export const useStyles = makeStyles((theme: any) => {
           fontSize: '34px',
           lineHeight: '58px',
           color: '#FFFFFF',
-          "@media only screen and (max-width: 1700px)": {
+          "@media only screen and (max-width: 1800px)": {
             fontSize: '24px',
             lineHeight: '25px',
           },
-          // [theme.breakpoints.down('md')]: {
-          //   fontSize: '24px',
-          //   lineHeight: '25px',
-          // },
           [theme.breakpoints.down('sm')]: {
-            fontSize: '28px',
-            lineHeight: '30px',
+            fontSize: '20px',
+            lineHeight: '20px',
           },
         },
-        "@media only screen and (max-width: 1700px)": {
+        "@media only screen and (max-width: 1800px)": {
           maxWidth: '375px',
         },
-        // [theme.breakpoints.down('md')]: {
-        //   maxWidth: '375px',
-        // },
         [theme.breakpoints.down('sm')]: {
           fontSize: '28px',
           width: '100%',
           maxWidth: 'unset',
+          borderWidth: '3px !important'
         },
         '&:disabled': {
           background: '#8C8C8C !important',

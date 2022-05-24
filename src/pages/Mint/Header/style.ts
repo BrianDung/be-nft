@@ -8,10 +8,10 @@ export const useStyles = makeStyles((theme: any) => {
       // [theme.breakpoints.down('md')]: {
       //   padding: '25px 60px',
       // },
-      "@media only screen and (max-width: 1700px)": {
+      "@media only screen and (max-width: 1800px)": {
         padding: '25px 60px',
       },
-      [theme.breakpoints.down('sm')]: {
+      "@media only screen and (max-width: 1184px)": {
         padding: '27px 0px',
       },
     },
@@ -24,12 +24,15 @@ export const useStyles = makeStyles((theme: any) => {
     pageHeader: {
       display: 'flex',
       alignContent: 'center',
+      "@media only screen and (max-width: 1440px)": {
+        height: 55
+      },
       '& > .connect-btn.MuiButton-contained': {
         background: '#000',
         borderRadius: 10,
         padding: '8px 28px',
         border: '4px solid #fff',
-        "@media only screen and (max-width: 1700px)": {
+        "@media only screen and (max-width: 1800px)": {
           borderWidth: '3px',
           padding: '8px 20px',
         },
@@ -40,12 +43,13 @@ export const useStyles = makeStyles((theme: any) => {
         [theme.breakpoints.down('sm')]: {
           borderWidth: '2px',
           padding: '8px 20px',
+          maxHeight: 45
         },
         '& > span.MuiButton-label': {
           fontSize: 30,
           lineHeight: '58px',
           fontFamily: 'Montserrat-Regular',
-          "@media only screen and (max-width: 1700px)": {
+          "@media only screen and (max-width: 1800px)": {
             fontSize: 18,
             lineHeight: '25px',
           },
@@ -92,7 +96,7 @@ export const useStyles = makeStyles((theme: any) => {
       borderRadius: 8,
       position: 'relative',
       whiteSpace: 'nowrap',
-      "@media only screen and (max-width: 1700px)": {
+      "@media only screen and (max-width: 1800px)": {
         padding: '18px 24px',
       },
       '&::before': {
@@ -109,7 +113,7 @@ export const useStyles = makeStyles((theme: any) => {
         '-webkit-mask': 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
         '-webkit-mask-composite': 'xor',
         transition: 'all 0.25s ease-in-out',
-        "@media only screen and (max-width: 1700px)": {
+        "@media only screen and (max-width: 1800px)": {
           padding: 3
         },
         [theme.breakpoints.down('sm')]: {
@@ -155,7 +159,7 @@ export const useStyles = makeStyles((theme: any) => {
           fontSize: 26,
           fontFamily: 'Montserrat-Medium',
           lineHeight: '24px',
-          "@media only screen and (max-width: 1700px)": {
+          "@media only screen and (max-width: 1800px)": {
             fontSize: 18
           },
           // [theme.breakpoints.down('sm')]: {
@@ -174,7 +178,7 @@ export const useStyles = makeStyles((theme: any) => {
         lineHeight: '24px',
         display: 'flex',
         alignItems: 'center',
-        "@media only screen and (max-width: 1700px)": {
+        "@media only screen and (max-width: 1800px)": {
           fontSize: 18
         },
         // [theme.breakpoints.down('sm')]: {
