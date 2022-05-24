@@ -111,21 +111,21 @@ const Countdown = (props: CountDownProps) => {
           <span className={styles.countdownInfo1} id="hours">
             {hour}
           </span>
-          <span className={styles.countdownInfo}>hours</span>
+          <span className={styles.countdownInfo}>hrs</span>
         </li>
         <li className={styles.countdown}>:</li>
         <li className={styles.countdownPart + ' number'}>
           <span className={styles.countdownInfo1} id="minutes">
             {minute}
           </span>
-          <span className={styles.countdownInfo}>minutes</span>
+          <span className={styles.countdownInfo}>mins</span>
         </li>
         <li className={styles.countdown}>:</li>
         <li className={styles.countdownPart + ' number'}>
           <span className={styles.countdownInfo1} id="seconds">
             {second}
           </span>
-          <span className={styles.countdownInfo}>seconds</span>
+          <span className={styles.countdownInfo}>secs</span>
         </li>
       </ul>
     </div>
