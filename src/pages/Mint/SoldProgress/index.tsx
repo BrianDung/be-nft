@@ -51,7 +51,7 @@ const SoldProgress = (props: SoldProgressProps) => {
   const progress =
     totalSupply >= 5500
       ? 100
-      : new BigNumber((totalSupply === 0 ? 1 : totalSupply) - 1).div(5500).multipliedBy(100).toNumber();
+      : new BigNumber((totalSupply === 0 ? 1 : totalSupply)).div(5500).multipliedBy(100).toNumber();
 
   return (
     <div>
@@ -66,7 +66,7 @@ const SoldProgress = (props: SoldProgressProps) => {
           <div className={styles.progress}>
             <div
               className={`${styles.achieved} ${progress === 100 ? styles.progressFull : ''}`}
-              style={{ width: `calc(${progress}% - 8px)` }}
+              style={{ width: `${progress}%` }}
             ></div>
           </div>
         </BorderOutline>

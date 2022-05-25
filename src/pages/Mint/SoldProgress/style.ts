@@ -31,15 +31,11 @@ export const useStyles = makeStyles((theme: any) => {
         height: 47,
         textAlign: 'center',
         lineHeight: '35px',
+        width: 'calc(100% - 8px)',
         "@media only screen and (max-width: 1800px)": {
             height: 25,
+            width: 'calc(100% - 6px)',
         },
-        // [theme.breakpoints.down('md')]: {
-        //     height: 25,
-        // },
-        // [theme.breakpoints.down('sm')]: {
-        //     height: 30,
-        // },
     },
     achieved:{
       position: 'absolute',
@@ -49,6 +45,11 @@ export const useStyles = makeStyles((theme: any) => {
       background: '#60A444',
       borderTopLeftRadius: 6, 
       borderBottomLeftRadius: 6, 
+      "@media only screen and (max-width: 1800px)": {
+        height: 'calc(100% - 6px)',
+        top: 3,
+        left: 3
+      }
     },
     rightBotSec:{
 
