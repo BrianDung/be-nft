@@ -16,14 +16,13 @@ const useAuth = (): ReturnType => {
   const { logout: web3Logout } = useWeb3ReactLocal();
 
   const walletsInfo = useTypedSelector((state) => state.wallet).entities;
-  const signature = useTypedSelector((state) => state.userSignature).signature;
   const connectorName = useTypedSelector((state) => state.connector).data;
   const { appChainID } = useTypedSelector((state: any) => state.appNetwork).data;
   const activeWallet = connectorName ? walletsInfo[connectorName] : '';
 
   useEffect(() => {
-    setIsAuth(active && !!activeWallet && !!signature);
-  }, [active, activeWallet, signature]);
+    setIsAuth(active && !!activeWallet);
+  }, [active, activeWallet]);
 
   const wrongChain = appChainID?.toString() !== chainId?.toString();
   const connectedAccount = isAuth ? account : '';
