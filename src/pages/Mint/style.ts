@@ -12,7 +12,7 @@ export const useStyles = makeStyles((theme: any) => {
     pageInfo: {
       display: 'flex',
       alignItems: 'stretch',
-      marginBottom: '50px',
+      marginBottom: '35px',
       // [theme.breakpoints.down('md')]: {
       //   marginBottom: '25px',
       // },

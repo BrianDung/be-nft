@@ -4,7 +4,7 @@ export const useStyles = makeStyles((theme: any) => {
   return {
     root: {
       width: '100%',
-      padding: '40px 60px',
+      padding: '25px 60px 30px',
       // [theme.breakpoints.down('md')]: {
       //   padding: '25px 60px',
       // },
