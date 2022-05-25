@@ -49,6 +49,7 @@
     "scripts": {
         "start": "react-scripts start",
         "build": "react-scripts build",
+        "build:test": "react-scripts build && serve -s build -p 1403",
         "test": "react-scripts test",
         "frontend-user-debugger": "npm start",
         "eject": "react-scripts eject",
