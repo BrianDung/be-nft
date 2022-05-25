@@ -1,7 +1,7 @@
 import Web3 from 'web3';
 
-export const getContractInstance = (ABIContract: any, contractAddress: string) => {
-  const provider = (window as any).ethereum;
+export const getContractInstance = (library: any, ABIContract: any, contractAddress: string) => {
+  const provider = library?.provider;
 
   if (provider) {
     const web3Instance = new Web3(provider);

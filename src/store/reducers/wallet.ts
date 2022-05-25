@@ -27,6 +27,10 @@ const wallets = {
     title: 'MetaMask',
     typeId: 'metamask',
   },
+  [ConnectorNames.WalletConnect]: {
+    title: 'WalletConnect',
+    typeId: 'WalletConnect',
+  },
 };
 
 export type WalletType = {
