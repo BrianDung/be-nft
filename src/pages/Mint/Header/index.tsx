@@ -3,14 +3,11 @@ import { useWeb3ReactLocal } from 'hooks/useWeb3ReactLocal';
 import { useState } from 'react';
 import { AccountPopup } from '../AccountPopup/AccountPopup';
 import { useStyles } from './style';
-import { InjectedConnector } from '@web3-react/injected-connector';
-import { ConnectorNames } from 'constants/connectors';
 import { Button } from 'components/Base/Form/Button';
 import useWindowDimensions from 'hooks/useWindowDimensions';
 import { Link } from 'react-router-dom';
-import { useUserMinted } from 'hooks/useUserMinted';
-import { useDispatch } from 'react-redux';
-import { alert } from 'store/actions/alert';
+import { ConnectWalletModal } from './ConnectWalletModal';
+import { SUPPORTED_WALLETS } from 'constants/connectors';
 
 const logoIcon = '/images/dashboard/icon-logo.svg';
 const logoMobile = '/images/dashboard/icon-logo-mobile.svg';
@@ -27,27 +24,17 @@ function formatAddress(address: string) {
   return `${suffix}...${prefix}`;
 }
 
-const injected = new InjectedConnector({});
-
 const HeaderPage = () => {
   const [openAccount, setOpenAccount] = useState(false);
+  const [openWallet, setOpenWallet] = useState(false);
 
   const classes = useStyles();
   const { isAuth } = useAuth();
-  const { balance, connectWallet: web3ConnectWallet, account, connected } = useWeb3ReactLocal();
+  const { balance, account, walletName } = useWeb3ReactLocal();
   const { width } = useWindowDimensions();
-  const { retrieveUserMinted } = useUserMinted();
-  const dispatch = useDispatch();
 
   const connectWallet = () => {
-    if (account && connected) {
-      retrieveUserMinted(account);
-      return;
-    }
-
-    web3ConnectWallet(injected, ConnectorNames.MetaMask).catch((e) => {
-      dispatch(alert(e.message));
-    });
+    setOpenWallet(true);
   };
 
   return (
@@ -87,6 +74,7 @@ const HeaderPage = () => {
       </div>
       {openAccount && (
         <AccountPopup
+          wallet={SUPPORTED_WALLETS[walletName.toUpperCase()]}
           open={openAccount}
           onClose={() => {
             setOpenAccount(false);
@@ -94,6 +82,14 @@ const HeaderPage = () => {
           rawAddress={account ?? ''}
           balance={balance}
           walletAddress={formatAddress(account)}
+        />
+      )}
+      {openWallet && (
+        <ConnectWalletModal
+          open={openWallet}
+          onClose={() => {
+            setOpenWallet(false);
+          }}
         />
       )}
     </header>
