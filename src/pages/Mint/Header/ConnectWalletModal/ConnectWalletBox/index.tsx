@@ -1,5 +1,4 @@
 import { FC } from 'react';
-import mobile from 'is-mobile';
 import { AbstractConnector } from '@web3-react/abstract-connector';
 import useStyles from './style';
 import { ConnectorNames, WalletInfo } from '../../../../../constants/connectors';
@@ -25,10 +24,10 @@ export const ConnectWalletBox: FC<ConnectWalletBoxPropsType> = ({
     <div
       className={`${styles.walletBox}`}
       onClick={() => {
-        if (mobile() && wallet?.deepLink) {
-          window.open(wallet.deepLink);
-          return;
-        }
+        // if (mobile() && wallet?.deepLink) {
+        //   window.open(wallet.deepLink);
+        //   return;
+        // }
 
         connectWallet();
       }}
