@@ -17,9 +17,13 @@ const useStyles = makeStyles((theme) => {
       //   width: '72px',
       //   height: '72px',
       // },
-      "@media only screen and (max-width: 1700px)": {
+      "@media only screen and (max-width: 1800px)": {
         width: '72px',
         height: '72px',
+      },
+      '@media screen and (max-width: 1184px)': {
+        width: '10vw',
+        height: '10vw',
       },
       [theme.breakpoints.down('sm')]: {
         width: '12vw',
@@ -51,7 +55,7 @@ const useStyles = makeStyles((theme) => {
         // [theme.breakpoints.down('md')]: {
         //   fontSize: '20px',
         // },
-        "@media only screen and (max-width: 1700px)": {
+        "@media only screen and (max-width: 1800px)": {
           fontSize: '20px',
         },
         [theme.breakpoints.down('xs')]: {
@@ -99,7 +103,7 @@ const useStyles = makeStyles((theme) => {
     //     }
     //   }
     // }
-    "@media only screen and (max-width: 1700px)": {
+    "@media only screen and (max-width: 1800px)": {
       countdownPart: {
             padding: '10px 5px',
             '&.number': {

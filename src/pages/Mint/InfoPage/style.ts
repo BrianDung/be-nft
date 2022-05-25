@@ -7,17 +7,17 @@ export const useStyles = makeStyles((theme: any) => {
       color: '#FFFFFF',
       fontWeight: 500,
       width: '50%',
-      "@media only screen and (min-width: 960px) and (max-width: 1370px)": {
-        width: '60%',
-      },
-      [theme.breakpoints.down('sm')]: {
+      display: 'flex',
+      flexDirection: 'column',
+      justifyContent: 'space-between',
+      '@media screen and (max-width: 1184px)': {
         width: '100%',
       },
     },
     nftImage: {
       width: '25vw',
       height: '200px',
-      "@media only screen and (max-width: 1700px)": {
+      "@media only screen and (max-width: 1800px)": {
         width: '100%',
       },
       // [theme.breakpoints.down('md')]: {
@@ -26,7 +26,7 @@ export const useStyles = makeStyles((theme: any) => {
     },
     pageInfo: {
       marginLeft: '100px',
-      "@media only screen and (max-width: 1700px)": {
+      "@media only screen and (max-width: 1800px)": {
         marginLeft: 0
       },
       // [theme.breakpoints.down('md')]: {
@@ -42,7 +42,7 @@ export const useStyles = makeStyles((theme: any) => {
       [theme.breakpoints.up('lg')]: {
         minWidth: '270px',
       },
-      "@media only screen and (max-width: 1700px)": {
+      "@media only screen and (max-width: 1800px)": {
         padding: 10,
       },
       // [theme.breakpoints.down('md')]: {
@@ -62,7 +62,7 @@ export const useStyles = makeStyles((theme: any) => {
         padding: 0,
         fontSize: '34px',
         whiteSpace: 'nowrap',
-        "@media only screen and (max-width: 1700px)": {
+        "@media only screen and (max-width: 1800px)": {
           fontSize: '22px',
           marginBottom: 5
         },
@@ -78,7 +78,7 @@ export const useStyles = makeStyles((theme: any) => {
       '&>p:last-child':{
         fontSize: '18px',
         textTransform: 'uppercase',
-        "@media only screen and (max-width: 1700px)": {
+        "@media only screen and (max-width: 1800px)": {
           fontSize: '16px',
         },
         // [theme.breakpoints.down('md')]: {
@@ -91,7 +91,8 @@ export const useStyles = makeStyles((theme: any) => {
       [theme.breakpoints.down('xs')]: {
         width: '100%',
         display: 'flex',
-        justifyContent: 'space-between'
+        justifyContent: 'space-between',
+        alignItems: 'center'
       },
 
     },
@@ -114,23 +115,12 @@ export const useStyles = makeStyles((theme: any) => {
       '&>div:nth-child(2)': {
         margin: 'auto'
       },
-      "@media only screen and (max-width: 1700px)": {
+      "@media only screen and (max-width: 1800px)": {
         marginLeft: 0,
       },
-      // [theme.breakpoints.down('md')]: {
-      //   marginLeft: 0,
-      // },
-      // "@media only screen and (min-width: 960px) and (max-width: 1370px)": {
-      //   // flexDirection: 'column',
-      //   marginLeft: 0,
-      //   '&>div:first-child': {
-      //     width: 'fit-content'
-      //   },
-      //   '&>div:nth-child(2)': {
-      //     marginTop: 20,
-      //     marginLeft: 'unset'
-      //   }
-      // },
+      '@media screen and (max-width: 1184px)': {
+        marginTop: 40
+      },
       [theme.breakpoints.down('sm')]: {
         marginTop: 25
       },

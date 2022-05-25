@@ -3,14 +3,18 @@ import { makeStyles } from '@material-ui/core';
 export const useStyles = makeStyles((theme: any) => {
    return{
     soldProgress: {
-       margin: '10px 0 20px'
+       margin: '10px 0 20px',
+       "@media only screen and (min-width: 1550px)": {
+        marginTop: '30px'
+    }
     },
     jubValue: {
         display: 'flex',
         justifyContent: 'space-between',
         marginBottom: 5,
         fontSize: '24px',
-        "@media only screen and (max-width: 1700px)": {
+       
+        "@media only screen and (max-width: 1800px)": {
             fontSize: '20px'
         },
         // [theme.breakpoints.down('md')]: {
@@ -27,15 +31,15 @@ export const useStyles = makeStyles((theme: any) => {
         height: 47,
         textAlign: 'center',
         lineHeight: '35px',
-        "@media only screen and (max-width: 1700px)": {
+        "@media only screen and (max-width: 1800px)": {
             height: 25,
         },
         // [theme.breakpoints.down('md')]: {
         //     height: 25,
         // },
-        [theme.breakpoints.down('sm')]: {
-            height: 30,
-        },
+        // [theme.breakpoints.down('sm')]: {
+        //     height: 30,
+        // },
     },
     achieved:{
       position: 'absolute',
@@ -56,7 +60,7 @@ export const useStyles = makeStyles((theme: any) => {
         textShadow: '2px 2px 4px #000000',
         marginBottom: 0,
         marginTop: '15px',
-        "@media only screen and (max-width: 1700px)": {
+        "@media only screen and (max-width: 1800px)": {
             fontSize: '75px',
             lineHeight: '100px'
         },
