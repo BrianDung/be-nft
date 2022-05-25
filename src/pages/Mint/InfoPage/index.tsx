@@ -42,7 +42,7 @@ const InfoLandingPage = (props: Props) => {
         <BorderOutline>
           <div className={styles.roundInfo}>
             <p className={styles.roundType}>
-              {currentTimeline === MintTimeLine.PublicSaleRound ? 'Public sale round' : 'Pre-Sale Round'}
+              {currentTimeline === MintTimeLine.PublicSaleRound ? 'Public Sale Round' : 'Pre-Sale Round'}
             </p>
             {currentTimeline <= MintTimeLine.PreSaleRound ? (
               <p className={styles.deActiveStatus}>Live soon</p>
