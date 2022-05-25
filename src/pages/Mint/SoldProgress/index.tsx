@@ -63,9 +63,11 @@ const SoldProgress = (props: SoldProgressProps) => {
           <div className={styles.rightBotSec}>{totalSupply}/5500</div>
         </div>
         <BorderOutline>
-          <div className={styles.progress}>
+          <div className={styles.progress}
+           style={{padding: `${progress <= 0.4 ? '6px 0' : '4px 0'}`}}
+           >
             <div
-              className={`${styles.achieved} ${progress === 100 ? styles.progressFull : ''}`}
+              className={`${styles.achieved}  ${progress === 100 ? styles.progressFull : ''}`}
               style={{ width: `${progress}%` }}
             ></div>
           </div>
