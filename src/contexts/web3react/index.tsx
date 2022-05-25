@@ -12,7 +12,6 @@ import { connectWalletSuccess, disconnectWallet } from 'store/actions/wallet';
 import getAccountBalance from 'utils/getAccountBalance';
 import BigNumber from 'bignumber.js';
 import { WalletConnectionState } from 'store/reducers/wallet';
-import { updateUserSignature } from 'store/actions/user';
 import { MESSAGES } from 'constants/mint';
 
 interface Web3ReactLocalContextValues {
@@ -94,8 +93,6 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
     dispatch(settingAppNetwork(NetworkUpdateType.Wallet, undefined));
     setBalance('0');
 
-    dispatch(updateUserSignature(null));
-    sessionStorage.removeItem(USER_SIGNATURE_KEY);
     setWalletName('');
     setCurrentConnector(undefined);
   }, [dispatch]);
@@ -127,15 +124,6 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
       logout();
     };
 
-    const hanldWeb3ReactChangeAccount = (updated: any) => {
-      if (!updated?.account) {
-        return;
-      }
-
-      dispatch(updateUserSignature(null));
-      sessionStorage.removeItem(USER_SIGNATURE_KEY);
-    };
-
     const handleWeb3ReactError = (err: any) => {
       if (err === 'NaN ChainId') {
         dispatch(settingAppNetwork(NetworkUpdateType.Wallet, undefined));
@@ -147,13 +135,11 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
     };
 
     currentConnector.on('Web3ReactUpdate', handleWeb3ReactUpdate);
-    currentConnector.on('Web3ReactUpdate', hanldWeb3ReactChangeAccount);
     currentConnector.on('Web3ReactError', handleWeb3ReactError);
     currentConnector.on('Web3ReactDeactivate', handleWeb3ReactDisconnect);
 
     return () => {
       if (currentConnector && currentConnector.removeListener && active) {
-        currentConnector.removeListener('Web3ReactUpdate', hanldWeb3ReactChangeAccount);
         currentConnector.removeListener('Web3ReactUpdate', handleWeb3ReactUpdate);
         currentConnector.removeListener('Web3ReactError', handleWeb3ReactError);
         currentConnector.removeListener('Web3ReactDeactivate', handleWeb3ReactDisconnect);
