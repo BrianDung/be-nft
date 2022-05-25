@@ -20,7 +20,7 @@ const InfoLandingPage = (props: Props) => {
   const { getMintInfo } = useMint();
   const dispatch = useDispatch();
 
-  const { data: currentTime } = useFetch<any>(`/api/current-time`);
+  const { data: currentTime } = useFetch<any>(`/current-time`);
 
   const startPreSaleTime = process.env.REACT_APP_START_PRE_SALE_TIME;
 

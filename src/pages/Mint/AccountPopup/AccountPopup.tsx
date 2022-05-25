@@ -3,6 +3,7 @@ import useStyles from './styles';
 import { useState } from 'react';
 import useAuth from 'hooks/useAuth';
 import { CardData } from 'components/Base/Card';
+import CopyToClipboard from 'react-copy-to-clipboard';
 
 interface AccountPopupProps {
   open: boolean;
@@ -24,13 +25,7 @@ const WalletIcon = ({ icon, name }: { icon: string; name: string }) => {
   );
 };
 
-export function AccountPopup({
-  open,
-  onClose,
-  walletAddress,
-  rawAddress,
-  balance,
-}: AccountPopupProps) {
+export function AccountPopup({ open, onClose, walletAddress, rawAddress, balance }: AccountPopupProps) {
   const { logout } = useAuth();
   const [openTooltip, setOpenTooltip] = useState(false);
   function handleDisconect() {
@@ -44,37 +39,33 @@ export function AccountPopup({
     <Dialog className={styles.dialog} open={open} onClose={onClose}>
       <div className={styles['dialog-container']}>
         <div className={styles['dialog-header']}>
-          <h6>Account</h6>{' '}
-          <img
-            src="/images/icons/redirect-icon.svg"
-            alt="redirec"
-          />
+          <h6>Account</h6> <img src="/images/icons/redirect-icon.svg" alt="redirec" />
         </div>
         <div className={styles['account-info']}>
-            <>
-              <WalletIcon icon={'/images/metamask-wallet.svg'} name={'Ethereum'} />
-              <p>{walletAddress}</p>
-              <ClickAwayListener onClickAway={() => setOpenTooltip(false)}>
-                <Tooltip
-                  PopperProps={{
-                    disablePortal: openTooltip,
+          <>
+            <WalletIcon icon={'/images/metamask-wallet.svg'} name={'Ethereum'} />
+            <p>{walletAddress}</p>
+            <ClickAwayListener onClickAway={() => setOpenTooltip(false)}>
+              <Tooltip
+                PopperProps={{
+                  disablePortal: openTooltip,
+                }}
+                onClose={() => setOpenTooltip(false)}
+                title={openTooltip ? 'Copied' : 'Copy address'}
+                arrow
+                placement="top"
+              >
+                <CopyToClipboard
+                  text={rawAddress}
+                  onCopy={() => {
+                    setOpenTooltip(true);
                   }}
-                  onClose={() => setOpenTooltip(false)}
-                  title={openTooltip ? 'Copied' : 'Copy address'}
-                  arrow
-                  placement="top"
                 >
-                  <img
-                    src="/images/icons/copy.svg"
-                    alt="copy"
-                    onClick={() => {
-                      navigator.clipboard.writeText(rawAddress);
-                      setOpenTooltip(true);
-                    }}
-                  />
-                </Tooltip>
-              </ClickAwayListener>
-            </>
+                  <img src="/images/icons/copy.svg" alt="copy" />
+                </CopyToClipboard>
+              </Tooltip>
+            </ClickAwayListener>
+          </>
         </div>
         <div className={styles['user-info']}>
           <div>
