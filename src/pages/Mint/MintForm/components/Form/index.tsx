@@ -9,7 +9,6 @@ import { TotalSupply } from 'store/reducers/mint';
 import { useStyles } from './styles';
 import { useWeb3ReactLocal } from 'hooks/useWeb3ReactLocal';
 import { MESSAGES } from 'constants/mint';
-import { CircularProgress } from '@material-ui/core';
 
 interface MintFormProps {
   maxAllow: number;
@@ -153,7 +152,7 @@ const MintForm = ({ maxAllow, disabled, rate, onSubmit }: MintFormProps) => {
         </Button>
       </div>
       <Button disabled={disabled || disabling} onClick={handleSumit} className={styles.mint}>
-        {disabling ? <CircularProgress color="secondary" size={25} /> : 'MINT'}
+        MINT
       </Button>
     </div>
   );
