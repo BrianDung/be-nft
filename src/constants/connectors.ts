@@ -39,7 +39,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
   METAMASK: {
     connector: injected,
     name: ConnectorNames.MetaMask,
-    icon: '/images/metamask-wallet.svg',
+    icon: '/images/metamask-wallet.png',
     disableIcon: '/images/metamask-disabled.svg',
     description: 'Easy-to-use browser extension.',
     href: null,
@@ -49,7 +49,7 @@ export const SUPPORTED_WALLETS: { [key: string]: WalletInfo } = {
   WALLETCONNECT: {
     connector: walletConnect,
     name: ConnectorNames.WalletConnect,
-    icon: '/images/WalletConnect.svg',
+    icon: '/images/WalletConnect.png',
     description: 'Connect to Trust Wallet, Rainbow Wallet and more...',
     disableIcon: '/images/wallet-connect-disabled.svg',
     href: null,
