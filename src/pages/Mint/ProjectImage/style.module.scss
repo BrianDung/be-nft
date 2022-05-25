@@ -2,9 +2,12 @@
   position: relative;   
   margin-right: 60px;
   // height: calc(100vh - 272px);
-  width: 42%;
-  @media only screen and (min-width: 1440px) and (max-width: 1850px){
+  width: 40%;
+  @media only screen and (min-width: 1481px) and (max-width: 1850px){
     width: 35%;
+  }
+  @media only screen and (min-width: 1367px) and (max-width: 1480px){
+    width: 37%;
   }
 
   @media only screen and (min-width: 1185px) and (max-width: 1279px){
