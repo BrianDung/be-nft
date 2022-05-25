@@ -97,7 +97,7 @@ const useStyles = makeStyles(() => {
                 color: '#0B111B',
                 fontSize: 16,
                 fontFamily: 'Montserrat-Regular',
-                opacity: 0.5,
+                opacity: 1,
                 lineHeight: "34px",
             },
             '& > div:last-child': {

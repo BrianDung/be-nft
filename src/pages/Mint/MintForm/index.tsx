@@ -26,10 +26,6 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
 
   async function userMint(amount: number) {
     try {
-      if (!userMinted) {
-        throw new Error('You are not on the whitelist. Public Sale starts June 2nd at 1pm UTC.');
-      }
-
       await mint(amount, Number(rate));
 
       dispatch(alert(MESSAGES.MINT_SUCCESS));
@@ -40,7 +36,7 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
 
       return true;
     } catch (error: any) {
-      dispatch(alert('Transaction failed'));
+      dispatch(alert(error.message));
 
       return false;
     }

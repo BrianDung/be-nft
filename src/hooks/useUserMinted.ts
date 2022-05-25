@@ -1,10 +1,7 @@
 import { useWeb3ReactLocal } from 'hooks/useWeb3ReactLocal';
 import { setUserHasNoMinted, updateUserMinted } from 'store/actions/mint';
-import { updateUserSignature } from 'store/actions/user';
 import { useDispatch } from 'react-redux';
 import { BigNumber } from 'bignumber.js';
-import { USER_SIGNATURE_KEY } from './../contexts/web3react/index';
-import { useWalletSignatureAsync } from 'hooks/useWalletSignatureAsync';
 import { useCallback } from 'react';
 import { BaseRequest } from '../request/Request';
 import XBORG_ABI from '../abi/Xborg.json';
@@ -19,7 +16,6 @@ export interface MintedData {
 export const PREV_ACCOUNT = 'prev_account';
 
 export function useUserMinted() {
-  const { web3Sign } = useWalletSignatureAsync();
   const { account, logout } = useWeb3ReactLocal();
   const dispatch = useDispatch();
 
@@ -27,23 +23,8 @@ export function useUserMinted() {
     async (account: string): Promise<any> => {
       try {
         const baseRequest = new BaseRequest();
-        const storagedSignature = sessionStorage.getItem(USER_SIGNATURE_KEY);
-        const prevAccount = sessionStorage.getItem(PREV_ACCOUNT);
 
-        const signature =
-          !storagedSignature || prevAccount !== account
-            ? await web3Sign(account)
-            : sessionStorage.getItem(USER_SIGNATURE_KEY);
-
-        if (!signature) {
-          dispatch(setUserHasNoMinted());
-          return;
-        }
-
-        sessionStorage.setItem(PREV_ACCOUNT, account);
-        sessionStorage.setItem(USER_SIGNATURE_KEY, signature);
-        dispatch(updateUserSignature(signature));
-        const response = await baseRequest.get(`/number-minted?wallet_address=${account}&signature=${signature}`);
+        const response = await baseRequest.get(`/number-minted?wallet_address=${account}`);
 
         const resultObj = await response.json();
 
@@ -71,7 +52,7 @@ export function useUserMinted() {
         dispatch(setUserHasNoMinted(error));
       }
     },
-    [dispatch, logout, web3Sign]
+    [dispatch, logout]
   );
 
   async function mint(amount: number, rate: number) {
