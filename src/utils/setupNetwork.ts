@@ -1,8 +1,9 @@
 import { APP_NETWORKS_SUPPORT, NetworkInfo } from '../constants/network';
 import { ConnectorNames } from '../constants/connectors';
+import detectEthereumProvider from '@metamask/detect-provider';
 
 export const switchNetwork = async (chainId: string, walletName: string) => {
-  const provider = (window as any).ethereum;
+  const provider: any = await detectEthereumProvider();
   if (!provider) {
     throw new Error('Invalid provider');
   }
