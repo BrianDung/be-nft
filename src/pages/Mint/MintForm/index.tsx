@@ -36,7 +36,7 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
 
       return true;
     } catch (error: any) {
-      dispatch(alert("Transaction fail"));
+      dispatch(alert('Transaction fail'));
 
       return false;
     }
@@ -61,7 +61,7 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
     }
 
     // If user is not whitelist user
-    if (!userMinted && currentTimeline > MintTimeLine.PreSaleRound) {
+    if (!userMinted && currentTimeline < MintTimeLine.PublicSaleRound) {
       dispatch(alert(error?.message));
       return;
     }
@@ -81,10 +81,6 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
     // Note : Behavior disconnected will disable form
     if (!connected) {
       return true;
-    }
-
-    if (!connected && currentTimeline > MintTimeLine.PreSaleRound) {
-      return false;
     }
 
     return (

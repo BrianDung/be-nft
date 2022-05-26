@@ -5,7 +5,6 @@ import { useDispatch } from 'react-redux';
 import { BigNumber } from 'bignumber.js';
 import { useCallback } from 'react';
 import { BaseRequest } from '../request/Request';
-import XBORG_ABI from '../abi/Xborg.json';
 import { CONTRACT_ADDRESS, PUBLIC_KEY, SETTED } from 'constants/mint';
 import { getContractInstance } from 'services/web3';
 
@@ -62,7 +61,7 @@ export function useUserMinted() {
       throw new Error('Invalid public key or contract address');
     }
 
-    const contract = getContractInstance(library, XBORG_ABI, CONTRACT_ADDRESS);
+    const contract = getContractInstance(library);
 
     if (!contract) {
       throw new Error('Failed to get contract');
