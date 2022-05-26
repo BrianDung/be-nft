@@ -11,7 +11,6 @@ export function useMint() {
       }
 
       const totalSupply = await contract.methods.totalSupply().call();
-      console.log(totalSupply);
 
       return totalSupply;
     } catch (e: any) {
