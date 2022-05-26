@@ -20,7 +20,6 @@ interface MintFormProps {
 const MintForm = ({ maxAllow, disabled, rate, onSubmit }: MintFormProps) => {
   const styles = useStyles();
   const [amount, setAmount] = useState<number | string>(1);
-  const [disabling, setDisabling] = useState(false);
   const lastValidInput = useRef(1);
   const { balance, connected } = useWeb3ReactLocal();
 
@@ -96,8 +95,6 @@ const MintForm = ({ maxAllow, disabled, rate, onSubmit }: MintFormProps) => {
       return;
     }
 
-    setDisabling(true);
-
     return onSubmit(Number(amount))
       .then((success) => {
         if (success) {
@@ -105,7 +102,6 @@ const MintForm = ({ maxAllow, disabled, rate, onSubmit }: MintFormProps) => {
         }
       })
       .finally(() => {
-        setDisabling(false);
       });
   }
 
@@ -121,14 +117,14 @@ const MintForm = ({ maxAllow, disabled, rate, onSubmit }: MintFormProps) => {
                 className={styles.input}
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                disabled={disabled || disabling}
+                disabled={disabled}
               />
             </BorderOutline>
             <Button
               className={`${styles.quantity} form`}
               // style={{cursor: `${count <=1 ? 'not-allowed' :'pointer'}`}}
               onClick={() => updateAmount(Number(amount) - 1)}
-              disabled={disabled || disabling}
+              disabled={disabled}
             >
               -
             </Button>
@@ -137,7 +133,7 @@ const MintForm = ({ maxAllow, disabled, rate, onSubmit }: MintFormProps) => {
             className={styles.quantity}
             //  style={{cursor: `${count >=5 ? 'not-allowed' :'pointer'}`}}
             onClick={() => updateAmount(Number(amount) + 1)}
-            disabled={disabled || disabling}
+            disabled={disabled}
           >
             +
           </Button>
@@ -146,12 +142,12 @@ const MintForm = ({ maxAllow, disabled, rate, onSubmit }: MintFormProps) => {
           className={styles.max}
           //  style={{cursor: `${count >=5 ? 'not-allowed' :'pointer'}`}}
           onClick={() => updateAmount(maxAllow)}
-          disabled={disabled || disabling}
+          disabled={disabled}
         >
           MAX
         </Button>
       </div>
-      <Button disabled={disabled || disabling} onClick={handleSumit} className={styles.mint}>
+      <Button disabled={disabled} onClick={handleSumit} className={styles.mint}>
         MINT
       </Button>
     </div>
