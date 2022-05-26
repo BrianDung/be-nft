@@ -4,8 +4,6 @@ import { AbstractConnector } from '@web3-react/abstract-connector';
 import { useWeb3ReactLocal } from 'hooks/useWeb3ReactLocal';
 import ConnectWalletBox from './ConnectWalletBox';
 import useStyles from './styles';
-import { useDispatch } from 'react-redux';
-import { alert } from 'store/actions/alert';
 
 interface ConnectWalletModalProps {
   open: boolean;
@@ -15,7 +13,6 @@ interface ConnectWalletModalProps {
 export function ConnectWalletModal({ open, onClose }: ConnectWalletModalProps) {
   const styles = useStyles();
   const { connectWallet: web3ConnectWallet } = useWeb3ReactLocal();
-  const dispatch = useDispatch();
 
   function connectWallet(name: ConnectorNames, connector: AbstractConnector) {
     web3ConnectWallet(connector, name)
@@ -23,7 +20,7 @@ export function ConnectWalletModal({ open, onClose }: ConnectWalletModalProps) {
         onClose();
       })
       .catch((e: any) => {
-        dispatch(alert(e.message));
+        console.log(e.message);
       });
   }
 

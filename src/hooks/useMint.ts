@@ -10,11 +10,10 @@ export function useMint() {
         throw new Error('Cannot get contract');
       }
 
-      const totalSupply = await contract.methods.totalSupply().call();
+      const totalSupply = await contract?.methods.totalSupply().call();
 
       return totalSupply;
     } catch (e: any) {
-      //dispatch(alert(e.message));
       console.log(e);
       return 0;
     }

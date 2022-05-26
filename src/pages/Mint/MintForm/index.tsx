@@ -36,7 +36,7 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
 
       return true;
     } catch (error: any) {
-      dispatch(alert('Transaction fail'));
+      console.log(error.message);
 
       return false;
     }
