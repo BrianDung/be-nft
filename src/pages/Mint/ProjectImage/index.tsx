@@ -8,7 +8,7 @@ import { alert } from 'store/actions/alert';
 import styles from './style.module.scss';
 
 const defaultImage = '/images/newPage/project-image.svg';
-const UPLOAD_IMG = '/images/newPage/open-upload.svg';
+const UPLOAD_IMG = '/images/newPage/open-upload.png';
 const S3_IMG_URL = process.env.REACT_APP_PROJECT_IMG || defaultImage;
 
 export const ProjectImage = () => {

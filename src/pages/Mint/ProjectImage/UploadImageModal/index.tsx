@@ -39,38 +39,6 @@ function getFileName(fileName: string) {
   return `${first32Character}...${lastCharacter}.${fileExtension}`;
 }
 
-// const getOnChangeEventFile = (event: any) => {
-//   let file = event?.[0]?.getFile();
-
-//   if (file) {
-//     return file;
-//   }
-
-//   return event?.target?.files?.[0];
-// };
-
-// const getFileSize = async (event: any): Promise<any> => {
-//   const file = await (event.dataTransfer ? event?.dataTransfer?.files?.[0] : getOnChangeEventFile(event));
-
-//   if (!file?.type?.includes('image')) {
-//     return [file];
-//   }
-
-//   const promise = new Promise((resolve, reject) => {
-//     const image = new Image();
-//     let url: string;
-//     image.onload = function () {
-//       file.width = image.width;
-//       file.height = image.height;
-//       resolve(file);
-//     };
-//     url = URL.createObjectURL(file);
-//     image.src = url;
-//   });
-
-//   return await Promise.all([promise]);
-// };
-
 export const UploadImageModal = ({ open, onClose, onSuccess, admins }: UploadImageModalProps) => {
   const {
     getRootProps,
@@ -86,17 +54,6 @@ export const UploadImageModal = ({ open, onClose, onSuccess, admins }: UploadIma
       'image/png': ['.svg', '.png', '.jpg'],
       'image/jpg': ['.svg', '.png', '.jpg'],
     },
-    // getFilesFromEvent: getFileSize,
-    // validator: function (file: any) {
-    //     if (file?.width !== 1024 || file?.height !== 1024) {
-    //       return {
-    //         code: 'invalid-file-dimension',
-    //         message: 'The size of the file must be 1024x1024 px',
-    //       };
-    //     }
-
-    //   return null;
-    // },
   });
 
   const { web3Sign } = useWalletSignatureAsync();
@@ -133,7 +90,7 @@ export const UploadImageModal = ({ open, onClose, onSuccess, admins }: UploadIma
       dispatch(alert('Change image success'));
       onSuccess();
     } catch (e: any) {
-      dispatch(alert(e.massage));
+      console.log(e.massage);
     } finally {
       setLoading(false);
     }

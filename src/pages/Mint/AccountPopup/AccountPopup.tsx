@@ -4,8 +4,10 @@ import { useState } from 'react';
 import useAuth from 'hooks/useAuth';
 import { CardData } from 'components/Base/Card';
 import CopyToClipboard from 'react-copy-to-clipboard';
+import { WalletInfo } from 'constants/connectors';
 
 interface AccountPopupProps {
+  wallet: WalletInfo;
   open: boolean;
   onClose: () => void;
   walletAddress: string;
@@ -25,7 +27,7 @@ const WalletIcon = ({ icon, name }: { icon: string; name: string }) => {
   );
 };
 
-export function AccountPopup({ open, onClose, walletAddress, rawAddress, balance }: AccountPopupProps) {
+export function AccountPopup({ open, onClose, walletAddress, rawAddress, balance, wallet }: AccountPopupProps) {
   const { logout } = useAuth();
   const [openTooltip, setOpenTooltip] = useState(false);
   function handleDisconect() {
@@ -43,7 +45,7 @@ export function AccountPopup({ open, onClose, walletAddress, rawAddress, balance
         </div>
         <div className={styles['account-info']}>
           <>
-            <WalletIcon icon={'/images/metamask-wallet.svg'} name={'Ethereum'} />
+            <WalletIcon icon={wallet?.icon} name={'Ethereum'} />
             <p>{walletAddress}</p>
             <ClickAwayListener onClickAway={() => setOpenTooltip(false)}>
               <Tooltip

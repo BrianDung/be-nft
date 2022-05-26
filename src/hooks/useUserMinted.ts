@@ -1,10 +1,10 @@
+import { useWeb3React } from '@web3-react/core';
 import { useWeb3ReactLocal } from 'hooks/useWeb3ReactLocal';
 import { setUserHasNoMinted, updateUserMinted } from 'store/actions/mint';
 import { useDispatch } from 'react-redux';
 import { BigNumber } from 'bignumber.js';
 import { useCallback } from 'react';
 import { BaseRequest } from '../request/Request';
-import XBORG_ABI from '../abi/Xborg.json';
 import { CONTRACT_ADDRESS, PUBLIC_KEY, SETTED } from 'constants/mint';
 import { getContractInstance } from 'services/web3';
 
@@ -17,6 +17,7 @@ export const PREV_ACCOUNT = 'prev_account';
 
 export function useUserMinted() {
   const { account, logout } = useWeb3ReactLocal();
+  const { library } = useWeb3React();
   const dispatch = useDispatch();
 
   const retrieveUserMinted = useCallback(
@@ -60,17 +61,14 @@ export function useUserMinted() {
       throw new Error('Invalid public key or contract address');
     }
 
-    const contract = getContractInstance(XBORG_ABI, CONTRACT_ADDRESS);
+    const contract = getContractInstance(library);
 
     if (!contract) {
       throw new Error('Failed to get contract');
     }
 
     const totalAmount = new BigNumber(amount).multipliedBy(rate);
-    console.log({
-      value: new BigNumber(totalAmount).multipliedBy(Math.pow(10, 18)).toString(),
-    });
-    const result = await contract.methods.mint(amount, 1, PUBLIC_KEY).send({
+    const result = await contract?.methods.mint(amount, 1, PUBLIC_KEY).send({
       from: account,
       value: new BigNumber(totalAmount).multipliedBy(Math.pow(10, 18)).toString(),
     });

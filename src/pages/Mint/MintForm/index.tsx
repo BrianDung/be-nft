@@ -36,7 +36,7 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
 
       return true;
     } catch (error: any) {
-      dispatch(alert(error.message));
+      console.log(error.message);
 
       return false;
     }
@@ -61,7 +61,7 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
     }
 
     // If user is not whitelist user
-    if (!userMinted && currentTimeline > MintTimeLine.PreSaleRound) {
+    if (!userMinted && currentTimeline < MintTimeLine.PublicSaleRound) {
       dispatch(alert(error?.message));
       return;
     }
@@ -69,10 +69,14 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
     // If user has minted maximum nft
     if (userMinted?.maxNumberMinted === 0) {
       const message =
-        currentTimeline === MintTimeLine.SaleRound ? MESSAGES.MAX_ALLOW_SALE_ROUND : MESSAGES.MAX_ALLOW_PUBLIC_SALE;
+        currentTimeline === MintTimeLine.SaleRound
+          ? MESSAGES.MAX_ALLOW_SALE_ROUND
+          : currentTimeline === MintTimeLine.PublicSaleRound
+          ? MESSAGES.MAX_ALLOW_PUBLIC_SALE
+          : '';
 
       setTimeout(() => {
-        dispatch(alert(message));
+        message && dispatch(alert(message));
       }, delay.current);
     }
   }, [userMinted, currentTimeline, dispatch, status, error]);
@@ -81,10 +85,6 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
     // Note : Behavior disconnected will disable form
     if (!connected) {
       return true;
-    }
-
-    if (!connected && currentTimeline > MintTimeLine.PreSaleRound) {
-      return false;
     }
 
     return (

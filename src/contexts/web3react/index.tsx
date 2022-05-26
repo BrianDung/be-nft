@@ -1,5 +1,6 @@
 import { AbstractConnector } from '@web3-react/abstract-connector';
-import { useWeb3React } from '@web3-react/core';
+import { WalletConnectConnector } from '@web3-react/walletconnect-connector';
+import { UnsupportedChainIdError, useWeb3React } from '@web3-react/core';
 import { createContext, FC, useCallback, useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { alert, clearAlert } from 'store/actions/alert';
@@ -57,6 +58,25 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
   const [walletName, setWalletName] = useState<string>('');
   const [connecting, setConnecting] = useState(false);
 
+  const clearWalletState = useCallback(() => {
+    dispatch(disconnectWallet());
+    dispatch(settingCurrentConnector(undefined));
+    dispatch(settingAppNetwork(NetworkUpdateType.Wallet, undefined));
+    setBalance('0');
+
+    localStorage.removeItem('walletconnect');
+    setWalletName('');
+    setCurrentConnector(undefined);
+  }, [dispatch]);
+
+  const logout = useCallback(() => {
+    return new Promise<void>((resolve) => {
+      deactivate();
+      clearWalletState();
+      resolve();
+    });
+  }, [deactivate, clearWalletState]);
+
   const connectWallet = useCallback(
     async (connector: AbstractConnector, wallet: string) => {
       setConnecting(true);
@@ -71,6 +91,10 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
         return false;
       }
 
+      if (connector instanceof WalletConnectConnector && connector.walletConnectProvider?.wc?.uri) {
+        connector.walletConnectProvider = undefined;
+      }
+
       try {
         return await activate(connector, undefined, true).then(() => {
           dispatch(settingCurrentConnector(wallet));
@@ -79,31 +103,22 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
         dispatch(disconnectWallet());
         setWalletName('');
 
+        if (error instanceof UnsupportedChainIdError && wallet === ConnectorNames.WalletConnect) {
+          setCurrentConnector(undefined);
+          localStorage.removeItem('walletconnect');
+          logout();
+
+          dispatch(alert(MESSAGES.WRONG_CHAIN));
+          return;
+        }
+
         throw error;
       } finally {
         setConnecting(false);
       }
     },
-    [activate, dispatch]
+    [activate, dispatch, logout]
   );
-
-  const clearWalletState = useCallback(() => {
-    dispatch(disconnectWallet());
-    dispatch(settingCurrentConnector(undefined));
-    dispatch(settingAppNetwork(NetworkUpdateType.Wallet, undefined));
-    setBalance('0');
-
-    setWalletName('');
-    setCurrentConnector(undefined);
-  }, [dispatch]);
-
-  const logout = useCallback(() => {
-    return new Promise<void>((resolve) => {
-      deactivate();
-      clearWalletState();
-      resolve();
-    });
-  }, [deactivate, clearWalletState]);
 
   // Setup event for web3react
   useEffect(() => {
@@ -121,6 +136,7 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
         return;
       }
 
+      dispatch(alert(MESSAGES.WRONG_CHAIN));
       logout();
     };
 
@@ -202,31 +218,6 @@ export const Web3ReactLocalProvider: FC = ({ children }) => {
 
     switchNetwork(appChainID, walletName).catch(() => {});
   }, [appChainID, walletName, active, connecting]);
-
-  useEffect(() => {
-    function handleChainChange(newChainId: string) {
-      if (Number(newChainId).toString() !== ETH_CHAIN_ID) {
-        dispatch(alert(MESSAGES.WRONG_CHAIN));
-      }
-    }
-
-    const windowObj = window as any;
-    const { ethereum } = windowObj;
-
-    if (!active && !!ethereum?.chainId) {
-      handleChainChange(ethereum.chainId);
-    }
-
-    if (!ethereum) {
-      return;
-    }
-
-    ethereum.on('chainChanged', handleChainChange);
-
-    return () => {
-      ethereum.removeListener('chainChanged', handleChainChange);
-    };
-  }, [dispatch, active]);
 
   useEffect(() => {
     chainId && dispatch(settingAppNetwork(NetworkUpdateType.Wallet, chainId.toString()));

@@ -1,24 +1,18 @@
-import { BaseRequest } from './../request/Request';
 import { MintTimeLine } from 'constants/mint';
+import { getContractInstance } from 'services/web3';
 import Web3 from 'web3';
 
 export function useMint() {
   async function getTotalSupply() {
     try {
-      const request = new BaseRequest();
-      const res = await request.get('/total-supply');
-
-      if (res.status !== 200) {
-        throw new Error('Fail to get total supply');
+      const contract = getContractInstance();
+      if (!contract) {
+        throw new Error('Cannot get contract');
       }
 
-      const body = await res.json();
+      const totalSupply = await contract?.methods.totalSupply().call();
 
-      if (body.status !== 200) {
-        throw new Error(body.message);
-      }
-
-      return body.data.totalSupply;
+      return totalSupply;
     } catch (e: any) {
       console.log(e);
       return 0;
@@ -26,34 +20,25 @@ export function useMint() {
   }
 
   async function getMintInfo() {
-    const request = new BaseRequest();
-    const res = await request.get('/get-status');
-
-    if (res.status !== 200) {
-      throw new Error('Fail to get total supply');
+    const contract = getContractInstance();
+    if (!contract) {
+      throw new Error('Cannot get contract');
     }
 
-    const body = await res.json();
+    const isSale = await contract.methods.saleIsActive().call();
+    const isPublicSale = await contract.methods.PublicsaleIsActive().call();
+    const rate = await contract.methods.NFT_PRICE().call();
 
-    if (body.status !== 200) {
-      throw new Error(body.message);
+    let status = MintTimeLine.PublicSaleRound;
+    if (!isSale && !isPublicSale) {
+      status = MintTimeLine.PreSaleRound;
     }
 
-    if (body.status !== 200) {
-      throw new Error(body.message);
+    if (isSale && !isPublicSale) {
+      status = MintTimeLine.SaleRound;
     }
 
-    const { NFT_PRICE, PublicsaleIsActive, saleIsActive } = body.data;
-
-    if (!saleIsActive && !PublicsaleIsActive) {
-      return { status: MintTimeLine.PreSaleRound, rate: Web3.utils.fromWei(NFT_PRICE) };
-    }
-
-    if (saleIsActive && !PublicsaleIsActive) {
-      return { status: MintTimeLine.SaleRound, rate: Web3.utils.fromWei(NFT_PRICE) };
-    }
-
-    return { status: MintTimeLine.PublicSaleRound, rate: Web3.utils.fromWei(NFT_PRICE) };
+    return { status, rate: Web3.utils.fromWei(rate) };
   }
 
   return {
