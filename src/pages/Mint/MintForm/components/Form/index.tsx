@@ -72,18 +72,13 @@ const MintForm = ({ maxAllow, disabled, rate, onSubmit }: MintFormProps) => {
       return false;
     }
 
-    if (amount > maxAllow) {
-      dispatch(alert('Total number of NFT mint over than limit per Wallet'));
-      return false;
-    }
-
     if (Number(amount) * rate > Number(balance)) {
       dispatch(alert(MESSAGES.INSUFFICIENT_AMOUNT));
       return false;
     }
 
     if (totalSupply + Number(amount) > 5500) {
-      dispatch(alert('Total NFT are over than maximum supply'));
+      console.log('Total NFT are over than maximum supply');
       return false;
     }
 
@@ -101,8 +96,7 @@ const MintForm = ({ maxAllow, disabled, rate, onSubmit }: MintFormProps) => {
           setAmount(1);
         }
       })
-      .finally(() => {
-      });
+      .finally(() => {});
   }
 
   return (
@@ -122,28 +116,17 @@ const MintForm = ({ maxAllow, disabled, rate, onSubmit }: MintFormProps) => {
             </BorderOutline>
             <Button
               className={`${styles.quantity} form`}
-              // style={{cursor: `${count <=1 ? 'not-allowed' :'pointer'}`}}
               onClick={() => updateAmount(Number(amount) - 1)}
               disabled={disabled}
             >
               -
             </Button>
           </div>
-          <Button
-            className={styles.quantity}
-            //  style={{cursor: `${count >=5 ? 'not-allowed' :'pointer'}`}}
-            onClick={() => updateAmount(Number(amount) + 1)}
-            disabled={disabled}
-          >
+          <Button className={styles.quantity} onClick={() => updateAmount(Number(amount) + 1)} disabled={disabled}>
             +
           </Button>
         </div>
-        <Button
-          className={styles.max}
-          //  style={{cursor: `${count >=5 ? 'not-allowed' :'pointer'}`}}
-          onClick={() => updateAmount(maxAllow)}
-          disabled={disabled}
-        >
+        <Button className={styles.max} onClick={() => updateAmount(maxAllow)} disabled={disabled}>
           MAX
         </Button>
       </div>
