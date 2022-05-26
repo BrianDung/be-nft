@@ -95,6 +95,8 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
       userMinted.maxNumberMinted === 0
     );
   })();
+  const currentMaxAllow =
+    !userMinted?.maxNumberMinted || userMinted?.maxNumberMinted < 0 ? 1 : userMinted?.maxNumberMinted;
 
   return (
     <>
@@ -102,12 +104,7 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
         <span className={styles.priceBigSize}>{rate} ETH</span>
         <span className={styles.priceMediumSize}>/ NFT</span>
       </div>
-      <MintForm
-        maxAllow={userMinted?.maxNumberMinted ?? 0}
-        onSubmit={userMint}
-        disabled={formDisabled}
-        rate={Number(rate)}
-      />
+      <MintForm maxAllow={currentMaxAllow} onSubmit={userMint} disabled={formDisabled} rate={Number(rate)} />
     </>
   );
 };

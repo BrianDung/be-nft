@@ -60,7 +60,7 @@ const SoldProgress = (props: SoldProgressProps) => {
       <div className={styles.soldProgress}>
         <div className={styles.jubValue}>
           <div className={styles.leftBotSec}>{totalSupply >= 5500 ? 100 : progress.toFixed(2)}% of Xborg Sold</div>
-          <div className={styles.rightBotSec}>{totalSupply >= 5500 ? 5500 : totalSupply}/5500</div>
+          <div className={styles.rightBotSec}>{totalSupply >= 5500 ? 5500 : totalSupply - 1}/5500</div>
         </div>
         <BorderOutline>
           <div className={styles.progress} style={{ padding: `${progress <= 0.4 ? '6px 0' : '4px 0'}` }}>
