@@ -69,10 +69,14 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
     // If user has minted maximum nft
     if (userMinted?.maxNumberMinted === 0) {
       const message =
-        currentTimeline === MintTimeLine.SaleRound ? MESSAGES.MAX_ALLOW_SALE_ROUND : MESSAGES.MAX_ALLOW_PUBLIC_SALE;
+        currentTimeline === MintTimeLine.SaleRound
+          ? MESSAGES.MAX_ALLOW_SALE_ROUND
+          : currentTimeline === MintTimeLine.PublicSaleRound
+          ? MESSAGES.MAX_ALLOW_PUBLIC_SALE
+          : '';
 
       setTimeout(() => {
-        dispatch(alert(message));
+        message && dispatch(alert(message));
       }, delay.current);
     }
   }, [userMinted, currentTimeline, dispatch, status, error]);
