@@ -34,8 +34,7 @@ deploy-test:
 	yarn 
 	cp .env.sotatek.example .env
 	yarn build 
-	zip -r build.zip
-	zip -r build
+	zip -r build.zip build
 	scp build.zip sotatek@172.16.1.225:/var/www/sotatek_starter/mint-page
 	ssh sotatek@172.16.1.225 "cd /var/www/sotatek_starter/mint-page && rm -rf build && unzip build.zip && pm2 delete UserMintPage && pm2 start "serve -s build -l 1403" --name="UserMintPage""
 	rm -rf build.zip
