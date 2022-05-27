@@ -1,11 +1,9 @@
 import { BorderOutline } from '../../../BorderOutline/index';
 import { Button } from 'components/Base/Form/Button';
-import { useTypedSelector } from 'hooks/useTypedSelector';
 import { isInteger } from 'lodash';
 import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { alert } from 'store/actions/alert';
-import { TotalSupply } from 'store/reducers/mint';
 import { useStyles } from './styles';
 import { useWeb3ReactLocal } from 'hooks/useWeb3ReactLocal';
 import { MESSAGES } from 'constants/mint';
@@ -24,7 +22,6 @@ const MintForm = ({ maxAllow, disabled, rate, onSubmit }: MintFormProps) => {
   const { balance, connected } = useWeb3ReactLocal();
 
   const dispatch = useDispatch();
-  const { totalSupply } = useTypedSelector((state) => state.totalSupply) as TotalSupply;
 
   function reValidate() {
     let currentValue = Number(amount);
@@ -74,11 +71,6 @@ const MintForm = ({ maxAllow, disabled, rate, onSubmit }: MintFormProps) => {
 
     if (Number(amount) * rate > Number(balance)) {
       dispatch(alert(MESSAGES.INSUFFICIENT_AMOUNT));
-      return false;
-    }
-
-    if (totalSupply + Number(amount) > 5500) {
-      console.log('Total NFT are over than maximum supply');
       return false;
     }
 
