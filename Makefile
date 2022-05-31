@@ -45,8 +45,19 @@ deploy-stg:
 	cp .env.production .env
 	yarn build 
 	zip -r build.zip build
-	scp build.zip ubuntu@3.229.227.78:/var/www/vispx/
-	ssh ubuntu@3.229.227.78 "cd /var/www/vispx/ && rm -rf build && unzip build.zip && rm -rf build.zip"
+	scp build.zip ubuntu@xborg.vispx.io:/var/www/vispx/
+	ssh ubuntu@xborg.vispx.io "cd /var/www/vispx/ && rm -rf build && unzip build.zip && rm -rf build.zip"
+	rm -rf build.zip
+	rm -rf build
+
+deploy-prod:
+	git pull
+	yarn 
+	cp .env.production .env
+	yarn build 
+	zip -r build.zip build
+	scp build.zip ubuntu@mint.vispx.io:/var/www/vispx/
+	ssh ubuntu@mint.vispx.io "cd /var/www/vispx/ && rm -rf build && unzip build.zip && rm -rf build.zip"
 	rm -rf build.zip
 	rm -rf build
 
