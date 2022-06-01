@@ -34,7 +34,7 @@ const Section1 = () => {
               <Button
                 className={classes.buttonTheMint}
                 style={{ textTransform: 'none' }}
-                // onClick={() => history.push('/mint')}
+                onClick={() => window.open('https://mint.vispx.io/','_self')}
               >
                 The Mint
               </Button>
@@ -52,7 +52,7 @@ const Section1 = () => {
             <Button
               className={classes.buttonTheMint}
               style={{ textTransform: 'none' }}
-              onClick={() => history.push('/mint')}
+              onClick={() => window.open('https://mint.vispx.io/', '_self')}
             >
               The Mint
             </Button>
