@@ -78,6 +78,7 @@
   font-size: 20px;
   line-height: 26px;
   font-family: 'Montserrat-Regular';
+  letter-spacing: 0.1px;
 }
 .contentWrapper {
   height: fit-content;
@@ -86,11 +87,14 @@
 
 @media only screen and (max-width: 670px) {
   .firstTitle {
-    font-size: 40px;
+    font-size: 39px;
     margin-bottom: 15px;
+    letter-spacing: 0.1px;
+    line-height: 45px;
   }
   .secondTitle {
     font-size: 15px;
+    letter-spacing: unset;
   }
   .contentWrapper img {
     width: 300px;
