@@ -1,10 +1,8 @@
 import { useStyles } from './style';
 import styles from './style.module.scss';
 import Button from '@material-ui/core/Button';
-import { useHistory } from 'react-router';
 import Countdown from '../../Mint/Countdown';
 import useFetch from 'hooks/useFetch';
-import { unixToDate } from 'utils/convertDate';
 
 const OpenSeaIcon = () => {
   return (
@@ -15,16 +13,16 @@ const OpenSeaIcon = () => {
 };
 const Section1 = () => {
   const classes = useStyles();
-  const history = useHistory();
   const { data: currentTime } = useFetch<any>(`current-time`);
   const startPublicSaleTime = process.env.REACT_APP_START_PRE_SALE_TIME;
+
   return (
     <section className={styles.section1}>
       <div className={classes.texthedear}>
         <p className={`${classes.title} ${styles.textXborg}`}>XBorg</p>
         <p className={classes.name}>A Powerhouse Utility NFT</p>
       </div>
-      {startPublicSaleTime && unixToDate(startPublicSaleTime) > new Date(currentTime) ? (
+      {startPublicSaleTime ? (
         <div className={styles.bigContainer}>
           <div className={classes.countDownField}>
             {startPublicSaleTime && <Countdown currentDate={currentTime} startDate={startPublicSaleTime} landingPage />}
