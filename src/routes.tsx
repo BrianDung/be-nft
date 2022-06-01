@@ -11,6 +11,7 @@ import ErrorBoundary from './components/Base/ErrorBoundary';
 // eslint-disable-next-line
 import NewLanding from './pages/NewLanding';
 import { notification } from 'antd';
+import MaintainPage from 'pages/MaintainPage';
 
 /**
  * Main App routes.
@@ -48,6 +49,7 @@ const Routes: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
       <Route exact path={'/'} component={NewLanding} />
       <Web3ReactLocalProvider>
         <Route path={'/mint'} component={MintPage} />
+        <Route path={'/maintain'} component={MaintainPage} />
       </Web3ReactLocalProvider>
       <Redirect to="/" />
     </Switch>
