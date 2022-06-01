@@ -45,9 +45,9 @@ const Routes: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
 
   return (
     <Switch>
-      <Route exact path={'/'} component={NewLanding} />
+      <Route exact path={'/info'} component={NewLanding} />
       <Web3ReactLocalProvider>
-        <Route path={'/mint'} component={MintPage} />
+        <Route path={'/'} component={MintPage} />
       </Web3ReactLocalProvider>
       <Redirect to="/" />
     </Switch>
