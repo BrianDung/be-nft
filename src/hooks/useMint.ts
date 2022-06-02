@@ -41,8 +41,20 @@ export function useMint() {
     return { status, rate: Web3.utils.fromWei(rate) };
   }
 
+  async function getTotalMint() {
+    const contract = getContractInstance();
+    if (!contract) {
+      throw new Error('Cannot get contract');
+    }
+
+    const totalSale = await contract.methods.MaxMintSupply().call();
+
+    return Number(totalSale || 0);
+  }
+
   return {
     getTotalSupply,
     getMintInfo,
+    getTotalMint,
   };
 }
