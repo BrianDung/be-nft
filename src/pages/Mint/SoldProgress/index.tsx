@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { MESSAGES } from 'constants/mint';
+import { MESSAGES, TOTAL_SOLD } from 'constants/mint';
 import { useMint } from 'hooks/useMint';
 import { useEffect, useState } from 'react';
 import { useDispatch } from 'react-redux';
@@ -32,7 +32,7 @@ const SoldProgress = (props: SoldProgressProps) => {
       setTotalSupply(() => Number(requestTotalSupply));
       clearTimeout(timeoutId);
 
-      if (requestTotalSupply >= 5500) {
+      if (requestTotalSupply >= TOTAL_SOLD) {
         dispatch(alert(MESSAGES.SOLD_OUT));
         return;
       }
@@ -49,9 +49,9 @@ const SoldProgress = (props: SoldProgressProps) => {
   }, []);
 
   const progress =
-    totalSupply >= 5500
+    totalSupply >= TOTAL_SOLD
       ? 100
-      : new BigNumber(totalSupply <= 0 ? 1 : totalSupply).minus(1).div(5500).multipliedBy(100).toNumber();
+      : new BigNumber(totalSupply <= 0 ? 1 : totalSupply).minus(1).div(TOTAL_SOLD).multipliedBy(100).toNumber();
 
   return (
     <div>
@@ -59,9 +59,9 @@ const SoldProgress = (props: SoldProgressProps) => {
 
       <div className={styles.soldProgress}>
         <div className={styles.jubValue}>
-          <div className={styles.leftBotSec}>{totalSupply >= 5500 ? 100 : progress.toFixed(2)}% of Xborg Sold</div>
+          <div className={styles.leftBotSec}>{totalSupply >= TOTAL_SOLD ? 100 : progress.toFixed(2)}% of Xborg Sold</div>
           <div className={styles.rightBotSec}>
-            {totalSupply >= 5500 ? 5500 : totalSupply <= 0 ? 0 : totalSupply - 1}/5500
+            {totalSupply >= TOTAL_SOLD ? TOTAL_SOLD : totalSupply <= 0 ? 0 : totalSupply - 1}/{TOTAL_SOLD}
           </div>
         </div>
         <BorderOutline>
