@@ -39,7 +39,7 @@ const Section1 = () => {
               </Button>
             </div>
             <div className={styles.buttonItem}>
-              <Button  onClick={()=>window.open('https://opensea.io/collection/xborg-nft')} className={classes.buttonOpensea} style={{ textTransform: 'none' }} startIcon={<OpenSeaIcon />}>
+              <Button onClick={()=>window.open('https://opensea.io/collection/xborg-nft')} className={classes.buttonOpensea} style={{ textTransform: 'none' }} startIcon={<OpenSeaIcon />}>
                 Opensea
               </Button>
             </div>
@@ -57,7 +57,7 @@ const Section1 = () => {
             </Button>
           </div>
           <div className={styles.buttonItem}>
-            <Button className={classes.buttonOpensea} style={{ textTransform: 'none' }} startIcon={<OpenSeaIcon />}>
+            <Button onClick={()=>window.open('https://opensea.io/collection/xborg-nft')} className={classes.buttonOpensea} style={{ textTransform: 'none' }} startIcon={<OpenSeaIcon />}>
               Opensea
             </Button>
           </div>
