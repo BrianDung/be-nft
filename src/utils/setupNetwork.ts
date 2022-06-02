@@ -2,8 +2,25 @@ import { APP_NETWORKS_SUPPORT, NetworkInfo } from '../constants/network';
 import { ConnectorNames } from '../constants/connectors';
 import detectEthereumProvider from '@metamask/detect-provider';
 
-export const switchNetwork = async (chainId: string, walletName: string) => {
+async function getProvider() {
   const provider: any = await detectEthereumProvider();
+
+  if (!provider) {
+    throw new Error('Invalid provider');
+  }
+
+  if (!!provider.providers && Array.isArray(provider.providers)) {
+    const metamaskProvider = provider.providers?.find((provider: any) => provider.isMetaMask);
+    provider.setSelectedProvider(metamaskProvider);
+
+    return metamaskProvider;
+  }
+
+  return provider;
+}
+
+export const switchNetwork = async (chainId: string, walletName: string) => {
+  const provider = await getProvider();
   if (!provider) {
     throw new Error('Invalid provider');
   }
