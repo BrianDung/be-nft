@@ -1,7 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { MESSAGES } from 'constants/mint';
 import { useMint } from 'hooks/useMint';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { alert } from 'store/actions/alert';
 import { UPDATE_TOTAL_SUPPLY } from 'store/constants/mint';
@@ -16,6 +16,7 @@ const SoldProgress = (props: SoldProgressProps) => {
   const [totalMint, setTotalMint] = useState<number>(-1);
   const { getTotalSupply, getTotalMint } = useMint();
   const dispatch = useDispatch();
+  const currentTotalSupply = useRef(0);
 
   useEffect(() => {
     getTotalMint()
@@ -34,14 +35,18 @@ const SoldProgress = (props: SoldProgressProps) => {
     async function retrieveTotalSupply() {
       const requestTotalSupply = await getTotalSupply();
 
-      dispatch({
-        type: UPDATE_TOTAL_SUPPLY,
-        payload: {
-          totalSupply: Number(requestTotalSupply),
-        },
-      });
+      if (currentTotalSupply.current < requestTotalSupply) {
+        dispatch({
+          type: UPDATE_TOTAL_SUPPLY,
+          payload: {
+            totalSupply: Number(requestTotalSupply),
+          },
+        });
 
-      setTotalSupply(() => Number(requestTotalSupply));
+        currentTotalSupply.current = Number(requestTotalSupply);
+        setTotalSupply(() => Number(requestTotalSupply));
+      }
+
       clearTimeout(timeoutId);
 
       if (requestTotalSupply >= totalMint) {
@@ -49,7 +54,7 @@ const SoldProgress = (props: SoldProgressProps) => {
         return;
       }
 
-      timeoutId = setTimeout(() => retrieveTotalSupply(), 2000);
+      timeoutId = setTimeout(() => retrieveTotalSupply(), 2500);
     }
 
     if (totalMint < 0) {
