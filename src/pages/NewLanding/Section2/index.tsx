@@ -16,7 +16,7 @@ const Section2 = () => {
           <div className={classes.textField}>
             <h3>What is Xborg</h3>
             <p>
-              XBorgs’ are a genesis collection of 6,000 NFTs (non-fungible tokens) on Ethereum blockchain and brand
+              XBorgs’ are a genesis collection of 2,500 NFTs (non-fungible tokens) on Ethereum blockchain and brand
               mascot of VISPX.
             </p>
             <p>Our NFTs are made up of hundreds of hand-drawn exciting visual traits that make them unique.</p>
