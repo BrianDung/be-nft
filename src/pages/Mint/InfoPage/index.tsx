@@ -1,5 +1,4 @@
 import { MintTimeLine } from 'constants/mint';
-import useFetch from 'hooks/useFetch';
 import { useMint } from 'hooks/useMint';
 import { useEffect, useState } from 'react';
 import { BorderOutline } from '../BorderOutline';
@@ -16,8 +15,6 @@ const InfoLandingPage = (props: Props) => {
   const [rate, setRate] = useState<number | string>(0);
 
   const { getMintInfo } = useMint();
-
-  const { data: currentTime } = useFetch<any>(`/current-time`);
 
   const startPreSaleTime = process.env.REACT_APP_START_PRE_SALE_TIME;
 
@@ -51,7 +48,7 @@ const InfoLandingPage = (props: Props) => {
           </div>
         </BorderOutline>
         {currentTimeline === MintTimeLine.PreSaleRound && startPreSaleTime && (
-          <Countdown currentDate={currentTime} startDate={startPreSaleTime} />
+          <Countdown currentDate={0} startDate={startPreSaleTime} />
         )}
       </div>
       <SoldProgress />
