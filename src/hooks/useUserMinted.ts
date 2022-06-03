@@ -4,7 +4,6 @@ import { setUserHasNoMinted, updateUserMinted } from 'store/actions/mint';
 import { useDispatch } from 'react-redux';
 import { BigNumber } from 'bignumber.js';
 import { useCallback } from 'react';
-import { BaseRequest } from '../request/Request';
 import { CONTRACT_ADDRESS, PUBLIC_KEY, SETTED } from 'constants/mint';
 import { getContractInstance } from 'services/web3';
 
@@ -23,24 +22,24 @@ export function useUserMinted() {
   const retrieveUserMinted = useCallback(
     async (account: string): Promise<any> => {
       try {
-        const baseRequest = new BaseRequest();
-
-        const response = await baseRequest.get(`/number-minted?wallet_address=${account}`);
-
-        const resultObj = await response.json();
-
-        if (!resultObj) {
-          throw new Error('Check whitelist user fail');
+        const contract = getContractInstance();
+        if (!contract) {
+          throw new Error('Cannot get contract');
         }
 
-        if (resultObj.status !== 200) {
-          throw new Error(resultObj.message);
-        }
+        const maxAllow = await contract?.methods.MaxMintPerWallet().call();
+        const userSupply = await contract?.methods.numberMinted(account).call();
+        const userMinted = Number(maxAllow) - Number(userSupply);
+
+        const result = {
+          maxNumberMinted: userMinted,
+          type: 1,
+        };
 
         dispatch(
           updateUserMinted({
             status: SETTED,
-            data: { ...resultObj.data },
+            data: { ...result },
           })
         );
       } catch (error: any) {

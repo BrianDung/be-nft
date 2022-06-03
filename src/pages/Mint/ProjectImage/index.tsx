@@ -1,10 +1,7 @@
 import { useMediaQuery, useTheme } from '@material-ui/core';
 import { UploadImageModal } from './UploadImageModal';
 import useAuth from 'hooks/useAuth';
-import { useEffect, useMemo, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { BaseRequest } from '../../../request/Request';
-import { alert } from 'store/actions/alert';
+import { useMemo, useState } from 'react';
 import styles from './style.module.scss';
 
 const defaultImage = '/images/newPage/project-image.svg';
@@ -16,8 +13,7 @@ export const ProjectImage = () => {
   const [open, setOpen] = useState(false);
   const [alt, setAlt] = useState('project-image');
   const theme = useTheme();
-  const [admins, setAdmin] = useState<string[]>([]);
-  const dispatch = useDispatch();
+  const [admins] = useState<string[]>([]);
 
   const matches = useMediaQuery(theme.breakpoints.up('sm'));
   const canUpload = useMemo(() => {
@@ -27,33 +23,6 @@ export const ProjectImage = () => {
 
     return isAuth && matches && admins.includes(account);
   }, [account, admins, isAuth, matches]);
-
-  useEffect(() => {
-    async function getAdminList() {
-      try {
-        const request = new BaseRequest();
-        const res = await request.get('/getlist-admin');
-
-        if (res.status !== 200) {
-          throw new Error('Fail to get list admin');
-        }
-
-        const data = await res.json();
-
-        if (data.status !== 200) {
-          throw new Error(data.message);
-        }
-
-        setAdmin(data?.data?.map((item: any) => item.wallet_address));
-      } catch (e: any) {
-        dispatch(alert(e.message));
-      }
-    }
-
-    if (isAuth) {
-      getAdminList();
-    }
-  }, [dispatch, isAuth]);
 
   function handleOpenUpload() {
     setOpen(canUpload);
