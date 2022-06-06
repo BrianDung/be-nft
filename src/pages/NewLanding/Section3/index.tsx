@@ -15,6 +15,20 @@ const Section3 = () => {
           </div>
         </Grid>
       </Grid>
+      <Grid container direction="column">
+        <Grid className={classes.headerItem}>
+          <Header content="Distribution" />
+        </Grid>
+        <Grid className={classes.imageField}>
+          <div className={classes.imageDistribution}>
+            <img
+              style={{ width: '100%', height: '100%' }}
+              alt="distribution"
+              src="/images/newLanding/distributionImage.svg"
+            />
+          </div>
+        </Grid>
+      </Grid>
     </section>
   );
 };

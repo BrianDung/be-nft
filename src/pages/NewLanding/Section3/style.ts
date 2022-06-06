@@ -46,9 +46,9 @@ export const useStyles = makeStyles((theme: any) => {
         },
         imageDistribution: {
             width: '100%',
-            maxWidth: 520,
+            maxWidth: 620,
             [theme.breakpoints.down('xs')]: {
-                maxWidth: 320
+                maxWidth: 440
             }
         }
         // supplyImageField: {
