@@ -107,6 +107,7 @@ const InfoLandingPage = (props: Props) => {
         rate={rate}
         endMintIndex={endMintIndex}
         maxMintIndex={maxMintIndex}
+        currentMintIndex={currentMintIndex}
       />
     </div>
   );

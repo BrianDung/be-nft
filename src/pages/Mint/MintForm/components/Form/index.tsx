@@ -16,9 +16,10 @@ interface MintFormProps {
   currentTimeline: MintTimeLine;
   endMintIndex: number;
   maxMintIndex: number;
+  currentMintIndex: number;
 }
 
-const MintForm = ({ rate, currentTimeline, endMintIndex, maxMintIndex }: MintFormProps) => {
+const MintForm = ({ rate, currentTimeline, endMintIndex, maxMintIndex, currentMintIndex }: MintFormProps) => {
   const styles = useStyles();
   const [amount, setAmount] = useState<number | string>(1);
   const [maxAmount, setMaxAmount] = useState<number>(1);
@@ -74,17 +75,17 @@ const MintForm = ({ rate, currentTimeline, endMintIndex, maxMintIndex }: MintFor
 
   const timeCanJoinMint = useMemo(() => {
     const startTime = process.env.REACT_APP_START_PRE_SALE_TIME;
-    return new BigNumber(timeServer).gte(Number(startTime));
+    return new BigNumber(timeServer / 1000).gte(Number(startTime));
   }, [timeServer]);
 
-  console.log({ timeCanJoinMint });
-
   const disableButtonMint = useMemo(() => {
-    if (!amount || !useCanJoinMint || !connected) {
+    const canNotBuyNftRound1 = currentMintIndex === endMintIndex && currentMintIndex === MintTimeLine.HolderMint;
+    const soldOut = currentMintIndex === maxMintIndex;
+    if (!amount || !useCanJoinMint || !connected || !timeCanJoinMint || canNotBuyNftRound1 || soldOut) {
       return true;
     }
     return false;
-  }, [amount, useCanJoinMint, connected]);
+  }, [amount, useCanJoinMint, connected, timeCanJoinMint, currentMintIndex, endMintIndex, maxMintIndex]);
 
   function validate(amount: number | string) {
     if (!connected) {
@@ -105,8 +106,15 @@ const MintForm = ({ rate, currentTimeline, endMintIndex, maxMintIndex }: MintFor
       return;
     }
     atomicMint(Number(amount), rate)
-      .then((data) => {})
-      .catch((err) => {});
+      .then((data) => {
+        dispatch(alert(MESSAGES.MINT_SUCCESS));
+        setTimeout(() => {
+          window.location.reload();
+        }, 1000);
+      })
+      .catch((err) => {
+        dispatch(alert(err));
+      });
   }
 
   const handleChangeAmount = (e: any) => {
@@ -149,11 +157,19 @@ const MintForm = ({ rate, currentTimeline, endMintIndex, maxMintIndex }: MintFor
                 maxLength={1}
               />
             </BorderOutline>
-            <Button className={`${styles.quantity} form`} onClick={handleDecrease} disabled={Number(amount) === 1}>
+            <Button
+              className={`${styles.quantity} form`}
+              onClick={handleDecrease}
+              disabled={Number(amount) === 1 || disableButtonMint}
+            >
               -
             </Button>
           </div>
-          <Button className={styles.quantity} onClick={handleIncrease} disabled={Number(amount) === maxAmount}>
+          <Button
+            className={styles.quantity}
+            onClick={handleIncrease}
+            disabled={Number(amount) === maxAmount || disableButtonMint}
+          >
             +
           </Button>
         </div>
@@ -161,7 +177,7 @@ const MintForm = ({ rate, currentTimeline, endMintIndex, maxMintIndex }: MintFor
           MAX
         </Button>
       </div>
-      <Button onClick={handleSumit} className={styles.mint} disabled={disableButtonMint}>
+      <Button onClick={handleSumit} className={styles.mint} disabled={disableButtonMint || disableButtonMint}>
         MINT
       </Button>
     </div>
