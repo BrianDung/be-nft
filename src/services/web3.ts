@@ -1,7 +1,7 @@
 import { CONTRACT_ADDRESS } from 'constants/mint';
 import { NETWORK_URL } from 'constants/network';
 import Web3 from 'web3';
-import XBORG_ABI from '../abi/Xborg.json';
+import XBORG_ABI from '../abi/Mint-Phase2.json';
 
 export const getContractInstance = (library?: any) => {
   if (!library) {

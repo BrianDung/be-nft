@@ -61,7 +61,7 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
     }
 
     // If user is not whitelist user
-    if (!userMinted && currentTimeline < MintTimeLine.PublicSaleRound) {
+    if (!userMinted && currentTimeline < MintTimeLine.PublicMint) {
       dispatch(alert(error?.message));
       return;
     }
@@ -69,9 +69,9 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
     // If user has minted maximum nft
     if (userMinted?.maxNumberMinted <= 0) {
       const message =
-        currentTimeline === MintTimeLine.SaleRound
+        currentTimeline === MintTimeLine.WLMint
           ? MESSAGES.MAX_ALLOW_SALE_ROUND
-          : currentTimeline === MintTimeLine.PublicSaleRound
+          : currentTimeline === MintTimeLine.PublicMint
           ? MESSAGES.MAX_ALLOW_PUBLIC_SALE
           : '';
 
@@ -88,7 +88,7 @@ const MintFormContainer = ({ rate, currentTimeline }: MintFormContainerProps) =>
     }
 
     return (
-      currentTimeline === MintTimeLine.PreSaleRound ||
+      currentTimeline === MintTimeLine.HolderMint ||
       currentTimeline === MintTimeLine.NotSet ||
       !userMinted ||
       status === NOT_SET ||

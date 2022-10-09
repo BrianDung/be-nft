@@ -36,9 +36,9 @@ const InfoLandingPage = (props: Props) => {
         <BorderOutline>
           <div className={styles.roundInfo}>
             <p className={styles.roundType}>
-              {currentTimeline === MintTimeLine.PublicSaleRound ? 'Public Sale Round' : 'Pre-Sale Round'}
+              {currentTimeline === MintTimeLine.PublicMint ? 'Public Sale Round' : 'Pre-Sale Round'}
             </p>
-            {currentTimeline <= MintTimeLine.PreSaleRound ? (
+            {currentTimeline <= MintTimeLine.HolderMint ? (
               <p className={styles.deActiveStatus}>Live soon</p>
             ) : (
               <p className={styles.activeStatus}>
@@ -47,7 +47,7 @@ const InfoLandingPage = (props: Props) => {
             )}
           </div>
         </BorderOutline>
-        {currentTimeline === MintTimeLine.PreSaleRound && startPreSaleTime && (
+        {currentTimeline === MintTimeLine.HolderMint && startPreSaleTime && (
           <Countdown currentDate={0} startDate={startPreSaleTime} />
         )}
       </div>

@@ -45,11 +45,11 @@ const Routes: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
 
   return (
     <Switch>
-      <Route exact path={'/'} component={NewLanding} />
+      {/* <Route exact path={'/'} component={NewLanding} /> */}
       <Web3ReactLocalProvider>
+        <Redirect to="/mint" />
         <Route path={'/mint'} component={MintPage} />
       </Web3ReactLocalProvider>
-      <Redirect to="/" />
     </Switch>
   );
 };

@@ -29,13 +29,13 @@ export function useMint() {
     const isPublicSale = await contract.methods.PublicsaleIsActive().call();
     const rate = await contract.methods.NFT_PRICE().call();
 
-    let status = MintTimeLine.PublicSaleRound;
+    let status = MintTimeLine.PublicMint;
     if (!isSale && !isPublicSale) {
-      status = MintTimeLine.PreSaleRound;
+      status = MintTimeLine.HolderMint;
     }
 
     if (isSale && !isPublicSale) {
-      status = MintTimeLine.SaleRound;
+      status = MintTimeLine.WLMint;
     }
 
     return { status, rate: Web3.utils.fromWei(rate) };
