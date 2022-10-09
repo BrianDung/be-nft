@@ -10,7 +10,6 @@ import { alert } from 'store/actions/alert';
 import { BorderOutline } from '../../../BorderOutline/index';
 import { useStyles } from './styles';
 import BigNumber from 'bignumber.js';
-
 interface MintFormProps {
   rate: number;
   currentTimeline: MintTimeLine;
@@ -30,22 +29,15 @@ const MintForm = ({ rate, currentTimeline, endMintIndex, maxMintIndex, currentMi
   const { getMaxMintPerTX } = useMint();
   const { atomicMint } = useUserMinted();
 
-  const timeCanJoinMint = useMemo(() => {
-    const startTime = process.env.REACT_APP_START_PRE_SALE_TIME;
-    return new BigNumber(timeServer / 1000).gte(Number(startTime));
-  }, [timeServer]);
-
   const disableButtonMint = useMemo(() => {
     const canNotBuyNftRound1 = currentMintIndex === endMintIndex && currentMintIndex === MintTimeLine.HolderMint;
     const soldOut = currentMintIndex === maxMintIndex;
-    if (soldOut) {
-      dispatch(alert(MESSAGES.SOLD_OUT));
-    }
-    if (!amount || !useCanJoinMint || !connected || !timeCanJoinMint || canNotBuyNftRound1 || soldOut) {
+    const expireDateMint = new BigNumber(process.env.REACT_APP_API_END_MINT_NFT || 0).lte(timeServer / 1000);
+    if (!amount || !useCanJoinMint || !connected || canNotBuyNftRound1 || soldOut || expireDateMint) {
       return true;
     }
     return false;
-  }, [amount, useCanJoinMint, connected, timeCanJoinMint, currentMintIndex, endMintIndex, maxMintIndex, dispatch]);
+  }, [amount, useCanJoinMint, connected, currentMintIndex, endMintIndex, maxMintIndex, timeServer]);
 
   const getTimeServer = async () => {
     const response = await instance.get(`current-time`);
@@ -63,6 +55,11 @@ const MintForm = ({ rate, currentTimeline, endMintIndex, maxMintIndex, currentMi
     if (currentTimeline === MintTimeLine.PublicMint) {
       setUserCanJoinMint(true);
       console.log('USER CAN JOIN MINT', 'TRUE');
+    }
+
+    if (currentTimeline === MintTimeLine.NotSet) {
+      setUserCanJoinMint(false);
+      console.log('USER CAN JOIN MINT', 'FALSE');
     }
   };
 
@@ -104,20 +101,19 @@ const MintForm = ({ rate, currentTimeline, endMintIndex, maxMintIndex, currentMi
     return true;
   }
 
-  function handleSumit() {
+  async function handleSumit() {
     if (!validate(amount)) {
       return;
     }
-    atomicMint(Number(amount), rate)
-      .then((data) => {
-        dispatch(alert(MESSAGES.MINT_SUCCESS));
-        setTimeout(() => {
-          window.location.reload();
-        }, 1000);
-      })
-      .catch((err) => {
-        dispatch(alert(err));
-      });
+    try {
+      await atomicMint(Number(amount), rate);
+      dispatch(alert(MESSAGES.MINT_SUCCESS));
+      setTimeout(() => {
+        window.location.reload();
+      }, 1000);
+    } catch (error) {
+      dispatch(alert('Something went wrong'));
+    }
   }
 
   const handleChangeAmount = (e: any) => {

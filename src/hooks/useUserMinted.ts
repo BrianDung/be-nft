@@ -3,6 +3,7 @@ import { BigNumber } from 'bignumber.js';
 import { CONTRACT_ADDRESS, PUBLIC_KEY } from 'constants/mint';
 import { useWeb3ReactLocal } from 'hooks/useWeb3ReactLocal';
 import { getContractInstance } from 'services/web3';
+import Web3 from 'web3';
 
 export interface MintedData {
   maxNumberMinted: number;
@@ -27,9 +28,15 @@ export function useUserMinted() {
     }
 
     const totalAmount = new BigNumber(amount).multipliedBy(rate);
+    console.log('params', {
+      amount,
+      pub: PUBLIC_KEY,
+      total: totalAmount.toString(),
+      contract,
+    });
     const result = await contract?.methods.AtomicMint(amount, 1, PUBLIC_KEY).send({
       from: account,
-      value: new BigNumber(totalAmount).toString(),
+      value: Web3.utils.toWei(totalAmount.toString()),
     });
 
     return result;

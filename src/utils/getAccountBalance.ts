@@ -9,12 +9,8 @@ const getAccountBalance = async (
   connector: string
 ) => {
   if (appChainID && connectedAccount && connector) {
-    const exactNetwork = appChainID === walletChainID;
-
     const provider = new ethers.providers.JsonRpcProvider(ETH_RPC_URL);
-
-    const accountBalance = exactNetwork ? await provider.getBalance(connectedAccount) : { _hex: '0x00' };
-
+    const accountBalance = await provider.getBalance(connectedAccount);
     return accountBalance;
   }
 
