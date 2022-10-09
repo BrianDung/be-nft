@@ -25,7 +25,7 @@ deploy:
 				--exclude workers \
 				--filter=":- .gitignore" \
 				. $(u)@$(h):$(dir)/
-	ssh $(u)@$(h) "cd $(dir); cp .env.sotatek.example .env; cp .env.sotatek.example .env.production"
+	ssh $(u)@$(h) "cd $(dir); cp .env.sotatek.example .env"
 	ssh $(u)@$(h) "pm2 restart UserMintPage"
 #public
 deploy-dev:
