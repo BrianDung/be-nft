@@ -1,6 +1,7 @@
 import { MintTimeLine } from 'constants/mint';
 import { useMint } from 'hooks/useMint';
 import { useEffect, useState } from 'react';
+import instance from 'services/axios';
 import { BorderOutline } from '../BorderOutline';
 import Countdown from '../Countdown';
 import MintFormContainer from '../MintForm';
@@ -17,6 +18,7 @@ const InfoLandingPage = (props: Props) => {
   const [maxMintIndex, setMaxMintIndex] = useState<number>(0);
   const [currentMintIndex, setCurrentMintIndex] = useState<number>(0);
   const [endMintIndex, setEndMintIndex] = useState<number>(0);
+  const [timeServer, setTimeServer] = useState<number>(0);
   const { getMaxMintIndex, getCurrentMintIndex, getEndMintIndex, getMintInfo } = useMint();
   const startPreSaleTime = process.env.REACT_APP_START_PRE_SALE_TIME;
 
@@ -66,6 +68,17 @@ const InfoLandingPage = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    getTimeServer();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const getTimeServer = async () => {
+    const response = await instance.get(`current-time`);
+    response.data && setTimeServer(response?.data?.data);
+    console.log('TIME SERVER', response?.data?.data);
+  };
+
   const renderTitle = () => {
     switch (currentTimeline) {
       case MintTimeLine.NotSet:
@@ -97,8 +110,8 @@ const InfoLandingPage = (props: Props) => {
             )}
           </div>
         </BorderOutline>
-        {currentTimeline === MintTimeLine.HolderMint && startPreSaleTime && (
-          <Countdown currentDate={0} startDate={startPreSaleTime} />
+        {currentTimeline === MintTimeLine.NotSet && startPreSaleTime && (
+          <Countdown currentDate={timeServer} startDate={startPreSaleTime} />
         )}
       </div>
       <SoldProgress currentMintIndex={currentMintIndex} maxMintIndex={maxMintIndex} />
@@ -108,6 +121,7 @@ const InfoLandingPage = (props: Props) => {
         endMintIndex={endMintIndex}
         maxMintIndex={maxMintIndex}
         currentMintIndex={currentMintIndex}
+        timeServer={timeServer}
       />
     </div>
   );

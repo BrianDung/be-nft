@@ -8,9 +8,10 @@ interface MintFormContainerProps {
   endMintIndex: number;
   maxMintIndex: number;
   currentMintIndex : number;
+  timeServer: number;
 }
 
-const MintFormContainer = ({ rate, currentTimeline, endMintIndex, maxMintIndex , currentMintIndex}: MintFormContainerProps) => {
+const MintFormContainer = ({ rate, currentTimeline, endMintIndex, maxMintIndex , currentMintIndex , timeServer}: MintFormContainerProps) => {
   const styles = useStyles();
 
   return (
@@ -25,6 +26,7 @@ const MintFormContainer = ({ rate, currentTimeline, endMintIndex, maxMintIndex ,
         maxMintIndex={maxMintIndex}
         rate={Number(rate)}
         currentMintIndex={currentMintIndex}
+        timeServer={timeServer}
       />
     </>
   );

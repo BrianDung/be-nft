@@ -9,6 +9,7 @@ import instance from 'services/axios';
 import { alert } from 'store/actions/alert';
 import { BorderOutline } from '../../../BorderOutline/index';
 import { useStyles } from './styles';
+import './spin.scss';
 import BigNumber from 'bignumber.js';
 interface MintFormProps {
   rate: number;
@@ -16,13 +17,14 @@ interface MintFormProps {
   endMintIndex: number;
   maxMintIndex: number;
   currentMintIndex: number;
+  timeServer : number;
 }
 
-const MintForm = ({ rate, currentTimeline, endMintIndex, maxMintIndex, currentMintIndex }: MintFormProps) => {
+const MintForm = ({ rate, currentTimeline, endMintIndex, maxMintIndex, currentMintIndex , timeServer}: MintFormProps) => {
   const styles = useStyles();
   const [amount, setAmount] = useState<number | string>(1);
   const [maxAmount, setMaxAmount] = useState<number>(1);
-  const [timeServer, setTimeServer] = useState<number>(0);
+  const [loading, setLoading] = useState<boolean>(false);
   const [useCanJoinMint, setUserCanJoinMint] = useState<boolean>(false);
   const { balance, connected, account } = useWeb3ReactLocal();
   const dispatch = useDispatch();
@@ -38,12 +40,6 @@ const MintForm = ({ rate, currentTimeline, endMintIndex, maxMintIndex, currentMi
     }
     return false;
   }, [amount, useCanJoinMint, connected, currentMintIndex, endMintIndex, maxMintIndex, timeServer]);
-
-  const getTimeServer = async () => {
-    const response = await instance.get(`current-time`);
-    response.data && setTimeServer(response?.data?.data);
-    console.log('TIME SERVER', response?.data?.data);
-  };
 
   const checkUserCanJoin = async () => {
     if (currentTimeline === MintTimeLine.WLMint || currentTimeline === MintTimeLine.HolderMint) {
@@ -62,13 +58,6 @@ const MintForm = ({ rate, currentTimeline, endMintIndex, maxMintIndex, currentMi
       console.log('USER CAN JOIN MINT', 'FALSE');
     }
   };
-
-  useEffect(() => {
-    if (account) {
-      getTimeServer();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account]);
 
   useEffect(() => {
     if (account) {
@@ -102,17 +91,21 @@ const MintForm = ({ rate, currentTimeline, endMintIndex, maxMintIndex, currentMi
   }
 
   async function handleSumit() {
+    setLoading(true);
     if (!validate(amount)) {
+      setLoading(false);
       return;
     }
     try {
       await atomicMint(Number(amount), rate);
       dispatch(alert(MESSAGES.MINT_SUCCESS));
+      setLoading(false);
       setTimeout(() => {
         window.location.reload();
-      }, 1000);
-    } catch (error) {
-      dispatch(alert('Something went wrong'));
+      }, 3000);
+    } catch (error: any) {
+      setLoading(false);
+      dispatch(alert(error?.message));
     }
   }
 
@@ -159,7 +152,7 @@ const MintForm = ({ rate, currentTimeline, endMintIndex, maxMintIndex, currentMi
             <Button
               className={`${styles.quantity} form`}
               onClick={handleDecrease}
-              disabled={Number(amount) === 1 || disableButtonMint}
+              disabled={Number(amount) === 1 || disableButtonMint || loading}
             >
               -
             </Button>
@@ -167,17 +160,21 @@ const MintForm = ({ rate, currentTimeline, endMintIndex, maxMintIndex, currentMi
           <Button
             className={styles.quantity}
             onClick={handleIncrease}
-            disabled={Number(amount) === maxAmount || disableButtonMint}
+            disabled={Number(amount) === maxAmount || disableButtonMint || loading}
           >
             +
           </Button>
         </div>
-        <Button className={styles.max} onClick={handleMax}>
+        <Button className={styles.max} onClick={handleMax} disabled={loading || !connected}>
           MAX
         </Button>
       </div>
-      <Button onClick={handleSumit} className={styles.mint} disabled={disableButtonMint || disableButtonMint}>
-        MINT
+      <Button
+        onClick={handleSumit}
+        className={styles.mint}
+        disabled={disableButtonMint || disableButtonMint || loading}
+      >
+        <span>MINT</span> {loading && <span className="Spinner"></span>}
       </Button>
     </div>
   );
