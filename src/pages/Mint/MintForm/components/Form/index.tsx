@@ -1,67 +1,90 @@
-import { BorderOutline } from '../../../BorderOutline/index';
 import { Button } from 'components/Base/Form/Button';
-import { isInteger } from 'lodash';
-import { useEffect, useRef, useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { alert } from 'store/actions/alert';
-import { useStyles } from './styles';
+import { MESSAGES, MintTimeLine } from 'constants/mint';
+import { useMint } from 'hooks/useMint';
+import { useUserMinted } from 'hooks/useUserMinted';
 import { useWeb3ReactLocal } from 'hooks/useWeb3ReactLocal';
-import { MESSAGES } from 'constants/mint';
+import { useEffect, useMemo, useState } from 'react';
+import { useDispatch } from 'react-redux';
+import instance from 'services/axios';
+import { alert } from 'store/actions/alert';
+import { BorderOutline } from '../../../BorderOutline/index';
+import { useStyles } from './styles';
+import BigNumber from 'bignumber.js';
 
 interface MintFormProps {
-  maxAllow: number;
-  disabled?: boolean;
-  onSubmit: (amount: number) => Promise<boolean>;
   rate: number;
+  currentTimeline: MintTimeLine;
+  endMintIndex: number;
+  maxMintIndex: number;
 }
 
-const MintForm = ({ maxAllow, disabled, rate, onSubmit }: MintFormProps) => {
+const MintForm = ({ rate, currentTimeline, endMintIndex, maxMintIndex }: MintFormProps) => {
   const styles = useStyles();
   const [amount, setAmount] = useState<number | string>(1);
-  const lastValidInput = useRef(1);
-  const { balance, connected } = useWeb3ReactLocal();
-
+  const [maxAmount, setMaxAmount] = useState<number>(1);
+  const [timeServer, setTimeServer] = useState<number>(0);
+  const [useCanJoinMint, setUserCanJoinMint] = useState<boolean>(false);
+  const { balance, connected, account } = useWeb3ReactLocal();
   const dispatch = useDispatch();
+  const { getMaxMintPerTX } = useMint();
+  const { atomicMint } = useUserMinted();
 
-  function reValidate() {
-    let currentValue = Number(amount);
-    if (isNaN(currentValue)) {
-      setAmount(lastValidInput.current);
-      return;
+  const getTimeServer = async () => {
+    const response = await instance.get(`current-time`);
+    response.data && setTimeServer(response?.data?.data);
+    console.log('TIME SERVER', response?.data?.data);
+  };
+
+  const checkUserCanJoin = async () => {
+    if (currentTimeline === MintTimeLine.WLMint || currentTimeline === MintTimeLine.HolderMint) {
+      const response = await instance.get(`check/${account}/${currentTimeline}`);
+      response.data && setUserCanJoinMint(response?.data?.data);
+      console.log('USER CAN JOIN MINT', response?.data?.data, { currentTimeline });
     }
 
-    if (!isInteger(currentValue)) {
-      currentValue = Math.trunc(currentValue);
+    if (currentTimeline === MintTimeLine.PublicMint) {
+      setUserCanJoinMint(true);
+      console.log('USER CAN JOIN MINT', 'TRUE');
     }
-
-    lastValidInput.current = currentValue;
-    updateAmount(currentValue);
-  }
-
-  function updateAmount(value: string | number) {
-    setAmount(() => {
-      const newValue = Number(value);
-
-      if (newValue > maxAllow) {
-        lastValidInput.current = maxAllow;
-        return maxAllow;
-      }
-
-      if (newValue < 1) {
-        lastValidInput.current = 1;
-        return 1;
-      }
-
-      lastValidInput.current = newValue;
-      return newValue;
-    });
-  }
+  };
 
   useEffect(() => {
-    if (disabled) {
-      setAmount(1);
+    if (account) {
+      getTimeServer();
     }
-  }, [disabled]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [account]);
+
+  useEffect(() => {
+    if (account) {
+      checkUserCanJoin();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [account, currentTimeline]);
+
+  useEffect(() => {
+    getMaxMintPerTX()
+      .then((data) => {
+        console.log('MAX AMOUNT PER TX', data);
+        setMaxAmount(data);
+      })
+      .catch((err) => console.error(err));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const timeCanJoinMint = useMemo(() => {
+    const startTime = process.env.REACT_APP_START_PRE_SALE_TIME;
+    return new BigNumber(timeServer).gte(Number(startTime));
+  }, [timeServer]);
+
+  console.log({ timeCanJoinMint });
+
+  const disableButtonMint = useMemo(() => {
+    if (!amount || !useCanJoinMint || !connected) {
+      return true;
+    }
+    return false;
+  }, [amount, useCanJoinMint, connected]);
 
   function validate(amount: number | string) {
     if (!connected) {
@@ -81,15 +104,34 @@ const MintForm = ({ maxAllow, disabled, rate, onSubmit }: MintFormProps) => {
     if (!validate(amount)) {
       return;
     }
-
-    return onSubmit(Number(amount))
-      .then((success) => {
-        if (success) {
-          setAmount(1);
-        }
-      })
-      .finally(() => {});
+    atomicMint(Number(amount), rate)
+      .then((data) => {})
+      .catch((err) => {});
   }
+
+  const handleChangeAmount = (e: any) => {
+    const partten = /^[1-5]$/;
+    const value = e.target.value;
+    const pass = partten.test(value);
+    console.log({ value, pass: partten.test(value) });
+    if (pass || !value) {
+      setAmount(e.target.value);
+    }
+  };
+
+  const handleDecrease = () => {
+    if (!amount || Number(amount) === 1) return;
+    setAmount(Number(amount) - 1);
+  };
+
+  const handleIncrease = () => {
+    if (!amount || Number(amount) === maxAmount) return;
+    setAmount(Number(amount) + 1);
+  };
+
+  const handleMax = () => {
+    setAmount(maxAmount);
+  };
 
   return (
     <div>
@@ -98,31 +140,28 @@ const MintForm = ({ maxAllow, disabled, rate, onSubmit }: MintFormProps) => {
           <div className={styles.boxNumber}>
             <BorderOutline>
               <input
-                onBlur={reValidate}
-                type="text"
+                type="number"
+                min={1}
+                max={5}
                 className={styles.input}
                 value={amount}
-                onChange={(e) => setAmount(e.target.value)}
-                disabled={disabled}
+                onChange={handleChangeAmount}
+                maxLength={1}
               />
             </BorderOutline>
-            <Button
-              className={`${styles.quantity} form`}
-              onClick={() => updateAmount(Number(amount) - 1)}
-              disabled={disabled}
-            >
+            <Button className={`${styles.quantity} form`} onClick={handleDecrease} disabled={Number(amount) === 1}>
               -
             </Button>
           </div>
-          <Button className={styles.quantity} onClick={() => updateAmount(Number(amount) + 1)} disabled={disabled}>
+          <Button className={styles.quantity} onClick={handleIncrease} disabled={Number(amount) === maxAmount}>
             +
           </Button>
         </div>
-        <Button className={styles.max} onClick={() => updateAmount(maxAllow)} disabled={disabled}>
+        <Button className={styles.max} onClick={handleMax}>
           MAX
         </Button>
       </div>
-      <Button disabled={disabled} onClick={handleSumit} className={styles.mint}>
+      <Button onClick={handleSumit} className={styles.mint} disabled={disableButtonMint}>
         MINT
       </Button>
     </div>

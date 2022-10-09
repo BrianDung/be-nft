@@ -12,33 +12,83 @@ interface Props {
 const InfoLandingPage = (props: Props) => {
   const styles = useStyles();
   const [currentTimeline, setCurrentTimeline] = useState<MintTimeLine>(MintTimeLine.NotSet);
+  // price with sale state
   const [rate, setRate] = useState<number | string>(0);
-
-  const { getMintInfo } = useMint();
-
+  const [maxMintIndex, setMaxMintIndex] = useState<number>(0);
+  const [currentMintIndex, setCurrentMintIndex] = useState<number>(0);
+  const [endMintIndex, setEndMintIndex] = useState<number>(0);
+  const { getMaxMintIndex, getCurrentMintIndex, getEndMintIndex, getMintInfo } = useMint();
   const startPreSaleTime = process.env.REACT_APP_START_PRE_SALE_TIME;
+
+  useEffect(() => {
+    getCurrentMintIndex()
+      .then((current) => {
+        console.log('CURRENT MINT INDEX', current);
+        setCurrentMintIndex(current);
+      })
+      .catch((err) => console.error(err));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    getMaxMintIndex()
+      .then((max) => {
+        console.log('MAX MINT INDEX', max);
+        setMaxMintIndex(max);
+      })
+      .catch((err) => console.error(err));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     getMintInfo()
       .then((data) => {
-        setCurrentTimeline(data.status);
-        setRate(data.rate);
+        const { status, rate } = data;
+        console.log('MINT INFO:', { status, rate });
+        setCurrentTimeline(status);
+        setRate(rate);
       })
       .catch((error: any) => {
-        console.log(error.message);
+        console.error(error.message);
       });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  useEffect(() => {
+    getEndMintIndex()
+      .then((end) => {
+        console.log('END MINT INDEX:', end);
+        setEndMintIndex(end);
+      })
+      .catch((error: any) => {
+        console.error(error.message);
+      });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  const renderTitle = () => {
+    switch (currentTimeline) {
+      case MintTimeLine.NotSet:
+        return 'Holder’s Mint';
+      case MintTimeLine.HolderMint:
+        return 'Holder’s Mint';
+      case MintTimeLine.WLMint:
+        return 'WL Mint';
+      case MintTimeLine.PublicMint:
+        return 'Public Mint';
+      default: {
+        return 'Holder’s Mint';
+      }
+    }
+  };
 
   return (
     <div className={styles.xborgPageWrapper}>
       <div className={styles.timer}>
         <BorderOutline>
           <div className={styles.roundInfo}>
-            <p className={styles.roundType}>
-              {currentTimeline === MintTimeLine.PublicMint ? 'Public Sale Round' : 'Pre-Sale Round'}
-            </p>
-            {currentTimeline <= MintTimeLine.HolderMint ? (
+            <p className={styles.roundType}>{renderTitle()}</p>
+            {currentTimeline < MintTimeLine.HolderMint ? (
               <p className={styles.deActiveStatus}>Live soon</p>
             ) : (
               <p className={styles.activeStatus}>
@@ -51,8 +101,13 @@ const InfoLandingPage = (props: Props) => {
           <Countdown currentDate={0} startDate={startPreSaleTime} />
         )}
       </div>
-      <SoldProgress />
-      <MintFormContainer currentTimeline={currentTimeline} rate={rate} />
+      <SoldProgress currentMintIndex={currentMintIndex} maxMintIndex={maxMintIndex} />
+      <MintFormContainer
+        currentTimeline={currentTimeline}
+        rate={rate}
+        endMintIndex={endMintIndex}
+        maxMintIndex={maxMintIndex}
+      />
     </div>
   );
 };

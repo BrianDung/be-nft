@@ -1,18 +1,17 @@
-import { MintTimeLine } from 'constants/mint';
 import { getContractInstance } from 'services/web3';
 import Web3 from 'web3';
 
 export function useMint() {
-  async function getTotalSupply() {
+  async function getMaxMintIndex() {
     try {
       const contract = getContractInstance();
       if (!contract) {
         throw new Error('Cannot get contract');
       }
 
-      const totalSupply = await contract?.methods.totalSupply().call();
+      const max = await contract?.methods.MaxMintIndex().call();
 
-      return totalSupply;
+      return Number(max);
     } catch (e: any) {
       console.log(e);
       return 0;
@@ -20,41 +19,62 @@ export function useMint() {
   }
 
   async function getMintInfo() {
-    const contract = getContractInstance();
-    if (!contract) {
-      throw new Error('Cannot get contract');
-    }
-
-    const isSale = await contract.methods.saleIsActive().call();
-    const isPublicSale = await contract.methods.PublicsaleIsActive().call();
-    const rate = await contract.methods.NFT_PRICE().call();
-
-    let status = MintTimeLine.PublicMint;
-    if (!isSale && !isPublicSale) {
-      status = MintTimeLine.HolderMint;
-    }
-
-    if (isSale && !isPublicSale) {
-      status = MintTimeLine.WLMint;
-    }
-
-    return { status, rate: Web3.utils.fromWei(rate) };
+    const price = await getPriceWithSaleSatage();
+    const status = await getSaleStage();
+    return { status: Number(status), rate: Number(Web3.utils.fromWei(price)) };
   }
 
-  async function getTotalMint() {
+  async function getSaleStage() {
     const contract = getContractInstance();
     if (!contract) {
       throw new Error('Cannot get contract');
     }
+    const status = await contract.methods.saleStage().call();
+    return status;
+  }
 
-    const totalSale = await contract.methods.MaxMintSupply().call();
+  async function getPriceWithSaleSatage() {
+    const contract = getContractInstance();
+    if (!contract) {
+      throw new Error('Cannot get contract');
+    }
+    const price = await contract.methods.NFT_PRICE().call();
+    return price;
+  }
 
-    return Number(totalSale || 0);
+  async function getCurrentMintIndex() {
+    const contract = getContractInstance();
+    if (!contract) {
+      throw new Error('Cannot get contract');
+    }
+    const index = await contract.methods.CurrentMintIndex().call();
+    return Number(index);
+  }
+
+  async function getEndMintIndex () {
+    const contract = getContractInstance();
+    if (!contract) {
+      throw new Error('Cannot get contract');
+    }
+    const end = await contract.methods.EndMintIndex().call();
+    return Number(end);
+  }
+
+  async function getMaxMintPerTX () {
+    const contract = getContractInstance();
+    if (!contract) {
+      throw new Error('Cannot get contract');
+    }
+    const max = await contract.methods.MaxMintPerTX().call();
+    return Number(max);
   }
 
   return {
-    getTotalSupply,
+    getMaxMintIndex,
     getMintInfo,
-    getTotalMint,
+    getSaleStage,
+    getCurrentMintIndex,
+    getEndMintIndex,
+    getMaxMintPerTX
   };
 }
