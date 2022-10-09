@@ -30,6 +30,23 @@ const MintForm = ({ rate, currentTimeline, endMintIndex, maxMintIndex, currentMi
   const { getMaxMintPerTX } = useMint();
   const { atomicMint } = useUserMinted();
 
+  const timeCanJoinMint = useMemo(() => {
+    const startTime = process.env.REACT_APP_START_PRE_SALE_TIME;
+    return new BigNumber(timeServer / 1000).gte(Number(startTime));
+  }, [timeServer]);
+
+  const disableButtonMint = useMemo(() => {
+    const canNotBuyNftRound1 = currentMintIndex === endMintIndex && currentMintIndex === MintTimeLine.HolderMint;
+    const soldOut = currentMintIndex === maxMintIndex;
+    if (soldOut) {
+      dispatch(alert(MESSAGES.SOLD_OUT));
+    }
+    if (!amount || !useCanJoinMint || !connected || !timeCanJoinMint || canNotBuyNftRound1 || soldOut) {
+      return true;
+    }
+    return false;
+  }, [amount, useCanJoinMint, connected, timeCanJoinMint, currentMintIndex, endMintIndex, maxMintIndex, dispatch]);
+
   const getTimeServer = async () => {
     const response = await instance.get(`current-time`);
     response.data && setTimeServer(response?.data?.data);
@@ -72,20 +89,6 @@ const MintForm = ({ rate, currentTimeline, endMintIndex, maxMintIndex, currentMi
       .catch((err) => console.error(err));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  const timeCanJoinMint = useMemo(() => {
-    const startTime = process.env.REACT_APP_START_PRE_SALE_TIME;
-    return new BigNumber(timeServer / 1000).gte(Number(startTime));
-  }, [timeServer]);
-
-  const disableButtonMint = useMemo(() => {
-    const canNotBuyNftRound1 = currentMintIndex === endMintIndex && currentMintIndex === MintTimeLine.HolderMint;
-    const soldOut = currentMintIndex === maxMintIndex;
-    if (!amount || !useCanJoinMint || !connected || !timeCanJoinMint || canNotBuyNftRound1 || soldOut) {
-      return true;
-    }
-    return false;
-  }, [amount, useCanJoinMint, connected, timeCanJoinMint, currentMintIndex, endMintIndex, maxMintIndex]);
 
   function validate(amount: number | string) {
     if (!connected) {
