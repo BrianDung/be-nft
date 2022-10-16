@@ -12,7 +12,7 @@ interface Props {
 }
 const InfoLandingPage = (props: Props) => {
   const styles = useStyles();
-  const [currentTimeline, setCurrentTimeline] = useState<MintTimeLine>(MintTimeLine.NotSet);
+  const [currentTimeline, setCurrentTimeline] = useState<MintTimeLine>(-1);
   // price with sale state
   const [rate, setRate] = useState<number | string>(0);
   const [maxMintIndex, setMaxMintIndex] = useState<number>(0);
