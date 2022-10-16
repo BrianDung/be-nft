@@ -83,7 +83,6 @@ export function useMint() {
     if (!contract) {
       throw new Error('Cannot get contract');
     }
-    debugger;
     const max = await contract.methods.checkWalletBalance().call();
     return Number(max);
   }

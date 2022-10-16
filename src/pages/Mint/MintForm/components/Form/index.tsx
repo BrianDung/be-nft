@@ -37,7 +37,7 @@ const MintForm = ({
   const [useCanJoinMint, setUserCanJoinMint] = useState<boolean>(false);
   const { balance, connected, account } = useWeb3ReactLocal();
   const dispatch = useDispatch();
-  const { getMaxMintPerTX  , checkWalletBalance} = useMint();
+  const { getMaxMintPerTX, checkWalletBalance } = useMint();
   const { atomicMint } = useUserMinted();
 
   const disableButtonMint = useMemo(() => {
@@ -50,17 +50,33 @@ const MintForm = ({
     return false;
   }, [amount, useCanJoinMint, connected, currentMintIndex, endMintIndex, maxMintIndex, timeServer]);
 
-  const checkBalance = async() => {
+  const checkStateZero = async () => {
+    const response = await instance.get(`check-state/${account}`);
+    console.log({ response, type: response?.data?.data?.data?.type });
+    if (currentTimeline === MintTimeLine.NotSet) {
+      const response = await instance.get(`check-state/${account}`);
+      const type = response?.data?.data?.data?.type;
+      if (Number(type) > 0) {
+        if (Number(type) === 1) {
+          dispatch(alert(MESSAGES.MC6));
+        } else {
+          dispatch(alert(MESSAGES.MC7));
+        }
+      }
+    }
+  };
+
+  const checkBalance = async () => {
     checkWalletBalance()
       .then((data) => {
         console.log('CHECKWALLETBALANCE', data);
-        if(new BigNumber(data || 0).lt(5)){
+        if (new BigNumber(data || 0).lt(5)) {
           dispatch(alert(MESSAGES.MC5));
         }
       })
       .catch((err) => console.error(err));
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }
+  };
 
   const checkUserCanJoin = async () => {
     if (currentTimeline === MintTimeLine.WLMint || currentTimeline === MintTimeLine.HolderMint) {
@@ -102,6 +118,7 @@ const MintForm = ({
 
   useEffect(() => {
     if (account) {
+      checkStateZero();
       checkUserCanJoin();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

@@ -28,4 +28,6 @@ export const MESSAGES = {
   MC3: 'XBorg HODLERS round sold out',
   MC4: 'ALL of our XBorgs have found a home',
   MC5: 'Mint coming soon!',
+  MC6: 'Congratulation you are in the holders list, holders mint will be live soon',
+  MC7: 'Congratulation you are in the WL, WL mint will be live soon',
 };
