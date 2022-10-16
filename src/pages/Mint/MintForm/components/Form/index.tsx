@@ -17,11 +17,19 @@ interface MintFormProps {
   endMintIndex: number;
   maxMintIndex: number;
   currentMintIndex: number;
-  timeServer : number;
+  timeServer: number;
   startMintIndex: number;
 }
 
-const MintForm = ({ rate, currentTimeline, endMintIndex, maxMintIndex, currentMintIndex , timeServer , startMintIndex}: MintFormProps) => {
+const MintForm = ({
+  rate,
+  currentTimeline,
+  endMintIndex,
+  maxMintIndex,
+  currentMintIndex,
+  timeServer,
+  startMintIndex,
+}: MintFormProps) => {
   const styles = useStyles();
   const [amount, setAmount] = useState<number | string>(1);
   const [maxAmount, setMaxAmount] = useState<number>(1);
@@ -45,8 +53,28 @@ const MintForm = ({ rate, currentTimeline, endMintIndex, maxMintIndex, currentMi
   const checkUserCanJoin = async () => {
     if (currentTimeline === MintTimeLine.WLMint || currentTimeline === MintTimeLine.HolderMint) {
       const response = await instance.get(`check/${account}/${currentTimeline}`);
-      response.data && setUserCanJoinMint(response?.data?.data);
-      console.log('USER CAN JOIN MINT', response?.data?.data, { currentTimeline });
+      const isWL = response?.data?.data?.isWL;
+      response.data && setUserCanJoinMint(isWL);
+      // Handle message
+      if (currentTimeline === MintTimeLine.HolderMint && !isWL) {
+        dispatch(alert(MESSAGES.MC1));
+      }
+      if (currentTimeline === MintTimeLine.WLMint && !isWL) {
+        setTimeout(() => {
+          dispatch(alert(MESSAGES.MC2));
+        }, 1000);
+      }
+      if (currentTimeline === MintTimeLine.HolderMint && currentMintIndex > endMintIndex) {
+        setTimeout(() => {
+          dispatch(alert(MESSAGES.MC3));
+        }, 2000);
+      }
+      if (currentMintIndex > maxMintIndex) {
+        setTimeout(() => {
+          dispatch(alert(MESSAGES.MC4));
+        }, 3000);
+      }
+      console.log('USER CAN JOIN MINT', isWL, { currentTimeline });
     }
 
     if (currentTimeline === MintTimeLine.PublicMint) {

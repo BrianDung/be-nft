@@ -23,4 +23,9 @@ export const MESSAGES = {
   MAX_ALLOW_PUBLIC_SALE: 'NFT limit per wallet has been reached.',
   NOT_CONNECT_WALLET: 'Please connect your ERC20 wallet.',
   SOLD_OUT: 'Xborgs sold out!',
+  MC1: 'Stand back non holder, your time to mint is yet to come',
+  MC2: 'Stand back, your time to mint is yet to come',
+  MC3: 'XBorg HODLERS round sold out',
+  MC4: 'ALL of our XBorgs have found a home',
+
 };
