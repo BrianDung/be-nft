@@ -78,6 +78,16 @@ export function useMint() {
     return Number(max);
   }
 
+  async function checkWalletBalance () {
+    const contract = getContractInstance();
+    if (!contract) {
+      throw new Error('Cannot get contract');
+    }
+    debugger;
+    const max = await contract.methods.checkWalletBalance().call();
+    return Number(max);
+  }
+
   return {
     getMaxMintIndex,
     getMintInfo,
@@ -85,6 +95,7 @@ export function useMint() {
     getCurrentMintIndex,
     getEndMintIndex,
     getMaxMintPerTX,
-    getStartMintIndex
+    getStartMintIndex,
+    checkWalletBalance
   };
 }

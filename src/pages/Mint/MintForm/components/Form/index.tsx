@@ -37,7 +37,7 @@ const MintForm = ({
   const [useCanJoinMint, setUserCanJoinMint] = useState<boolean>(false);
   const { balance, connected, account } = useWeb3ReactLocal();
   const dispatch = useDispatch();
-  const { getMaxMintPerTX } = useMint();
+  const { getMaxMintPerTX  , checkWalletBalance} = useMint();
   const { atomicMint } = useUserMinted();
 
   const disableButtonMint = useMemo(() => {
@@ -49,6 +49,18 @@ const MintForm = ({
     }
     return false;
   }, [amount, useCanJoinMint, connected, currentMintIndex, endMintIndex, maxMintIndex, timeServer]);
+
+  const checkBalance = async() => {
+    checkWalletBalance()
+      .then((data) => {
+        console.log('CHECKWALLETBALANCE', data);
+        if(new BigNumber(data || 0).lt(5)){
+          dispatch(alert(MESSAGES.MC5));
+        }
+      })
+      .catch((err) => console.error(err));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }
 
   const checkUserCanJoin = async () => {
     if (currentTimeline === MintTimeLine.WLMint || currentTimeline === MintTimeLine.HolderMint) {
@@ -91,6 +103,13 @@ const MintForm = ({
   useEffect(() => {
     if (account) {
       checkUserCanJoin();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [account, currentTimeline]);
+
+  useEffect(() => {
+    if (account) {
+      checkBalance();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [account, currentTimeline]);

@@ -27,5 +27,5 @@ export const MESSAGES = {
   MC2: 'Stand back, your time to mint is yet to come',
   MC3: 'XBorg HODLERS round sold out',
   MC4: 'ALL of our XBorgs have found a home',
-
+  MC5: 'Mint coming soon!',
 };
