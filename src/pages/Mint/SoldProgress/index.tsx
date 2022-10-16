@@ -28,7 +28,7 @@ const SoldProgress = (props: SoldProgressProps) => {
         <div className={styles.jubValue}>
           <div className={styles.leftBotSec}>{progress.toFixed(2)}% of Xborg Sold</div>
           <div className={styles.rightBotSec}>
-            {currentMintIndex}/{maxMintIndex}
+            {currentMintIndex - startMintIndex}/{maxMintIndex}
           </div>
         </div>
         <BorderOutline>
