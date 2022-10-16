@@ -5,7 +5,7 @@ import { useStyles } from './style';
 
 const twitterLink = 'https://twitter.com/VispX_official';
 const discordLink = 'https://discord.com/invite/vispx';
-const telegramLink = 'https://t.me/VispX_Official';
+const telegramLink = 'https://vispx.io/';
 
 const MintPage = () => {
   const styles = useStyles();

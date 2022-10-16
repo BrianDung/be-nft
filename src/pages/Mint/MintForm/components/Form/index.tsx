@@ -18,9 +18,10 @@ interface MintFormProps {
   maxMintIndex: number;
   currentMintIndex: number;
   timeServer : number;
+  startMintIndex: number;
 }
 
-const MintForm = ({ rate, currentTimeline, endMintIndex, maxMintIndex, currentMintIndex , timeServer}: MintFormProps) => {
+const MintForm = ({ rate, currentTimeline, endMintIndex, maxMintIndex, currentMintIndex , timeServer , startMintIndex}: MintFormProps) => {
   const styles = useStyles();
   const [amount, setAmount] = useState<number | string>(1);
   const [maxAmount, setMaxAmount] = useState<number>(1);

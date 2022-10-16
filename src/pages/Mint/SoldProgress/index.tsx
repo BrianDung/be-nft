@@ -6,19 +6,23 @@ import { useStyles } from './style';
 interface SoldProgressProps {
   currentMintIndex: number;
   maxMintIndex: number;
+  startMintIndex: number;
 }
 
 const SoldProgress = (props: SoldProgressProps) => {
   const styles = useStyles();
-  const { currentMintIndex, maxMintIndex } = props;
+  const { currentMintIndex, maxMintIndex, startMintIndex } = props;
 
   const progress = useMemo(() => {
-    return new BigNumber(currentMintIndex).div(maxMintIndex).multipliedBy(100).toNumber();
-  }, [currentMintIndex, maxMintIndex]);
+    return new BigNumber(currentMintIndex).minus(startMintIndex).div(maxMintIndex).multipliedBy(100).toNumber();
+  }, [currentMintIndex, maxMintIndex , startMintIndex]);
 
   return (
     <div>
-      <p className={styles.xborgTitle}>XBORG</p>
+      <p className={styles.xborgTitle}>
+        <div> XBORG</div>
+        <div className={styles.mintText}>( mint 2.0 )</div>
+      </p>
 
       <div className={styles.soldProgress}>
         <div className={styles.jubValue}>

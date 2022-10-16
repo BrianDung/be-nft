@@ -54,6 +54,8 @@ export const useStyles = makeStyles((theme: any) => {
     },
     rightBotSec: {},
     xborgTitle: {
+      display: 'flex',
+      alignItems : 'baseline',
       fontSize: '100px',
       fontWeight: 620,
       fontFamily: 'Mokoto',
@@ -72,11 +74,17 @@ export const useStyles = makeStyles((theme: any) => {
         fontSize: '80px',
       },
       '@media only screen and (min-width: 500px) and (max-width: 670px)': {
-        fontSize: '75px !important',
+        fontSize: '75px',
       },
       [theme.breakpoints.down('xs')]: {
-        fontSize: '70px',
+        fontSize: '50px',
         textAlign: 'center',
+      },
+    },
+    mintText : {
+      fontSize : '20px',
+      [theme.breakpoints.down('xs')]: {
+        fontSize: '15px',
       },
     },
     progressFull: {

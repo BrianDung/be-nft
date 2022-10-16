@@ -17,10 +17,21 @@ const InfoLandingPage = (props: Props) => {
   const [rate, setRate] = useState<number | string>(0);
   const [maxMintIndex, setMaxMintIndex] = useState<number>(0);
   const [currentMintIndex, setCurrentMintIndex] = useState<number>(0);
+  const [startMintIndex, setStartMintIndex] = useState<number>(0);
   const [endMintIndex, setEndMintIndex] = useState<number>(0);
   const [timeServer, setTimeServer] = useState<number>(0);
-  const { getMaxMintIndex, getCurrentMintIndex, getEndMintIndex, getMintInfo } = useMint();
+  const { getMaxMintIndex, getCurrentMintIndex, getEndMintIndex, getMintInfo, getStartMintIndex } = useMint();
   const startPreSaleTime = process.env.REACT_APP_START_PRE_SALE_TIME;
+
+  useEffect(() => {
+    getStartMintIndex()
+      .then((start) => {
+        console.log('START MINT INDEX', start);
+        setStartMintIndex(start);
+      })
+      .catch((err) => console.error(err));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     getCurrentMintIndex()
@@ -86,7 +97,7 @@ const InfoLandingPage = (props: Props) => {
       case MintTimeLine.HolderMint:
         return 'Holder’s Mint';
       case MintTimeLine.WLMint:
-        return 'WL Mint';
+        return 'Whitelist Mint';
       case MintTimeLine.PublicMint:
         return 'Public Mint';
       default: {
@@ -114,7 +125,7 @@ const InfoLandingPage = (props: Props) => {
           <Countdown currentDate={timeServer} startDate={startPreSaleTime} />
         )}
       </div>
-      <SoldProgress currentMintIndex={currentMintIndex} maxMintIndex={maxMintIndex} />
+      <SoldProgress startMintIndex={startMintIndex} currentMintIndex={currentMintIndex} maxMintIndex={maxMintIndex} />
       <MintFormContainer
         currentTimeline={currentTimeline}
         rate={rate}
@@ -122,6 +133,7 @@ const InfoLandingPage = (props: Props) => {
         maxMintIndex={maxMintIndex}
         currentMintIndex={currentMintIndex}
         timeServer={timeServer}
+        startMintIndex={startMintIndex}
       />
     </div>
   );

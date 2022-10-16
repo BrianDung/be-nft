@@ -69,12 +69,22 @@ export function useMint() {
     return Number(max);
   }
 
+  async function getStartMintIndex () {
+    const contract = getContractInstance();
+    if (!contract) {
+      throw new Error('Cannot get contract');
+    }
+    const max = await contract.methods.StartMintIndex().call();
+    return Number(max);
+  }
+
   return {
     getMaxMintIndex,
     getMintInfo,
     getSaleStage,
     getCurrentMintIndex,
     getEndMintIndex,
-    getMaxMintPerTX
+    getMaxMintPerTX,
+    getStartMintIndex
   };
 }
