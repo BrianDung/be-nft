@@ -51,17 +51,11 @@ const MintForm = ({
   }, [amount, useCanJoinMint, connected, currentMintIndex, endMintIndex, maxMintIndex, timeServer]);
 
   const checkStateZero = async () => {
-    const response = await instance.get(`check-state/${account}`);
-    console.log({ response, type: response?.data?.data?.data?.type });
     if (currentTimeline === MintTimeLine.NotSet) {
       const response = await instance.get(`check-state/${account}`);
-      const type = response?.data?.data?.data?.type;
-      if (Number(type) > 0) {
-        if (Number(type) === 1) {
-          dispatch(alert(MESSAGES.MC6));
-        } else {
-          dispatch(alert(MESSAGES.MC7));
-        }
+      const message = response?.data?.data?.message;
+      if (message) {
+        dispatch(alert(message));
       }
     }
   };
@@ -92,12 +86,12 @@ const MintForm = ({
           dispatch(alert(MESSAGES.MC2));
         }, 1000);
       }
-      if (currentTimeline === MintTimeLine.HolderMint && currentMintIndex > endMintIndex) {
-        setTimeout(() => {
-          dispatch(alert(MESSAGES.MC3));
-        }, 2000);
-      }
-      if (currentMintIndex > maxMintIndex) {
+      if (currentMintIndex > endMintIndex) {
+        if (currentTimeline === MintTimeLine.HolderMint) {
+          setTimeout(() => {
+            dispatch(alert(MESSAGES.MC3));
+          }, 2000);
+        }
         setTimeout(() => {
           dispatch(alert(MESSAGES.MC4));
         }, 3000);
