@@ -45,9 +45,9 @@ deploy-test:
 	rm -rf build
 #private
 deploy-xborg:
-	git pull
-	yarn 
-	cp .env.production .env
+	#git pull
+	#yarn 
+	#cp .env.production .env
 	yarn build 
 	zip -r build.zip build
 	scp build.zip $(server):/var/www/vispx/

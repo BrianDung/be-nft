@@ -43,12 +43,13 @@ const MintForm = ({
   const disableButtonMint = useMemo(() => {
     const canNotBuyNftRound1 = currentMintIndex === endMintIndex && currentMintIndex === MintTimeLine.HolderMint;
     const soldOut = currentMintIndex === maxMintIndex;
-    const expireDateMint = new BigNumber(process.env.REACT_APP_API_END_MINT_NFT || 0).lte(timeServer / 1000);
-    if (!amount || !useCanJoinMint || !connected || canNotBuyNftRound1 || soldOut || expireDateMint) {
+    // const expireDateMint = new BigNumber(process.env.REACT_APP_API_END_MINT_NFT || 0).lte(timeServer / 1000);
+
+    if (!amount || !useCanJoinMint || !connected || canNotBuyNftRound1 || soldOut) {
       return true;
     }
     return false;
-  }, [amount, useCanJoinMint, connected, currentMintIndex, endMintIndex, maxMintIndex, timeServer]);
+  }, [amount, useCanJoinMint, connected, currentMintIndex, endMintIndex, maxMintIndex]);
 
   const checkStateZero = async () => {
     if (currentTimeline === MintTimeLine.NotSet) {
