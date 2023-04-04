@@ -109,7 +109,7 @@ export const useStyles = makeStyles((theme: any) => {
         bottom: 0,
         padding: 4,
         borderRadius: 8,
-        background: 'linear-gradient(90deg, #692BA1 0%, #0D6699 100%)',
+        background: 'linear-gradient(87.59deg, #FFFFFF 0%, #2C98D4 100%)',
         '-webkit-mask': 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
         '-webkit-mask-composite': 'xor',
         transition: 'all 0.25s ease-in-out',

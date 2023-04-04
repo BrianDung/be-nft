@@ -15,13 +15,14 @@ const SoldProgress = (props: SoldProgressProps) => {
 
   const progress = useMemo(() => {
     return new BigNumber(currentMintIndex).minus(startMintIndex).div(maxMintIndex).multipliedBy(100).toNumber();
-  }, [currentMintIndex, maxMintIndex , startMintIndex]);
+  }, [currentMintIndex, maxMintIndex, startMintIndex]);
 
   return (
     <div>
       <p className={styles.xborgTitle}>
-        <div> XBORG</div>
-        <div className={styles.mintText}>( mint 2.0 )</div>
+        {/* <div>BeNFT</div> */}
+        {/* <div className={styles.mintText}>( mint 2.0 )</div> */}
+        <img src="/images/newPage/benft.svg" alt="name" className={styles.rightBotSec} />
       </p>
 
       <div className={styles.soldProgress}>

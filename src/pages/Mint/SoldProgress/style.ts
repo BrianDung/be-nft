@@ -43,7 +43,7 @@ export const useStyles = makeStyles((theme: any) => {
       marginLeft: 4,
       // marginTop: 4,
       height: '100%',
-      background: '#60A444',
+      background: 'linear-gradient(270deg, #9CCFEC 0%, rgba(0, 0, 0, 0.2) 124.81%)',
       borderTopLeftRadius: 6,
       borderBottomLeftRadius: 6,
       '@media only screen and (max-width: 1800px)': {
@@ -52,10 +52,12 @@ export const useStyles = makeStyles((theme: any) => {
         // marginTop: 3,
       },
     },
-    rightBotSec: {},
+    rightBotSec: {
+      width: 'inherit',
+    },
     xborgTitle: {
       display: 'flex',
-      alignItems : 'baseline',
+      alignItems: 'baseline',
       fontSize: '100px',
       fontWeight: 620,
       fontFamily: 'Mokoto',
@@ -79,10 +81,11 @@ export const useStyles = makeStyles((theme: any) => {
       [theme.breakpoints.down('xs')]: {
         fontSize: '50px',
         textAlign: 'center',
+        width: '100%',
       },
     },
-    mintText : {
-      fontSize : '20px',
+    mintText: {
+      fontSize: '20px',
       [theme.breakpoints.down('xs')]: {
         fontSize: '15px',
       },

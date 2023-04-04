@@ -21,7 +21,7 @@ export const useStyles = makeStyles((theme: any) => {
               bottom: 0,
               padding: 4,
               borderRadius: 10,
-              background: 'linear-gradient(90deg, #A74AFC 0%, rgba(7, 153, 206, 0.95) 100%)',
+              background: 'linear-gradient(87.59deg, #FFFFFF 0%, #2C98D4 100%)',
               '-webkit-mask': 'linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)',
               '-webkit-mask-composite': 'xor',
               transition: 'all 0.25s ease-in-out',
