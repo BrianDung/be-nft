@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { useMemo } from 'react';
-import { BorderOutline } from '../BorderOutline';
+// import { BorderOutline } from '../BorderOutline';
 import { useStyles } from './style';
 
 interface SoldProgressProps {
@@ -32,14 +32,17 @@ const SoldProgress = (props: SoldProgressProps) => {
             {currentMintIndex - startMintIndex}/{maxMintIndex}
           </div>
         </div>
-        <BorderOutline>
-          <div className={styles.progress} style={{ padding: `${progress <= 0.4 ? '6px 0' : '4px 0'}` }}>
-            <div
-              className={`${styles.achieved}  ${progress === 100 ? styles.progressFull : ''}`}
-              style={{ width: `${progress}%` }}
-            ></div>
-          </div>
-        </BorderOutline>
+        {/* <BorderOutline> */}
+        <div
+          className={styles.progress}
+          // style={{ padding: `${progress <= 0.4 ? '6px 0' : '4px 0'}` }}
+        >
+          <div
+            className={`${styles.achieved}  ${progress === 100 ? styles.progressFull : ''}`}
+            style={{ width: `${progress}%` }}
+          ></div>
+        </div>
+        {/* </BorderOutline> */}
       </div>
     </div>
   );

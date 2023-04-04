@@ -34,9 +34,10 @@ export const useStyles = makeStyles((theme: any) => {
       // },
     },
     roundInfo: {
+      border: '4px solid rgba(255, 255, 255, 1)',
       padding: '13px',
       textAlign: 'center',
-      borderRadius: '8px',
+      borderRadius: '10px',
       width: 'fit-content',
       minWidth: '170px',
       [theme.breakpoints.up('lg')]: {

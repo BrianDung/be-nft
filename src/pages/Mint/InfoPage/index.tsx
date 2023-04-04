@@ -2,7 +2,7 @@ import { MintTimeLine } from 'constants/mint';
 import { useMint } from 'hooks/useMint';
 import { useEffect, useState } from 'react';
 import instance from 'services/axios';
-import { BorderOutline } from '../BorderOutline';
+// import { BorderOutline } from '../BorderOutline';
 import Countdown from '../Countdown';
 import MintFormContainer from '../MintForm';
 import SoldProgress from '../SoldProgress';
@@ -109,7 +109,7 @@ const InfoLandingPage = (props: Props) => {
   return (
     <div className={styles.xborgPageWrapper}>
       <div className={styles.timer}>
-        <BorderOutline>
+        {/* <BorderOutline> */}
           <div className={styles.roundInfo}>
             <p className={styles.roundType}>{renderTitle()}</p>
             {currentTimeline < MintTimeLine.HolderMint ? (
@@ -120,7 +120,7 @@ const InfoLandingPage = (props: Props) => {
               </p>
             )}
           </div>
-        </BorderOutline>
+        {/* </BorderOutline> */}
         {currentTimeline === MintTimeLine.NotSet && startPreSaleTime && (
           <Countdown currentDate={timeServer} startDate={startPreSaleTime} />
         )}

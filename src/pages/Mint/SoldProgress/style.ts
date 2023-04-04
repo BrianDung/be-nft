@@ -26,6 +26,8 @@ export const useStyles = makeStyles((theme: any) => {
     },
     leftBotSec: {},
     progress: {
+      border: '3px solid rgba(255, 255, 255, 1)',
+      borderRadius: 10,
       height: 47,
       textAlign: 'center',
       lineHeight: '35px',
