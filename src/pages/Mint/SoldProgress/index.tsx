@@ -27,7 +27,7 @@ const SoldProgress = (props: SoldProgressProps) => {
 
       <div className={styles.soldProgress}>
         <div className={styles.jubValue}>
-          <div className={styles.leftBotSec}>{progress.toFixed(2)}% of Xborg Sold</div>
+          <div className={styles.leftBotSec}>{progress.toFixed(2)}% of BeNFT Sold</div>
           <div className={styles.rightBotSec}>
             {currentMintIndex - startMintIndex}/{maxMintIndex}
           </div>

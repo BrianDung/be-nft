@@ -50,6 +50,7 @@ export const useStyles = makeStyles((theme: any) => {
       },
     },
     quantity: {
+      width : 70,
       background: 'transparent !important',
       '& > span.MuiButton-label': {
         fontFamily: 'Montserrat-Medium',
@@ -78,6 +79,7 @@ export const useStyles = makeStyles((theme: any) => {
       [theme.breakpoints.down('sm')]: {
         padding: '0px 25px',
         marginLeft: 5,
+        width : 64,
         borderWidth: '3px !important',
         '& > span.MuiButton-label': {
           lineHeight: '35px',

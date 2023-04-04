@@ -10,7 +10,7 @@ import { ConnectWalletModal } from './ConnectWalletModal';
 import { SUPPORTED_WALLETS } from 'constants/connectors';
 
 const logoIcon = '/images/dashboard/icon-logo.svg';
-const logoMobile = '/images/dashboard/icon-logo-mobile.svg';
+// const logoMobile = '/images/dashboard/icon-logo-mobile.svg';
 const logoMobileShort = '/images/dashboard/icon-logo-mobile-2.png';
 
 function formatAddress(address: string) {
@@ -45,9 +45,9 @@ const HeaderPage = () => {
             {width >= 960 ? (
               <img alt="logo-icon" src={logoIcon} style={{ width: '11vw' }} />
             ) : account ? (
-              <img alt="logo-icon" src={logoMobileShort} width={38} height={48} />
+              <img alt="logo-icon" src={logoMobileShort} width={100} height={48} style={{marginTop : -20}}/>
             ) : (
-              <img alt="logo-icon" src={logoMobile} />
+              <img alt="logo-icon" src={logoMobileShort} style={{marginTop : -20}}/>
             )}
           </Link>
         </div>

@@ -26,7 +26,7 @@ const MintFormContainer = ({
   return (
     <>
       <div>
-        <span className={styles.priceBigSize}>{rate} ETH</span>
+        <span className={styles.priceBigSize}>{rate} USDT</span>
         <span className={styles.priceMediumSize}>/ NFT</span>
       </div>
       <MintForm
