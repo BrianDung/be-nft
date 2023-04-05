@@ -51,7 +51,7 @@ export const useStyles = makeStyles((theme: any) => {
     },
     quantity: {
       width: 70,
-      height: 80,
+      maxHeight: 80,
       background: 'transparent !important',
       '& > span.MuiButton-label': {
         fontFamily: 'Segoe-Medium',
