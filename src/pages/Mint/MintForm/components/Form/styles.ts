@@ -34,7 +34,7 @@ export const useStyles = makeStyles((theme: any) => {
       position: 'relative',
       width: '294px',
       zIndex: 99,
-      "@media only screen and (max-width: 1800px)": {
+      '@media only screen and (max-width: 1800px)': {
         lineHeight: '30px',
       },
       // [theme.breakpoints.down('md')]: {
@@ -50,7 +50,8 @@ export const useStyles = makeStyles((theme: any) => {
       },
     },
     quantity: {
-      width : 70,
+      width: 70,
+      height: 80,
       background: 'transparent !important',
       '& > span.MuiButton-label': {
         fontFamily: 'Segoe-Medium',
@@ -79,17 +80,18 @@ export const useStyles = makeStyles((theme: any) => {
       [theme.breakpoints.down('sm')]: {
         padding: '0px 25px',
         marginLeft: 5,
-        width : 64,
+        height: 50,
+        width: 64,
         borderWidth: '3px !important',
         '& > span.MuiButton-label': {
           lineHeight: '35px',
           fontSize: '28px',
           '&:nth-child(2)': {
-            lineHeight: '36px'
-          }
+            lineHeight: '36px',
+          },
         },
       },
-      "@media only screen and (max-width: 1800px)": {
+      '@media only screen and (max-width: 1800px)': {
         padding: '3px 16px',
         '& > span.MuiButton-label': {
           fontSize: '31px',
@@ -102,81 +104,81 @@ export const useStyles = makeStyles((theme: any) => {
       //   },
       // },
     },
-      max: {
-        background: 'none !important',
-        border: '4px solid #FFFFFF',
-        borderRadius: '10px',
-        [theme.breakpoints.down('sm')]: {
-          borderWidth: '3px !important'
-        },
-        '& > span.MuiButton-label': {
-          fontFamily: 'Segoe-SemiBold',
-          fontSize: '34px',
-          color: '#FFFFFF',
-          "@media only screen and (max-width: 1800px)": {
-            fontSize: '24px',
-          },
-          [theme.breakpoints.down('sm')]: {
-            fontSize: '20px',
-            lineHeight: '30px',
-          },
-        },
-        cursor: 'pointer',
-        margin: '11.5px 0 20px 15px',
-        padding: '12px 22px',
-        lineHeight: '35px',
-        '&:disabled': {
-          background: '#8C8C8C !important',
-          border: '4px solid #FFFFFF',
-          '& > span.MuiButton-label': {
-            opacity: 0.5,
-          },
-        },
-        "@media only screen and (max-width: 1800px)": {
-          padding: '0px 16px',
-          lineHeight: 'normal',
-        },
+    max: {
+      background: 'none !important',
+      border: '4px solid #FFFFFF',
+      borderRadius: '10px',
+      [theme.breakpoints.down('sm')]: {
+        borderWidth: '3px !important',
       },
-      mint: {
-        background: '#60A444 !important',
-        border: '4px solid #FFFFFF',
-        marginBottom: 0,
-        width: '80%',
-        maxWidth: '390px',
-        borderRadius: '10px',
-        '& > span.MuiButton-label': {
-          fontFamily: 'Segoe-SemiBold',
-          fontSize: '34px',
-          lineHeight: '58px',
-          color: '#FFFFFF',
-          "@media only screen and (max-width: 1800px)": {
-            fontSize: '24px',
-            lineHeight: '25px',
-          },
-          [theme.breakpoints.down('sm')]: {
-            fontSize: '20px',
-            lineHeight: '20px',
-          },
-        },
-        "@media only screen and (max-width: 1800px)": {
-          maxWidth: '375px',
+      '& > span.MuiButton-label': {
+        fontFamily: 'Segoe-SemiBold',
+        fontSize: '34px',
+        color: '#FFFFFF',
+        '@media only screen and (max-width: 1800px)': {
+          fontSize: '24px',
         },
         [theme.breakpoints.down('sm')]: {
-          fontSize: '28px',
-          width: '100%',
-          maxWidth: 'unset',
-          borderWidth: '3px !important'
-        },
-        '&:disabled': {
-          background: '#8C8C8C !important',
-          border: '4px solid #FFFFFF',
-          '& > span.MuiButton-label': {
-            opacity: 0.5,
-          },
+          fontSize: '20px',
+          lineHeight: '30px',
         },
       },
-      mintForm: {
-        display: 'flex',
+      cursor: 'pointer',
+      margin: '11.5px 0 20px 15px',
+      padding: '12px 22px',
+      lineHeight: '35px',
+      '&:disabled': {
+        background: '#8C8C8C !important',
+        border: '4px solid #FFFFFF',
+        '& > span.MuiButton-label': {
+          opacity: 0.5,
+        },
       },
-    };
-  });
+      '@media only screen and (max-width: 1800px)': {
+        padding: '0px 16px',
+        lineHeight: 'normal',
+      },
+    },
+    mint: {
+      background: '#60A444 !important',
+      border: '4px solid #FFFFFF',
+      marginBottom: 0,
+      width: '80%',
+      maxWidth: '390px',
+      borderRadius: '10px',
+      '& > span.MuiButton-label': {
+        fontFamily: 'Segoe-SemiBold',
+        fontSize: '34px',
+        lineHeight: '58px',
+        color: '#FFFFFF',
+        '@media only screen and (max-width: 1800px)': {
+          fontSize: '24px',
+          lineHeight: '25px',
+        },
+        [theme.breakpoints.down('sm')]: {
+          fontSize: '20px',
+          lineHeight: '20px',
+        },
+      },
+      '@media only screen and (max-width: 1800px)': {
+        maxWidth: '375px',
+      },
+      [theme.breakpoints.down('sm')]: {
+        fontSize: '28px',
+        width: '100%',
+        maxWidth: 'unset',
+        borderWidth: '3px !important',
+      },
+      '&:disabled': {
+        background: '#8C8C8C !important',
+        border: '4px solid #FFFFFF',
+        '& > span.MuiButton-label': {
+          opacity: 0.5,
+        },
+      },
+    },
+    mintForm: {
+      display: 'flex',
+    },
+  };
+});
