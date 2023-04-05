@@ -189,9 +189,9 @@ const MintForm = ({
     setAmount(Number(amount) + 1);
   };
 
-  const handleMax = () => {
-    setAmount(maxAmount);
-  };
+  // const handleMax = () => {
+  //   setAmount(maxAmount);
+  // };
 
   return (
     <div>
@@ -225,9 +225,9 @@ const MintForm = ({
             +
           </Button>
         </div>
-        <Button className={styles.max} onClick={handleMax} disabled={loading || !connected}>
+        {/* <Button className={styles.max} onClick={handleMax} disabled={loading || !connected}>
           MAX
-        </Button>
+        </Button> */}
       </div>
       <Button
         onClick={handleSumit}
