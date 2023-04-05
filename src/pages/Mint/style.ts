@@ -9,6 +9,9 @@ export const useStyles = makeStyles((theme: any) => {
       // background: 'linear-gradient(90deg, #06071D 0%, #290A4B 100%)',
       minHeight: '100vh',
     },
+    newLandingPageMobile : {
+      backgroundImage: `url(./images/newPage/backgroundMobile.svg)`,
+    },
     pageInfo: {
       display: 'flex',
       alignItems: 'stretch',

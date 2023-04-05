@@ -35,7 +35,7 @@ export const useStyles = makeStyles((theme: any) => {
       '@media only screen and (max-width: 1800px)': {
         height: 25,
         width: 'calc(100% - 6px)',
-        padding: '3px 0',
+        // padding: '3px 0',
       },
     },
     achieved: {

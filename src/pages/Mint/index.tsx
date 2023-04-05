@@ -1,3 +1,4 @@
+import useWindowDimensions from 'hooks/useWindowDimensions';
 import HeaderPage from './Header';
 import InfoLandingPage from './InfoPage';
 import { ProjectImage } from './ProjectImage';
@@ -9,9 +10,14 @@ const telegramLink = 'https://t.me/benftsolutions';
 
 const MintPage = () => {
   const styles = useStyles();
+  const { width } = useWindowDimensions();
 
   return (
-    <div className={styles.newLandingPage}>
+    <div
+      className={`${
+        width < 550 ? `${styles.newLandingPage} ${styles.newLandingPageMobile}` : `${styles.newLandingPage}`
+      }`}
+    >
       <div className={styles.container}>
         <HeaderPage />
         <div className={styles.pageInfo}>
