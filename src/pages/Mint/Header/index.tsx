@@ -41,7 +41,7 @@ const HeaderPage = () => {
     <header className={classes.root}>
       <div className={classes.container}>
         <div className={classes.logoField}>
-          <Link to={'/mint'}>
+          <Link to={'/'}>
             {width >= 960 ? (
               <img alt="logo-icon" src={logoIcon} style={{ width: '11vw' }} />
             ) : account ? (

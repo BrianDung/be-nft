@@ -1,3 +1,4 @@
+import { notification } from 'antd';
 import { Web3ReactLocalProvider } from 'contexts/web3react';
 import MintPage from 'pages/Mint';
 import React, { useEffect } from 'react';
@@ -5,12 +6,9 @@ import React, { useEffect } from 'react';
 import { NotificationContainer } from 'react-notifications';
 import 'react-notifications/lib/notifications.css';
 import { useDispatch, useSelector } from 'react-redux';
-import { BrowserRouter as Router, Redirect, Route, RouteComponentProps, Switch, withRouter } from 'react-router-dom';
+import { BrowserRouter as Router, Route, RouteComponentProps, Switch, withRouter } from 'react-router-dom';
 import { clearAlert } from 'store/actions/alert';
 import ErrorBoundary from './components/Base/ErrorBoundary';
-// eslint-disable-next-line
-import NewLanding from './pages/NewLanding';
-import { notification } from 'antd';
 
 /**
  * Main App routes.
@@ -47,8 +45,8 @@ const Routes: React.FC<RouteComponentProps> = (props: RouteComponentProps) => {
     <Switch>
       {/* <Route exact path={'/'} component={NewLanding} /> */}
       <Web3ReactLocalProvider>
-        <Redirect to="/mint" />
-        <Route path={'/mint'} component={MintPage} />
+        {/* <Redirect to="/mint" /> */}
+        <Route path={'/'} component={MintPage} />
       </Web3ReactLocalProvider>
     </Switch>
   );

@@ -93,15 +93,15 @@ const InfoLandingPage = (props: Props) => {
   const renderTitle = () => {
     switch (currentTimeline) {
       case MintTimeLine.NotSet:
-        return 'Holder’s Mint';
+        return 'Whitelist Round';
       case MintTimeLine.HolderMint:
-        return 'Holder’s Mint';
+        return 'Whitelist Round';
       case MintTimeLine.WLMint:
         return 'Whitelist Mint';
       case MintTimeLine.PublicMint:
         return 'Public Mint';
       default: {
-        return 'Holder’s Mint';
+        return 'Whitelist Round';
       }
     }
   };

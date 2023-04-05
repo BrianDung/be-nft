@@ -50,13 +50,13 @@ deploy-xborg:
 	#cp .env.production .env
 	yarn build 
 	zip -r build.zip build
-	scp build.zip $(server):/var/www/vispx/
-	ssh $(server) "cd /var/www/vispx/ && mkdir -p backups/$(buildPath) && cp -r build backups/$(buildPath) && rm -rf build && unzip build.zip && rm -rf build.zip"
+	scp build.zip $(server):/var/www/benft/
+	ssh $(server) "cd /var/www/benft/ && mkdir -p backups/$(buildPath) && cp -r build backups/$(buildPath) && rm -rf build && unzip build.zip && rm -rf build.zip"
 	rm -rf build.zip
 	rm -rf build
 #public
 deploy-landing:
-	make deploy-xborg server=ubuntu@xborg.vispx.io
+	make deploy-xborg server=ubuntu@3.91.19.199
 #public
 deploy-mint:
-	make deploy-xborg server=ubuntu@mint.vispx.io
+	make deploy-xborg server=ubuntu@3.91.19.199
