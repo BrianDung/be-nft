@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: any) => {
         fontSize: 14,
         fontWeight: 700,
         lineHeight: "18px",
-        fontFamily: "Montserrat-Regular",
+        fontFamily: "Segoe-Regular",
       },
       "&:last-child": {
         marginBottom: 0,

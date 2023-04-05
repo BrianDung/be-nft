@@ -34,7 +34,7 @@ const useStyles = makeStyles((theme) => {
       color: '#0B111B',
       marginTop: 10,
       marginBottom: 0,
-      fontFamily: 'Montserrat-Regular',
+      fontFamily: 'Segoe-Regular',
       fontSize: 14,
       textAlign: 'center',
       opacity: 0.5,

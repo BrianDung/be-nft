@@ -18,7 +18,7 @@ export const useStyles = makeStyles((theme: any) => {
             borderRadius: '30px !important',
             color: 'white !important',
             fontSize: '16px !important',
-            fontFamily: 'Montserrat-Regular !important',
+            fontFamily: 'Segoe-Regular !important',
             background: 'rgba(196, 196, 196, 0.25) !important',
             whiteSpace: 'nowrap',
             '@media only screen and (max-width: 750px) and (orientation: landscape)': {
@@ -32,7 +32,7 @@ export const useStyles = makeStyles((theme: any) => {
             borderRadius: '30px !important',
             color: 'white !important',
             fontSize: '16px !important',
-            fontFamily: 'Montserrat-Regular !important',
+            fontFamily: 'Segoe-Regular !important',
             background: 'rgba(196, 196, 196, 0.25) !important',
             '& .MuiButton-startIcon': {
                 position: 'absolute',
@@ -51,7 +51,7 @@ export const useStyles = makeStyles((theme: any) => {
             textShadow: '2px 2px 4px #000000'
         },
         name: {
-            fontFamily: 'Montserrat-Regular',
+            fontFamily: 'Segoe-Regular',
             fontSize: 20,
             color: '#FFFFFF',
         },

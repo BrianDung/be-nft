@@ -47,7 +47,7 @@ const useStyles = makeStyles((theme) => {
       },
       '&.number': {
         // display: 'block',
-        fontFamily: 'Montserrat-SemiBold',
+        fontFamily: 'Segoe-SemiBold',
         fontSize: '24px',
         lineHeight: '28px',
         fontWeight: 500,
@@ -93,7 +93,7 @@ const useStyles = makeStyles((theme) => {
       color: '#FFFFFF',
       fontSize: (props: any) => props.landingPage ? 12 : 14,
       lineHeight: '21px',
-      fontFamily: 'Montserrat-Medium',
+      fontFamily: 'Segoe-Medium',
     },
     // [theme.breakpoints.down('md')]: {
     //   countdownPart: {

@@ -22,7 +22,7 @@ export const useStyles = makeStyles((theme: any) => {
             gap: '5px',
         },
         title:{
-            fontFamily: 'Montserrat-Regular',
+            fontFamily: 'Segoe-Regular',
             fontSize: 16,
             color: '#FFFFFF',
             marginBottom:0,
@@ -33,7 +33,7 @@ export const useStyles = makeStyles((theme: any) => {
             gap: '15px',
         },
         name:{
-            fontFamily: 'Montserrat-Bold',
+            fontFamily: 'Segoe-Bold',
             fontSize: 16,
             color: '#34258b',
         }

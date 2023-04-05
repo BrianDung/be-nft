@@ -35,13 +35,13 @@ export const useStyles = makeStyles((theme: any) => {
         },
         title:{
             marginTop:'10px',
-            fontFamily: 'Montserrat-Bold',
+            fontFamily: 'Segoe-Bold',
             fontSize: 16,
             color: '#FFFFFF',
             marginBottom: '10px',
         },
         name:{
-            fontFamily: 'Montserrat-Regular',
+            fontFamily: 'Segoe-Regular',
             fontSize: 16,
             color: '#ffffffcc',
             marginBottom:'10px',
@@ -53,7 +53,7 @@ export const useStyles = makeStyles((theme: any) => {
             backgroundColor: 'rgba(44,40,65,0.36)',
             color: 'white',
             border: '1px solid #5b87ff50',
-            fontFamily: 'Montserrat-Regular',
+            fontFamily: 'Segoe-Regular',
             fontSize: 16
         },
         imgField: {

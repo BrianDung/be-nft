@@ -31,13 +31,13 @@ export const useStyles = makeStyles((theme: any) => {
         },
         title:{
             marginTop:'10px',
-            fontFamily: 'Montserrat-Bold',
+            fontFamily: 'Segoe-Bold',
             fontSize: 24,
             color: '#FFFFFF',
         },
         name:{
             marginTop:'15px',
-            fontFamily: 'Montserrat-Bold',
+            fontFamily: 'Segoe-Bold',
             fontSize: 16,
             color: '#ffffffcc',
         },

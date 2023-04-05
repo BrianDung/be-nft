@@ -18,14 +18,14 @@ export const useStyles = makeStyles((theme: any) => {
             backgroundColor: '#A7176C',
             height: 60,
             color: 'white',
-            fontFamily: 'Montserrat-SemiBold',
+            fontFamily: 'Segoe-SemiBold',
             fontSize: 18
         },
         contentField: {
             backgroundColor: '#B7558F',
             padding: '24px 8px 0px 8px',
             color: 'white',
-            fontFamily: 'Montserrat-Medium',
+            fontFamily: 'Segoe-Medium',
             height: 320,
             [theme.breakpoints.down('sm')]: {
                 height: 240

@@ -72,7 +72,7 @@ export const useCardStyles = makeStyles((theme: any) => {
             },
         },
         phaseText: {
-            fontFamily: 'Montserrat-Bold',
+            fontFamily: 'Segoe-Bold',
             fontSize: 26,
             color: 'white',
             marginBottom: 0,
@@ -82,7 +82,7 @@ export const useCardStyles = makeStyles((theme: any) => {
             },
         },
         monthText: {
-            fontFamily: 'Montserrat-Bold',
+            fontFamily: 'Segoe-Bold',
             fontSize: 24,
             color: 'white',
             marginBottom: 0,
@@ -110,7 +110,7 @@ export const useCardStyles = makeStyles((theme: any) => {
         },
         eventText: {
             fontSize: 16,
-            fontFamily: 'Montserrat-Regular',
+            fontFamily: 'Segoe-Regular',
             color: 'white',
             margin: 0,
             "@media (min-width: 375px) and (max-width: 717px)": {

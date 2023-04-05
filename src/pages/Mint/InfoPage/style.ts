@@ -98,7 +98,7 @@ export const useStyles = makeStyles((theme: any) => {
 
     },
     roundType: {
-      fontFamily: 'Montserrat-Medium',
+      fontFamily: 'Segoe-Medium',
     },
     deActiveStatus: {
       backgroundColor: '#8C8C8C',

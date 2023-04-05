@@ -24,14 +24,14 @@ export const useStyles = makeStyles((theme: any) => {
             paddingRight: 108,
             '& h3': {
                 fontSize: 48,
-                fontFamily: 'Montserrat-Medium',
+                fontFamily: 'Segoe-Medium',
                 color: 'white',
                 fontWeight: 700,
                 marginBottom: 0
             },
             '& p': {
                 fontSize: 16,
-                fontFamily: 'Montserrat-Regular',
+                fontFamily: 'Segoe-Regular',
                 marginBottom: 0
             },
             [theme.breakpoints.down('sm')]: {

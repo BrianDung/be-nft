@@ -39,7 +39,7 @@ export const useStyles = makeStyles((theme: any) => {
             backgroundColor: 'rgba(44,40,65,0.36)',
             color: 'white',
             border: '1px solid #5b87ff50',
-            fontFamily: 'Montserrat-Regular',
+            fontFamily: 'Segoe-Regular',
             fontSize: 16
         }
     }

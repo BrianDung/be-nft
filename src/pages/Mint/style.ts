@@ -30,7 +30,7 @@ export const useStyles = makeStyles((theme: any) => {
     },
     priceBigSize: {
       fontSize: '50px',
-      fontFamily: 'Montserrat-Medium',
+      fontFamily: 'Segoe-Medium',
       // [theme.breakpoints.down('md')]: {
       //   fontSize: '35px'
       // },
@@ -51,7 +51,7 @@ export const useStyles = makeStyles((theme: any) => {
     container: {
       position: 'relative',
       minHeight: '90vh',
-      fontFamily: 'Montserrat-Medium',
+      fontFamily: 'Segoe-Medium',
       '@media screen and (max-width: 1184px)': {
         padding: '0 60px',
       },

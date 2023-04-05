@@ -23,7 +23,7 @@ const useStyles = makeStyles((theme) => {
           color: '#000000',
           fontSize: 28,
           lineHeight: '25px',
-          fontFamily: 'Montserrat-SemiBold',
+          fontFamily: 'Segoe-SemiBold',
           margin: 0,
         },
         '& > img': {

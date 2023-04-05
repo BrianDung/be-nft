@@ -117,14 +117,14 @@ export const useCardStyles = makeStyles((theme: any) => {
             '& h3': {
                 color: 'white',
                 fontSize: 30,
-                fontFamily: 'Montserrat-Bold',
+                fontFamily: 'Segoe-Bold',
                 marginBottom: 0,
                 [theme.breakpoints.down('sm')]: {
                     fontSize: 18
                 }
             },
             '& p': {
-                fontFamily: 'Montserrat-Medium',
+                fontFamily: 'Segoe-Medium',
                 fontSize: 16,
                 textAlign: 'center',
                 marginBottom: 0,

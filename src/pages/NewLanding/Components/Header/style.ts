@@ -6,7 +6,7 @@ export const useStyles = makeStyles((theme: any) => {
             marginBottom: 24
         },
         content: {
-            fontFamily: 'Montserrat-Bold',
+            fontFamily: 'Segoe-Bold',
             fontSize: 30,
             color: 'white',
             [theme.breakpoints.down('sm')]: {

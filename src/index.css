@@ -1,27 +1,27 @@
 @font-face {
-  font-family: 'Montserrat-SemiBold';
+  font-family: 'Segoe-SemiBold';
   src: local('Play-Bold'), url(./styles/fonts/Segoe-SemiBold.ttf) format('truetype');
 }
 
 @font-face {
-  font-family: 'Montserrat-Bold';
+  font-family: 'Segoe-Bold';
   src: local('Play-Bold'), url(./styles/fonts/Segoe-Bold.ttf) format('truetype');
 }
 
 @font-face {
-  font-family: 'Montserrat-Medium';
-  src: local('Play-Regular'), url(./styles/fonts/Inter-Medium.ttf) format('truetype');
+  font-family: 'Segoe-Medium';
+  src: local('Play-Regular'), url(./styles/fonts/Segoe-Medium.ttf) format('truetype');
 }
 
 @font-face {
-  font-family: 'Montserrat-Regular';
+  font-family: 'Segoe-Regular';
   src: local('Play-Regular'), url(./styles/fonts/Segoe-Regular.ttf) format('truetype');
 }
-
+/* 
 @font-face {
   font-family: 'Inter-Regular';
   src: local('Play-Regular'), url(./styles/fonts/Inter-Regular.ttf) format('truetype');
-}
+} */
 
 @font-face {
   font-family: 'Mokoto';

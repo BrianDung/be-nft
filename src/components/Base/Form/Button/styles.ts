@@ -7,7 +7,7 @@ const useStyles = makeStyles((theme: any) => {
       color: '#FFFFFF',
       padding: '9px 23px',
       '&.MuiButton-contained': {
-        fontFamily: 'Montserrat-Medium',
+        fontFamily: 'Segoe-Medium',
       },
       '&.MuiButton-outlined': {
         position: 'relative',
@@ -18,7 +18,7 @@ const useStyles = makeStyles((theme: any) => {
       '& > .MuiButton-label': {
         fontSize: '14px',
         textTransform: 'initial',
-        fontFamily: 'Montserrat-Medium',
+        fontFamily: 'Segoe-Medium',
       },
       '&.rounded': {
         borderRadius: 40,

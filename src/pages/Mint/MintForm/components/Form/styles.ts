@@ -26,7 +26,7 @@ export const useStyles = makeStyles((theme: any) => {
       padding: '11px 80px 11px 15px',
       textAlign: 'center',
       color: '#fff',
-      fontFamily: 'Montserrat-Medium',
+      fontFamily: 'Segoe-Medium',
       fontSize: 24,
       lineHeight: '58px',
       border: 'none',
@@ -53,7 +53,7 @@ export const useStyles = makeStyles((theme: any) => {
       width : 70,
       background: 'transparent !important',
       '& > span.MuiButton-label': {
-        fontFamily: 'Montserrat-Medium',
+        fontFamily: 'Segoe-Medium',
         fontSize: '38px',
         color: '#FFFFFF',
       },
@@ -110,7 +110,7 @@ export const useStyles = makeStyles((theme: any) => {
           borderWidth: '3px !important'
         },
         '& > span.MuiButton-label': {
-          fontFamily: 'Montserrat-SemiBold',
+          fontFamily: 'Segoe-SemiBold',
           fontSize: '34px',
           color: '#FFFFFF',
           "@media only screen and (max-width: 1800px)": {
@@ -145,7 +145,7 @@ export const useStyles = makeStyles((theme: any) => {
         maxWidth: '390px',
         borderRadius: '10px',
         '& > span.MuiButton-label': {
-          fontFamily: 'Montserrat-SemiBold',
+          fontFamily: 'Segoe-SemiBold',
           fontSize: '34px',
           lineHeight: '58px',
           color: '#FFFFFF',

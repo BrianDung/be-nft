@@ -48,7 +48,7 @@ export const useStyles = makeStyles((theme: any) => {
         '& > span.MuiButton-label': {
           fontSize: 30,
           lineHeight: '58px',
-          fontFamily: 'Montserrat-Regular',
+          fontFamily: 'Segoe-Regular',
           "@media only screen and (max-width: 1800px)": {
             fontSize: 18,
             lineHeight: '25px',
@@ -77,7 +77,7 @@ export const useStyles = makeStyles((theme: any) => {
       padding: '8px 28px',
     },
     textbalance: {
-      fontFamily: 'Montserrat-Medium',
+      fontFamily: 'Segoe-Medium',
       fontSize: 30,
       color: '#FFFFFF',
       textAlign: 'center',
@@ -157,7 +157,7 @@ export const useStyles = makeStyles((theme: any) => {
         '& > p': {
           marginBottom: 0,
           fontSize: 26,
-          fontFamily: 'Montserrat-Medium',
+          fontFamily: 'Segoe-Medium',
           lineHeight: '24px',
           "@media only screen and (max-width: 1800px)": {
             fontSize: 18
@@ -174,7 +174,7 @@ export const useStyles = makeStyles((theme: any) => {
         color: '#FFFFFF',
         fontSize: 26,
         marginBottom: 0,
-        fontFamily: 'Montserrat-Medium',
+        fontFamily: 'Segoe-Medium',
         lineHeight: '24px',
         display: 'flex',
         alignItems: 'center',

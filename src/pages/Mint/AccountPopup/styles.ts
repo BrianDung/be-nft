@@ -41,7 +41,7 @@ const useStyles = makeStyles(() => {
                 color: '#000000',
                 fontSize: 18,
                 lineHeight: '25px',
-                fontFamily: 'Montserrat-Medium',
+                fontFamily: 'Segoe-Medium',
                 margin: 0,
             },
             '& > img': {
@@ -66,7 +66,7 @@ const useStyles = makeStyles(() => {
             justifyContent: "space-between",
             boxShadow: '0px 3px 50px rgba(0, 0, 0, 0.078)',
             '& > p': {
-                fontFamily: 'Montserrat-Medium',
+                fontFamily: 'Segoe-Medium',
                 fontSize: 14,
                 color: "#0B111B",
                 opacity: 0.5,
@@ -96,14 +96,14 @@ const useStyles = makeStyles(() => {
             '& > div:first-child': {
                 color: '#0B111B',
                 fontSize: 16,
-                fontFamily: 'Montserrat-Regular',
+                fontFamily: 'Segoe-Regular',
                 opacity: 1,
                 lineHeight: "34px",
             },
             '& > div:last-child': {
                 color: '#0B111B',
                 fontSize: 16,
-                fontFamily: 'Montserrat-Regular',
+                fontFamily: 'Segoe-Regular',
                 lineHeight: "34px",
             },
         },

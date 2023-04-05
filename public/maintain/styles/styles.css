@@ -1,11 +1,11 @@
 @font-face {
-  font-family: 'Montserrat-Medium';
-  src: local('Play-Regular'), url(./fonts/Montserrat-Medium.ttf) format('truetype');
+  font-family: 'Segoe-Medium';
+  src: local('Play-Regular'), url(./fonts/Segoe-Medium.ttf) format('truetype');
 }
 
 @font-face {
-  font-family: 'Montserrat-Regular';
-  src: local('Play-Regular'), url(./fonts/Montserrat-Regular.ttf) format('truetype');
+  font-family: 'Segoe-Regular';
+  src: local('Play-Regular'), url(./fonts/Segoe-Regular.ttf) format('truetype');
 }
 
 * {
@@ -72,12 +72,12 @@
   letter-spacing: 0.2px;
   margin-bottom: 5vh;
   margin-top: 8vh;
-  font-family: 'Montserrat-Medium';
+  font-family: 'Segoe-Medium';
 }
 .secondTitle {
   font-size: 20px;
   line-height: 26px;
-  font-family: 'Montserrat-Regular';
+  font-family: 'Segoe-Regular';
   letter-spacing: 0.1px;
 }
 .contentWrapper {
