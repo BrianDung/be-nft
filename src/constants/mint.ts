@@ -22,7 +22,7 @@ export const MESSAGES = {
   SWAP_SUCCESS: 'Congratulations on swapping your BeNFT.',
   MINT_SUCCESS: 'Congratulations on minting your BeNFT.',
   WRONG_CHAIN: 'Wrong chain! Please connect to Ethereum chain.',
-  INSUFFICIENT_AMOUNT: 'Insufficient ETH balance, please top-up and try again.',
+  INSUFFICIENT_AMOUNT: 'Insufficient USDT balance, please top-up and try again.',
   MAX_ALLOW_SALE_ROUND: 'Pre-sale NFT limit per wallet has been reached. Please come back during Public Sale.',
   MAX_ALLOW_PUBLIC_SALE: 'NFT limit per wallet has been reached.',
   NOT_CONNECT_WALLET: 'Please connect your ERC20 wallet.',
