@@ -28,9 +28,10 @@ const MintForm = ({ nftPrice, endSwapIndex, currentSwapIndex, saleState }: MintF
   const [, setUserCanJoinMint] = useState<boolean>(false);
   const [usdtAddress, setUsdtAddress] = useState<string>('');
   const [usdtDecimal, setUsdtDecimal] = useState<number>(0);
+  const [numberNftSwaped, setNumerNftSwaped] = useState<number>(0);
   const { connected, account } = useWeb3ReactLocal();
   const dispatch = useDispatch();
-  const { getMaxMintPerTX, getAddressUSDT, getTokenDecimal } = useMintBeNft();
+  const { getMaxMintPerTX, getAddressUSDT, getTokenDecimal, getSwapTokensCount } = useMintBeNft();
   const { atomicMint } = useUserMinted();
   const { balanceOf, approve, checkAllowance } = useERC20();
 
@@ -118,6 +119,16 @@ const MintForm = ({ nftPrice, endSwapIndex, currentSwapIndex, saleState }: MintF
   }, []);
 
   useEffect(() => {
+    if (account) {
+      getSwapTokensCount(account).then((number) => {
+        console.log('NUMBER NFT SWAPPED', number);
+        setNumerNftSwaped(number);
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [account]);
+
+  useEffect(() => {
     if (usdtAddress) {
       getTokenDecimal().then((decimals) => {
         console.log('USDT DECIMALS', decimals);
@@ -125,7 +136,7 @@ const MintForm = ({ nftPrice, endSwapIndex, currentSwapIndex, saleState }: MintF
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [usdtAddress]);
+  }, [usdtAddress, account]);
 
   useEffect(() => {
     getMaxMintPerTX()
@@ -161,6 +172,11 @@ const MintForm = ({ nftPrice, endSwapIndex, currentSwapIndex, saleState }: MintF
         return false;
       }
 
+      if (numberNftSwaped === maxAmount) {
+        dispatch(alert(MESSAGES.MAX_ALLOW_PUBLIC_SALE));
+        return false;
+      }
+
       if (new BigNumber(amount).multipliedBy(nftPrice).isGreaterThan(actualAllowance)) {
         await approve(usdtAddress);
         return true;
@@ -193,11 +209,25 @@ const MintForm = ({ nftPrice, endSwapIndex, currentSwapIndex, saleState }: MintF
   }
 
   const handleChangeAmount = (e: any) => {
-    const partten = /^[1-5]$/;
+    console.log({
+      maxAmount,
+      numberNftSwaped,
+    });
+    const remaining = maxAmount - numberNftSwaped;
     const value = e.target.value;
-    const pass = partten.test(value);
-    console.log({ value, pass: partten.test(value) });
-    if (pass || !value) {
+    if (Number(value) < 0) {
+      return;
+    }
+    if (remaining >= 1) {
+      if (Number(value) === 1) {
+        setAmount(1);
+      } else {
+        if (Number(value) <= remaining) {
+          setAmount(value);
+        }
+      }
+    }
+    if (!value) {
       setAmount(e.target.value);
     }
   };
