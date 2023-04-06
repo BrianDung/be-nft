@@ -182,6 +182,7 @@ const InfoLandingPage = (props: Props) => {
         mintedCount={mintedCount}
         numberNftSwaped={numberNftSwaped}
         mintState={mintState}
+        isLiveSoon={isLiveSoon}
       />
     </div>
   );

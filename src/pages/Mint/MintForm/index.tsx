@@ -1,3 +1,5 @@
+import moment from 'moment';
+import { unixToDate } from 'utils/convertDate';
 import { useStyles } from '../style';
 import MintForm from './components/Form';
 
@@ -9,6 +11,7 @@ interface MintFormContainerProps {
   mintedCount: number;
   numberNftSwaped: number;
   mintState: boolean;
+  isLiveSoon: boolean;
 }
 
 const MintFormContainer = ({
@@ -19,14 +22,27 @@ const MintFormContainer = ({
   mintedCount,
   numberNftSwaped,
   mintState,
+  isLiveSoon,
 }: MintFormContainerProps) => {
   const styles = useStyles();
+
+  const startPublic = unixToDate(process.env.REACT_APP_START_PUBLIC_SALE || '');
+  const endPublic = unixToDate(process.env.REACT_APP_END_PUBLIC_SALE || '');
 
   return (
     <>
       <div>
         {mintState ? (
-          <span className={styles.priceMediumSize2}>{`Your allocation is ${numberNftSwaped - mintedCount} NFT`}</span>
+          isLiveSoon ? (
+            <>
+              <div className={styles.priceMediumSize2}>{`Mint will open on  ${moment(startPublic).format(
+                'LL'
+              )} at ${moment(endPublic).format('LT')}`}</div>
+              <div className={styles.priceMediumSize2}>{`Your allocation is ${numberNftSwaped - mintedCount} NFT`}</div>
+            </>
+          ) : (
+            <span className={styles.priceMediumSize2}>{`Your allocation is ${numberNftSwaped - mintedCount} NFT`}</span>
+          )
         ) : (
           <>
             <span className={styles.priceBigSize}>{Number(nftPrice).toLocaleString()} USDT</span>
