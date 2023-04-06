@@ -1,8 +1,10 @@
 import { MintTimeLine } from 'constants/mint';
 import { useMintBeNft } from 'hooks/useMintBeNft';
 import { useWeb3ReactLocal } from 'hooks/useWeb3ReactLocal';
-import { useEffect, useState } from 'react';
+import moment from 'moment';
+import { useEffect, useMemo, useState } from 'react';
 import instance from 'services/axios';
+import { unixToDate } from 'utils/convertDate';
 import Countdown from '../Countdown';
 import MintFormContainer from '../MintForm';
 import SoldProgress from '../SoldProgress';
@@ -51,7 +53,6 @@ const InfoLandingPage = (props: Props) => {
   useEffect(() => {
     getMaxSupply()
       .then((start) => {
-        console.log('MAX SUPPLY INDEX', start);
         setMaxSupply(start);
       })
       .catch((err) => console.error(err));
@@ -61,7 +62,6 @@ const InfoLandingPage = (props: Props) => {
   useEffect(() => {
     getSwapCurrentIndex()
       .then((current) => {
-        // console.log('CURRENT MINT INDEX', current);
         setCurrentSwapIndex(current);
       })
       .catch((err) => console.error(err));
@@ -71,7 +71,6 @@ const InfoLandingPage = (props: Props) => {
   useEffect(() => {
     getMaxSwapIndex()
       .then((max) => {
-        console.log('MAX SWAP INDEX', max);
         setMaxSwapIndex(max);
       })
       .catch((err) => console.error(err));
@@ -81,7 +80,6 @@ const InfoLandingPage = (props: Props) => {
   useEffect(() => {
     getNftPrice()
       .then((price) => {
-        console.log('NFT PRICE:', price);
         setNftPrice(price);
       })
       .catch((error: any) => {
@@ -94,7 +92,6 @@ const InfoLandingPage = (props: Props) => {
     if (account) {
       getMintedNftCount(account)
         .then((end) => {
-          console.log('MINTED NFT:', end);
           setMintedCount(end);
         })
         .catch((error: any) => {
@@ -112,7 +109,6 @@ const InfoLandingPage = (props: Props) => {
   useEffect(() => {
     if (account) {
       getSwapTokensCount(account).then((number) => {
-        console.log('NUMBER NFT SWAPPED', number);
         setNumerNftSwaped(number);
       });
     }
@@ -122,7 +118,6 @@ const InfoLandingPage = (props: Props) => {
   const getTimeServer = async () => {
     const response = await instance.get(`current-time`);
     response.data && setTimeServer(response?.data?.data);
-    console.log('TIME SERVER', response?.data?.data);
   };
 
   useEffect(() => {
@@ -150,13 +145,18 @@ const InfoLandingPage = (props: Props) => {
     }
   };
 
+  const publicTime = unixToDate(process.env.REACT_APP_START_PUBLIC_SALE as string);
+
+  const isLiveSoon = useMemo(() => {
+    return saleState < MintTimeLine.WLMintPhase1 || (mintState && moment().isBefore(publicTime));
+  }, [saleState, mintState, publicTime]);
+
   return (
     <div className={styles.xborgPageWrapper}>
       <div className={styles.timer}>
-        {/* <BorderOutline> */}
         <div className={styles.roundInfo}>
           <p className={styles.roundType}>{mintState ? 'Minting Round' : renderTitle()}</p>
-          {saleState < MintTimeLine.WLMintPhase1 ? (
+          {isLiveSoon ? (
             <p className={styles.deActiveStatus}>Live soon</p>
           ) : (
             <p className={styles.activeStatus}>
@@ -164,7 +164,6 @@ const InfoLandingPage = (props: Props) => {
             </p>
           )}
         </div>
-        {/* </BorderOutline> */}
         {saleState === MintTimeLine.NotSet && startWLTime && (
           <Countdown currentDate={timeServer} startDate={startWLTime} />
         )}
