@@ -206,7 +206,7 @@ const MintForm = ({
   const mintNft = async () => {
     try {
       await mint();
-      dispatch(alert(MESSAGES.SWAP_SUCCESS));
+      dispatch(alert(MESSAGES.MINT_SUCCESS));
       setLoading(false);
       setTimeout(() => {
         window.location.reload();

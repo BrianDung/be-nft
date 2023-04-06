@@ -20,6 +20,7 @@ export const SETTED = 'setted';
 export const MESSAGES = {
   BE1: 'Please connect your wallet.',
   SWAP_SUCCESS: 'Congratulations on swapping your BeNFT.',
+  MINT_SUCCESS: 'Congratulations on minting your BeNFT.',
   WRONG_CHAIN: 'Wrong chain! Please connect to Ethereum chain.',
   INSUFFICIENT_AMOUNT: 'Insufficient ETH balance, please top-up and try again.',
   MAX_ALLOW_SALE_ROUND: 'Pre-sale NFT limit per wallet has been reached. Please come back during Public Sale.',
