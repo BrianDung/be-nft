@@ -13,11 +13,11 @@ interface MintFormContainerProps {
 
 const MintFormContainer = ({
   nftPrice,
-  endSwapIndex: endMintIndex,
-  maxSwapIndex: maxMintIndex,
-  currentSwapIndex: currentMintIndex,
+  endSwapIndex,
+  maxSwapIndex,
+  currentSwapIndex,
   timeServer,
-  maxSupply: startMintIndex,
+  maxSupply,
   saleState,
 }: MintFormContainerProps) => {
   const styles = useStyles();
@@ -30,12 +30,12 @@ const MintFormContainer = ({
       </div>
       <MintForm
         saleState={saleState}
-        endMintIndex={endMintIndex}
-        maxMintIndex={maxMintIndex}
+        endSwapIndex={endSwapIndex}
+        maxSwapIndex={maxSwapIndex}
         nftPrice={Number(nftPrice)}
-        currentMintIndex={currentMintIndex}
+        currentSwapIndex={currentSwapIndex}
         timeServer={timeServer}
-        startMintIndex={startMintIndex}
+        maxSupply={maxSupply}
       />
     </>
   );

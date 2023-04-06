@@ -13,21 +13,21 @@ import './spin.scss';
 import BigNumber from 'bignumber.js';
 interface MintFormProps {
   nftPrice: number;
-  endMintIndex: number;
-  maxMintIndex: number;
-  currentMintIndex: number;
+  endSwapIndex: number;
+  maxSwapIndex: number;
+  currentSwapIndex: number;
   timeServer: number;
-  startMintIndex: number;
+  maxSupply: number;
   saleState: number;
 }
 
 const MintForm = ({
   nftPrice: rate,
-  endMintIndex,
-  maxMintIndex,
-  currentMintIndex,
+  endSwapIndex: endMintIndex,
+  maxSwapIndex: maxMintIndex,
+  currentSwapIndex: currentMintIndex,
   timeServer,
-  startMintIndex,
+  maxSupply: startMintIndex,
   saleState,
 }: MintFormProps) => {
   const styles = useStyles();

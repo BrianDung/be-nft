@@ -1,4 +1,5 @@
 import { getBeNftContractInstance } from 'services/web3';
+import Web3 from 'web3';
 
 export function useMintBeNft() {
   async function getSaleStage() {
@@ -49,14 +50,17 @@ export function useMintBeNft() {
     }
   }
 
-  // async function getCurrentMintIndex() {
-  //   const contract = getContractInstance();
-  //   if (!contract) {
-  //     throw new Error('Cannot get contract');
-  //   }
-  //   const index = await contract.methods.CurrentMintIndex().call();
-  //   return Number(index);
-  // }
+  async function getSwapTokensCount(address: string) {
+    const contract = getBeNftContractInstance();
+    if (!contract) {
+      throw new Error('Cannot get contract');
+    }
+    if (!address || !Web3.utils.isAddress(address)) {
+      throw new Error('Cannot get address');
+    }
+    const index = await contract.methods.swapTokensCount(address).call();
+    return Number(index);
+  }
 
   async function getEndRoundSwapIndex() {
     const contract = getBeNftContractInstance();
@@ -67,14 +71,18 @@ export function useMintBeNft() {
     return Number(end);
   }
 
-  // async function getMaxMintPerTX () {
-  //   const contract = getContractInstance();
-  //   if (!contract) {
-  //     throw new Error('Cannot get contract');
-  //   }
-  //   const max = await contract.methods.MaxMintPerTX().call();
-  //   return Number(max);
-  // }
+  async function getMaxMintPerTX() {
+    const contract = getBeNftContractInstance();
+    if (!contract) {
+      throw new Error('Cannot get contract');
+    }
+    try {
+      const max = await contract.methods.MaxMintPerWallet().call();
+      return Number(max);
+    } catch (error) {
+      return 0;
+    }
+  }
 
   async function getMaxSwapIndex() {
     const contract = getBeNftContractInstance();
@@ -105,8 +113,7 @@ export function useMintBeNft() {
     getMaxSupply,
     getNftPrice,
     getEndRoundSwapIndex,
-    // getMaxMintPerTX,
-    // getStartMintIndex,
-    // checkWalletBalance
+    getMaxMintPerTX,
+    getSwapTokensCount,
   };
 }
