@@ -19,6 +19,7 @@ interface MintFormProps {
   currentMintIndex: number;
   timeServer: number;
   startMintIndex: number;
+  saleState: number;
 }
 
 const MintForm = ({
@@ -29,6 +30,7 @@ const MintForm = ({
   currentMintIndex,
   timeServer,
   startMintIndex,
+  saleState,
 }: MintFormProps) => {
   const styles = useStyles();
   const [amount, setAmount] = useState<number | string>(1);
@@ -41,15 +43,20 @@ const MintForm = ({
   const { atomicMint } = useUserMinted();
 
   const disableButtonMint = useMemo(() => {
-    const canNotBuyNftRound1 = currentMintIndex === endMintIndex && currentMintIndex === MintTimeLine.HolderMint;
-    const soldOut = currentMintIndex === maxMintIndex;
-    // const expireDateMint = new BigNumber(process.env.REACT_APP_API_END_MINT_NFT || 0).lte(timeServer / 1000);
-
-    if (!amount || !useCanJoinMint || !connected || canNotBuyNftRound1 || soldOut) {
+    if (saleState === MintTimeLine.NotSet || !connected) {
       return true;
     }
+    // const canNotBuyNftRound1 = currentMintIndex === endMintIndex && currentMintIndex === MintTimeLine.WLMintPhase1;
+    // const soldOut = currentMintIndex === maxMintIndex;
+    // const expireDateMint = new BigNumber(process.env.REACT_APP_API_END_MINT_NFT || 0).lte(timeServer / 1000);
+
+    // if (!amount || !useCanJoinMint || !connected || canNotBuyNftRound1 || soldOut) {
+    //   return true;
+    // }
     return false;
-  }, [amount, useCanJoinMint, connected, currentMintIndex, endMintIndex, maxMintIndex]);
+  }, [saleState, connected]);
+
+  console.log({ disableButtonMint });
 
   const checkStateZero = async () => {
     if (currentTimeline === MintTimeLine.NotSet) {
@@ -74,21 +81,25 @@ const MintForm = ({
   };
 
   const checkUserCanJoin = async () => {
-    if (currentTimeline === MintTimeLine.WLMint || currentTimeline === MintTimeLine.HolderMint) {
+    if (
+      currentTimeline === MintTimeLine.WLMintPhase2 ||
+      currentTimeline === MintTimeLine.WLMintPhase1 ||
+      currentTimeline === MintTimeLine.WLMintPhase3
+    ) {
       const response = await instance.get(`check/${account}/${currentTimeline}`);
       const isWL = response?.data?.data?.isWL;
       response.data && setUserCanJoinMint(isWL);
       // Handle message
-      if (currentTimeline === MintTimeLine.HolderMint && !isWL) {
+      if (currentTimeline === MintTimeLine.WLMintPhase1 && !isWL) {
         dispatch(alert(MESSAGES.MC1));
       }
-      if (currentTimeline === MintTimeLine.WLMint && !isWL) {
+      if (currentTimeline === MintTimeLine.WLMintPhase1 && !isWL) {
         setTimeout(() => {
           dispatch(alert(MESSAGES.MC2));
         }, 1000);
       }
       if (currentMintIndex > endMintIndex) {
-        if (currentTimeline === MintTimeLine.HolderMint) {
+        if (currentTimeline === MintTimeLine.WLMintPhase1) {
           setTimeout(() => {
             dispatch(alert(MESSAGES.MC3));
           }, 2000);
@@ -234,7 +245,8 @@ const MintForm = ({
         className={styles.mint}
         disabled={disableButtonMint || disableButtonMint || loading}
       >
-        <span>MINT</span> {loading && <span className="Spinner"></span>}
+        <span>{saleState <= MintTimeLine.WLMintPhase3 ? 'SWAP' : 'MINT'}</span>{' '}
+        {loading && <span className="Spinner"></span>}
       </Button>
     </div>
   );

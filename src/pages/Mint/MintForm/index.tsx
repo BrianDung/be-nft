@@ -10,6 +10,7 @@ interface MintFormContainerProps {
   currentMintIndex: number;
   timeServer: number;
   startMintIndex: number;
+  saleState: number;
 }
 
 const MintFormContainer = ({
@@ -20,6 +21,7 @@ const MintFormContainer = ({
   currentMintIndex,
   timeServer,
   startMintIndex,
+  saleState,
 }: MintFormContainerProps) => {
   const styles = useStyles();
 
@@ -30,6 +32,7 @@ const MintFormContainer = ({
         <span className={styles.priceMediumSize}>/ NFT</span>
       </div>
       <MintForm
+        saleState={saleState}
         currentTimeline={currentTimeline}
         endMintIndex={endMintIndex}
         maxMintIndex={maxMintIndex}

@@ -1,5 +1,6 @@
 import { MintTimeLine } from 'constants/mint';
 import { useMint } from 'hooks/useMint';
+import { useMintBeNft } from 'hooks/useMintBeNft';
 import { useEffect, useState } from 'react';
 import instance from 'services/axios';
 // import { BorderOutline } from '../BorderOutline';
@@ -20,8 +21,22 @@ const InfoLandingPage = (props: Props) => {
   const [startMintIndex, setStartMintIndex] = useState<number>(0);
   const [endMintIndex, setEndMintIndex] = useState<number>(0);
   const [timeServer, setTimeServer] = useState<number>(0);
+
+  // be nft
+
+  const [saleState, setSaleState] = useState<number>(-1);
   const { getMaxMintIndex, getCurrentMintIndex, getEndMintIndex, getMintInfo, getStartMintIndex } = useMint();
+  const { getSaleStage } = useMintBeNft();
   const startPreSaleTime = process.env.REACT_APP_START_PRE_SALE_TIME;
+
+  useEffect(() => {
+    getSaleStage()
+      .then((saleState) => {
+        setSaleState(saleState);
+      })
+      .catch((err) => console.error(err));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   useEffect(() => {
     getStartMintIndex()
@@ -91,17 +106,19 @@ const InfoLandingPage = (props: Props) => {
   };
 
   const renderTitle = () => {
-    switch (currentTimeline) {
+    switch (saleState) {
       case MintTimeLine.NotSet:
         return 'Whitelist Round';
-      case MintTimeLine.HolderMint:
-        return 'Whitelist Round';
-      case MintTimeLine.WLMint:
-        return 'Whitelist Mint';
+      case MintTimeLine.WLMintPhase1:
+        return 'Whitelist Round 1';
+      case MintTimeLine.WLMintPhase2:
+        return 'Whitelist Round 2';
+      case MintTimeLine.WLMintPhase3:
+        return 'Whitelist Round 3';
       case MintTimeLine.PublicMint:
-        return 'Public Mint';
+        return 'Public Round';
       default: {
-        return 'Whitelist Round';
+        return 'Public Round';
       }
     }
   };
@@ -110,23 +127,24 @@ const InfoLandingPage = (props: Props) => {
     <div className={styles.xborgPageWrapper}>
       <div className={styles.timer}>
         {/* <BorderOutline> */}
-          <div className={styles.roundInfo}>
-            <p className={styles.roundType}>{renderTitle()}</p>
-            {currentTimeline < MintTimeLine.HolderMint ? (
-              <p className={styles.deActiveStatus}>Live soon</p>
-            ) : (
-              <p className={styles.activeStatus}>
-                Live <p className="blinkDot"></p>
-              </p>
-            )}
-          </div>
+        <div className={styles.roundInfo}>
+          <p className={styles.roundType}>{renderTitle()}</p>
+          {saleState < MintTimeLine.WLMintPhase1 ? (
+            <p className={styles.deActiveStatus}>Live soon</p>
+          ) : (
+            <p className={styles.activeStatus}>
+              Live <p className="blinkDot"></p>
+            </p>
+          )}
+        </div>
         {/* </BorderOutline> */}
-        {currentTimeline === MintTimeLine.NotSet && startPreSaleTime && (
+        {saleState === MintTimeLine.NotSet && startPreSaleTime && (
           <Countdown currentDate={timeServer} startDate={startPreSaleTime} />
         )}
       </div>
       <SoldProgress startMintIndex={startMintIndex} currentMintIndex={currentMintIndex} maxMintIndex={maxMintIndex} />
       <MintFormContainer
+        saleState={saleState}
         currentTimeline={currentTimeline}
         rate={rate}
         endMintIndex={endMintIndex}

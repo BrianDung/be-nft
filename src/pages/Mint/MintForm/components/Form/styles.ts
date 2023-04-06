@@ -140,7 +140,7 @@ export const useStyles = makeStyles((theme: any) => {
       },
     },
     mint: {
-      background: '#60A444 !important',
+      background: '#010203 !important',
       border: '4px solid #FFFFFF',
       marginBottom: 0,
       width: '80%',

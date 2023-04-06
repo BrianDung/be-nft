@@ -105,7 +105,7 @@ export const useStyles = makeStyles((theme: any) => {
       marginBottom: '0 !important'
     },
     activeStatus: {
-      backgroundColor: '#AF47FF',
+      // backgroundColor: '#AF47FF',
       display: 'flex',
       alignItems: 'center',
       marginBottom: '0 !important'

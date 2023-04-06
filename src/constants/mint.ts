@@ -8,8 +8,9 @@ export const PUBLIC_SALE_RATE = 0.0095;
 
 export enum MintTimeLine {
   NotSet,
-  HolderMint,
-  WLMint,
+  WLMintPhase1,
+  WLMintPhase2,
+  WLMintPhase3,
   PublicMint,
 }
 
