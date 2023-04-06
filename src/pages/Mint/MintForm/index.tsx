@@ -1,4 +1,3 @@
-import { MintTimeLine } from 'constants/mint';
 import { useStyles } from '../style';
 import MintForm from './components/Form';
 
@@ -19,21 +18,20 @@ const MintFormContainer = ({
   saleState,
   mintedCount,
   numberNftSwaped,
-  mintState
+  mintState,
 }: MintFormContainerProps) => {
   const styles = useStyles();
 
   return (
     <>
       <div>
-        {saleState <= MintTimeLine.WLMintPhase3 && (
+        {mintState ? (
+          <span className={styles.priceMediumSize2}>{`Your allocation is ${numberNftSwaped - mintedCount} NFT`}</span>
+        ) : (
           <>
             <span className={styles.priceBigSize}>{Number(nftPrice).toLocaleString()} USDT</span>
             <span className={styles.priceMediumSize}>/ NFT</span>
           </>
-        )}
-        {saleState > MintTimeLine.WLMintPhase3 && (
-          <span className={styles.priceMediumSize2}>{`Your allocation is ${numberNftSwaped - mintedCount} NFT`}</span>
         )}
       </div>
       <MintForm

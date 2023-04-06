@@ -37,7 +37,7 @@ const InfoLandingPage = (props: Props) => {
     getSwapTokensCount,
     getMintState,
   } = useMintBeNft();
-  const startPreSaleTime = process.env.REACT_APP_START_PRE_SALE_TIME;
+  const startWLTime = process.env.REACT_APP_START_WL_TIME;
 
   useEffect(() => {
     getSaleStage()
@@ -165,8 +165,8 @@ const InfoLandingPage = (props: Props) => {
           )}
         </div>
         {/* </BorderOutline> */}
-        {saleState === MintTimeLine.NotSet && startPreSaleTime && (
-          <Countdown currentDate={timeServer} startDate={startPreSaleTime} />
+        {saleState === MintTimeLine.NotSet && startWLTime && (
+          <Countdown currentDate={timeServer} startDate={startWLTime} />
         )}
       </div>
       <SoldProgress
