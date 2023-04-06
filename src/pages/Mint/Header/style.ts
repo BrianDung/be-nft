@@ -123,7 +123,7 @@ export const useStyles = makeStyles((theme: any) => {
       '&:first-child': {
         width: 'fit-content',
         marginRight: 37,
-        padding: '9px 38px',
+        padding: '16px 38px',
         [theme.breakpoints.down('sm')]: {
           marginRight: 5,
           padding: 10,
@@ -148,8 +148,8 @@ export const useStyles = makeStyles((theme: any) => {
             marginRight: 5,
           },
         },
-        borderRight: '3px solid #FFFFFF',
-        marginRight: 10,
+        // borderRight: '3px solid #FFFFFF',
+        // marginRight: 10,
         [theme.breakpoints.down('sm')]: {
           marginRight: 5,
         },

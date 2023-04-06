@@ -18,8 +18,8 @@ function formatAddress(address: string) {
     return '';
   }
 
-  const suffix = address.substring(0, 6);
-  const prefix = address.slice(address.length - 3);
+  const suffix = address.substring(0, 8);
+  const prefix = address.slice(address.length - 8);
 
   return `${suffix}...${prefix}`;
 }
@@ -45,24 +45,24 @@ const HeaderPage = () => {
             {width >= 960 ? (
               <img alt="logo-icon" src={logoIcon} style={{ width: '11vw' }} />
             ) : account ? (
-              <img alt="logo-icon" src={logoMobileShort} width={100} height={48} style={{marginTop : -20}}/>
+              <img alt="logo-icon" src={logoMobileShort} width={100} height={48} style={{ marginTop: -20 }} />
             ) : (
-              <img alt="logo-icon" src={logoMobileShort} style={{marginTop : -20}}/>
+              <img alt="logo-icon" src={logoMobileShort} style={{ marginTop: -20 }} />
             )}
           </Link>
         </div>
         <div className={classes.pageHeader}>
           {isAuth ? (
             <>
-              <div onClick={() => setOpenAccount(true)} className={classes.accountInfo}>
+              {/* <div onClick={() => setOpenAccount(true)} className={classes.accountInfo}>
                 <img alt="eth" src="/images/newPage/ETH.svg" />
-              </div>
+              </div> */}
               <div className={classes.accountInfo} onClick={() => setOpenAccount(true)}>
                 <div className={`${classes.accountInfo}__networks`}>
-                  <img src="/images/icons/wallet_icon.svg" alt="" />
+                  <img src="/images/newPage/ETH.svg" alt="" style={{ width: 25, height: 25 }} />
                   <p>{formatAddress(account)}</p>
                 </div>
-                <p className={`${classes.accountInfo}__balance`}>{balance ?? 0} ETH</p>
+                {/* <p className={`${classes.accountInfo}__balance`}>{balance ?? 0} ETH</p> */}
               </div>
             </>
           ) : (

@@ -56,6 +56,7 @@ export const useStyles = makeStyles((theme: any) => {
     },
     rightBotSec: {
       width: 'inherit',
+      maxHeight: 78,
     },
     xborgTitle: {
       display: 'flex',
