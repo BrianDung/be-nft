@@ -1,5 +1,6 @@
 import { Button } from 'components/Base/Form/Button';
 import { MESSAGES, MintTimeLine } from 'constants/mint';
+import { useERC20 } from 'hooks/useErc20';
 import { useMintBeNft } from 'hooks/useMintBeNft';
 import { useUserMinted } from 'hooks/useUserMinted';
 import { useWeb3ReactLocal } from 'hooks/useWeb3ReactLocal';
@@ -10,6 +11,8 @@ import { alert } from 'store/actions/alert';
 import { BorderOutline } from '../../../BorderOutline/index';
 import './spin.scss';
 import { useStyles } from './styles';
+import BigNumber from 'bignumber.js';
+
 interface MintFormProps {
   nftPrice: number;
   endSwapIndex: number;
@@ -23,10 +26,13 @@ const MintForm = ({ nftPrice, endSwapIndex, currentSwapIndex, saleState }: MintF
   const [maxAmount, setMaxAmount] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
   const [, setUserCanJoinMint] = useState<boolean>(false);
-  const {  connected, account } = useWeb3ReactLocal();
+  const [usdtAddress, setUsdtAddress] = useState<string>('');
+  const [usdtDecimal, setUsdtDecimal] = useState<number>(0);
+  const { connected, account } = useWeb3ReactLocal();
   const dispatch = useDispatch();
-  const { getMaxMintPerTX } = useMintBeNft();
+  const { getMaxMintPerTX, getAddressUSDT, getTokenDecimal } = useMintBeNft();
   const { atomicMint } = useUserMinted();
+  const { balanceOf, approve, checkAllowance } = useERC20();
 
   const disableButtonMint = useMemo(() => {
     if (saleState === MintTimeLine.NotSet || !connected) {
@@ -104,6 +110,24 @@ const MintForm = ({ nftPrice, endSwapIndex, currentSwapIndex, saleState }: MintF
   }, [account, saleState]);
 
   useEffect(() => {
+    getAddressUSDT().then((address) => {
+      console.log('USDT ADDRESS', address);
+      setUsdtAddress(address);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
+    if (usdtAddress) {
+      getTokenDecimal().then((decimals) => {
+        console.log('USDT DECIMALS', decimals);
+        setUsdtDecimal(decimals);
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [usdtAddress]);
+
+  useEffect(() => {
     getMaxMintPerTX()
       .then((data) => {
         console.log('MAX AMOUNT PER TX', data);
@@ -113,25 +137,45 @@ const MintForm = ({ nftPrice, endSwapIndex, currentSwapIndex, saleState }: MintF
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  function validate(amount: number | string) {
-    let balance;
-    
-    if (!connected) {
-      dispatch(alert(MESSAGES.NOT_CONNECT_WALLET));
+  async function validate(amount: number | string) {
+    try {
+      const balance = await balanceOf(usdtAddress);
+      const allowance = await checkAllowance(usdtAddress);
+      const actualAllowance = new BigNumber(allowance).div(usdtDecimal).toNumber();
+      const actualBalance = new BigNumber(balance).div(usdtDecimal).toNumber();
+
+      console.log({
+        balance,
+        allowance,
+        actualAllowance,
+        actualBalance,
+      });
+
+      if (!connected) {
+        dispatch(alert(MESSAGES.NOT_CONNECT_WALLET));
+        return false;
+      }
+
+      if (new BigNumber(amount).multipliedBy(nftPrice).isGreaterThan(actualBalance)) {
+        dispatch(alert(MESSAGES.INSUFFICIENT_AMOUNT));
+        return false;
+      }
+
+      if (new BigNumber(amount).multipliedBy(nftPrice).isGreaterThan(actualAllowance)) {
+        await approve(usdtAddress);
+        return true;
+      }
+
+      return true;
+    } catch (error: any) {
+      dispatch(alert(error?.message));
       return false;
     }
-
-    if (Number(amount) * nftPrice > Number(balance)) {
-      dispatch(alert(MESSAGES.INSUFFICIENT_AMOUNT));
-      return false;
-    }
-
-    return true;
   }
 
   async function handleSumit() {
     setLoading(true);
-    if (!validate(amount)) {
+    if (!(await validate(amount))) {
       setLoading(false);
       return;
     }

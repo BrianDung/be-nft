@@ -18,11 +18,31 @@ export function useMintBeNft() {
     }
   }
 
-  // async function getMintInfo() {
-  //   const price = await getPriceWithSaleSatage();
-  //   const status = await getSaleStage();
-  //   return { status: Number(status), rate: Number(Web3.utils.fromWei(price)) };
-  // }
+  async function getAddressUSDT() {
+    const contract = getBeNftContractInstance();
+    if (!contract) {
+      throw new Error('Cannot get contract');
+    }
+    try {
+      const address = await contract.methods.USDT().call();
+      return address;
+    } catch (error) {
+      return '';
+    }
+  }
+
+  async function getTokenDecimal() {
+    const contract = getBeNftContractInstance();
+    if (!contract) {
+      throw new Error('Cannot get contract');
+    }
+    try {
+      const index = await contract.methods.TokenDecimal().call();
+      return Number(index);
+    } catch (error) {
+      return 0;
+    }
+  }
 
   async function getSwapCurrentIndex() {
     const contract = getBeNftContractInstance();
@@ -115,5 +135,7 @@ export function useMintBeNft() {
     getEndRoundSwapIndex,
     getMaxMintPerTX,
     getSwapTokensCount,
+    getAddressUSDT,
+    getTokenDecimal,
   };
 }
