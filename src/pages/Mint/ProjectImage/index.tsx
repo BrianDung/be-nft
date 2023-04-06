@@ -37,7 +37,7 @@ export const ProjectImage = () => {
       <div onClick={handleOpenUpload} className={styles['project-image-container']}>
         <img
           src={`${S3_IMG_URL}?time=${alt}&r=${new Date().getTime()}`}
-          alt="XBORG"
+          alt="Be-Nft"
           className={canUpload ? styles.canUpload : undefined}
           onError={(e) => {
             (e.target as any).src = defaultImage;

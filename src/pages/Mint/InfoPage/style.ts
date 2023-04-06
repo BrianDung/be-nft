@@ -101,7 +101,7 @@ export const useStyles = makeStyles((theme: any) => {
       fontFamily: 'Segoe-Medium',
     },
     deActiveStatus: {
-      backgroundColor: '#8C8C8C',
+      // backgroundColor: '#8C8C8C',
       marginBottom: '0 !important'
     },
     activeStatus: {
