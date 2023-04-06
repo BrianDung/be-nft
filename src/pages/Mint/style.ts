@@ -48,6 +48,16 @@ export const useStyles = makeStyles((theme: any) => {
       },
     },
 
+    priceMediumSize2: {
+      fontSize: '34px',
+      // [theme.breakpoints.down('md')]: {
+      //   fontSize: '20px'
+      // },
+      "@media only screen and (max-width: 1800px)": {
+        fontSize: '20px'
+      },
+    },
+
     container: {
       position: 'relative',
       minHeight: '90vh',

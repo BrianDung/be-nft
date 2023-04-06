@@ -1,26 +1,39 @@
+import BigNumber from 'bignumber.js';
 import { Button } from 'components/Base/Form/Button';
 import { MESSAGES, MintTimeLine } from 'constants/mint';
 import { useERC20 } from 'hooks/useErc20';
 import { useMintBeNft } from 'hooks/useMintBeNft';
 import { useUserMinted } from 'hooks/useUserMinted';
 import { useWeb3ReactLocal } from 'hooks/useWeb3ReactLocal';
+import moment from 'moment';
 import { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import instance from 'services/axios';
 import { alert } from 'store/actions/alert';
+import { unixToDate } from 'utils/convertDate';
 import { BorderOutline } from '../../../BorderOutline/index';
 import './spin.scss';
 import { useStyles } from './styles';
-import BigNumber from 'bignumber.js';
 
 interface MintFormProps {
   nftPrice: number;
   maxSwapIndex: number;
   currentSwapIndex: number;
   saleState: number;
+  numberNftSwaped: number;
+  mintedCount: number;
+  mintState: boolean;
 }
 
-const MintForm = ({ nftPrice, maxSwapIndex, currentSwapIndex, saleState }: MintFormProps) => {
+const MintForm = ({
+  nftPrice,
+  maxSwapIndex,
+  currentSwapIndex,
+  saleState,
+  numberNftSwaped,
+  mintedCount,
+  mintState,
+}: MintFormProps) => {
   const styles = useStyles();
   const [amount, setAmount] = useState<number | string>(1);
   const [maxAmount, setMaxAmount] = useState<number>(1);
@@ -28,36 +41,38 @@ const MintForm = ({ nftPrice, maxSwapIndex, currentSwapIndex, saleState }: MintF
   const [, setUserCanJoinMint] = useState<boolean>(false);
   const [usdtAddress, setUsdtAddress] = useState<string>('');
   const [usdtDecimal, setUsdtDecimal] = useState<number>(0);
-  const [numberNftSwaped, setNumerNftSwaped] = useState<number>(0);
   const { connected, account } = useWeb3ReactLocal();
   const dispatch = useDispatch();
-  const { getMaxMintPerTX, getAddressUSDT, getTokenDecimal, getSwapTokensCount } = useMintBeNft();
-  const { atomicMint } = useUserMinted();
+  const { getMaxMintPerTX, getAddressUSDT, getTokenDecimal } = useMintBeNft();
+  const { mint, swapCommitment } = useUserMinted();
   const { balanceOf, approve, checkAllowance } = useERC20();
 
-  const remaining = useMemo(() => {
+  const remainingSwap = useMemo(() => {
     return maxAmount - numberNftSwaped;
   }, [maxAmount, numberNftSwaped]);
 
-  const disableButtonMint = useMemo(() => {
+  const remainingMint = useMemo(() => {
+    return numberNftSwaped - mintedCount;
+  }, [numberNftSwaped, mintedCount]);
+
+  const disableButtonSwap = useMemo(() => {
+    if (saleState > MintTimeLine.WLMintPhase3) {
+      return false;
+    }
     const soldOut = saleState < MintTimeLine.PublicMint && currentSwapIndex === maxSwapIndex;
-    if (saleState === MintTimeLine.NotSet || !connected || remaining === 0 || !amount || soldOut) {
+    if (saleState === MintTimeLine.NotSet || !connected || remainingSwap === 0 || !amount || soldOut) {
       return true;
     }
 
     return false;
-  }, [saleState, connected, remaining, amount, currentSwapIndex, maxSwapIndex]);
+  }, [saleState, connected, remainingSwap, amount, currentSwapIndex, maxSwapIndex]);
 
-  const checkStateZero = async () => {
-    if (saleState === MintTimeLine.NotSet) {
-      const response = await instance.get(`check-state/${account}`);
-      const message = response?.data?.data?.message;
-      if (message) {
-        console.log({ message });
-        dispatch(alert(message));
-      }
+  const disableButtonMint = useMemo(() => {
+    if (remainingMint === 0 && mintState) {
+      return true;
     }
-  };
+    return false;
+  }, [remainingMint, mintState]);
 
   const checkUserCanJoin = async () => {
     if (
@@ -66,26 +81,19 @@ const MintForm = ({ nftPrice, maxSwapIndex, currentSwapIndex, saleState }: MintF
       saleState === MintTimeLine.WLMintPhase3
     ) {
       const response = await instance.get(`check/${account}/${saleState}`);
-      const isWL = response?.data?.data?.isWL;
+      const data = response?.data?.data;
+      const isWL = data?.isWL;
       response.data && setUserCanJoinMint(isWL);
-      // Handle message
-      if (saleState === MintTimeLine.WLMintPhase1 && !isWL) {
-        dispatch(alert(MESSAGES.MC1));
-      }
-      if (saleState === MintTimeLine.WLMintPhase1 && !isWL) {
-        setTimeout(() => {
-          dispatch(alert(MESSAGES.MC2));
-        }, 1000);
-      }
-      if (currentSwapIndex > maxSwapIndex) {
-        if (saleState === MintTimeLine.WLMintPhase1) {
-          setTimeout(() => {
-            dispatch(alert(MESSAGES.MC3));
-          }, 2000);
+      if (!isWL) {
+        const startPublic = unixToDate(process.env.REACT_APP_START_PUBLIC_SALE || '');
+        const endPublic = unixToDate(process.env.REACT_APP_END_PUBLIC_SALE || '');
+        if (moment(startPublic).isValid() && moment(endPublic).isValid() && moment(startPublic).isBefore(endPublic)) {
+          dispatch(
+            alert(`You are not on the whitelist.
+          Public Sale starts on ${moment(startPublic).format('LL')} at ${moment(endPublic).format('LT')}.
+          `)
+          );
         }
-        setTimeout(() => {
-          dispatch(alert(MESSAGES.MC4));
-        }, 3000);
       }
       console.log('USER CAN JOIN MINT', isWL, { saleState });
     }
@@ -103,7 +111,6 @@ const MintForm = ({ nftPrice, maxSwapIndex, currentSwapIndex, saleState }: MintF
 
   useEffect(() => {
     if (account) {
-      checkStateZero();
       checkUserCanJoin();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -116,16 +123,6 @@ const MintForm = ({ nftPrice, maxSwapIndex, currentSwapIndex, saleState }: MintF
     });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-
-  useEffect(() => {
-    if (account) {
-      getSwapTokensCount(account).then((number) => {
-        console.log('NUMBER NFT SWAPPED', number);
-        setNumerNftSwaped(number);
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account]);
 
   useEffect(() => {
     if (usdtAddress) {
@@ -188,15 +185,14 @@ const MintForm = ({ nftPrice, maxSwapIndex, currentSwapIndex, saleState }: MintF
     }
   }
 
-  async function handleSumit() {
-    setLoading(true);
+  const swapNft = async () => {
     if (!(await validate(amount))) {
       setLoading(false);
       return;
     }
     try {
-      await atomicMint(Number(amount));
-      dispatch(alert(MESSAGES.MINT_SUCCESS));
+      await swapCommitment(Number(amount));
+      dispatch(alert(MESSAGES.SWAP_SUCCESS));
       setLoading(false);
       setTimeout(() => {
         window.location.reload();
@@ -204,6 +200,29 @@ const MintForm = ({ nftPrice, maxSwapIndex, currentSwapIndex, saleState }: MintF
     } catch (error: any) {
       setLoading(false);
       dispatch(alert(error?.message));
+    }
+  };
+
+  const mintNft = async () => {
+    try {
+      await mint();
+      dispatch(alert(MESSAGES.SWAP_SUCCESS));
+      setLoading(false);
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
+    } catch (error: any) {
+      setLoading(false);
+      dispatch(alert(error?.message));
+    }
+  };
+
+  async function handleSumit() {
+    setLoading(true);
+    if (mintState) {
+      mintNft();
+    } else {
+      await swapNft();
     }
   }
 
@@ -216,11 +235,11 @@ const MintForm = ({ nftPrice, maxSwapIndex, currentSwapIndex, saleState }: MintF
     if (Number(value) < 0) {
       return;
     }
-    if (remaining >= 1) {
+    if (remainingSwap >= 1) {
       if (Number(value) === 1) {
         setAmount(1);
       } else {
-        if (Number(value) <= remaining) {
+        if (Number(value) <= remainingSwap) {
           setAmount(value);
         }
       }
@@ -244,37 +263,43 @@ const MintForm = ({ nftPrice, maxSwapIndex, currentSwapIndex, saleState }: MintF
   return (
     <div>
       <div className={styles.mintForm}>
-        <div className={styles.formControl}>
-          <div className={styles.boxNumber}>
-            <BorderOutline>
-              <input
-                type="number"
-                min={1}
-                max={5}
-                className={styles.input}
-                value={amount}
-                onChange={handleChangeAmount}
-                maxLength={1}
-              />
-            </BorderOutline>
+        {saleState <= MintTimeLine.WLMintPhase3 && (
+          <div className={styles.formControl}>
+            <div className={styles.boxNumber}>
+              <BorderOutline>
+                <input
+                  type="number"
+                  min={1}
+                  max={5}
+                  className={styles.input}
+                  value={amount}
+                  onChange={handleChangeAmount}
+                  maxLength={1}
+                />
+              </BorderOutline>
+              <Button
+                className={`${styles.quantity} form`}
+                onClick={handleDecrease}
+                disabled={Number(amount) === 1 || disableButtonSwap || loading}
+              >
+                -
+              </Button>
+            </div>
             <Button
-              className={`${styles.quantity} form`}
-              onClick={handleDecrease}
-              disabled={Number(amount) === 1 || disableButtonMint || loading}
+              className={styles.quantity}
+              onClick={handleIncrease}
+              disabled={Number(amount) === remainingSwap || disableButtonSwap || loading}
             >
-              -
+              +
             </Button>
           </div>
-          <Button
-            className={styles.quantity}
-            onClick={handleIncrease}
-            disabled={Number(amount) === remaining || disableButtonMint || loading}
-          >
-            +
-          </Button>
-        </div>
+        )}
       </div>
-      <Button onClick={handleSumit} className={styles.mint} disabled={disableButtonMint || loading}>
+      <Button
+        onClick={handleSumit}
+        className={styles.mint}
+        disabled={mintState ? disableButtonMint : disableButtonSwap || loading}
+      >
         <span>{saleState <= MintTimeLine.WLMintPhase3 ? 'SWAP' : 'MINT'}</span>{' '}
         {loading && <span className="Spinner"></span>}
       </Button>

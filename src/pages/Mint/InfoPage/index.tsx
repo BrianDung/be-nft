@@ -1,5 +1,6 @@
 import { MintTimeLine } from 'constants/mint';
 import { useMintBeNft } from 'hooks/useMintBeNft';
+import { useWeb3ReactLocal } from 'hooks/useWeb3ReactLocal';
 import { useEffect, useState } from 'react';
 import instance from 'services/axios';
 import Countdown from '../Countdown';
@@ -17,13 +18,25 @@ const InfoLandingPage = (props: Props) => {
   const [maxSwapIndex, setMaxSwapIndex] = useState<number>(0);
   const [currentSwapIndex, setCurrentSwapIndex] = useState<number>(0);
   const [maxSupply, setMaxSupply] = useState<number>(0);
-  // const [endSwapIndex, setEndSwapIndex] = useState<number>(0);
+  const [mintedCount, setMintedCount] = useState<number>(0);
   const [timeServer, setTimeServer] = useState<number>(0);
+  const { account } = useWeb3ReactLocal();
+  const [numberNftSwaped, setNumerNftSwaped] = useState<number>(0);
+  const [mintState, setMintState] = useState<boolean>(false);
 
   // be nft
 
   const [saleState, setSaleState] = useState<number>(-1);
-  const { getSaleStage, getSwapCurrentIndex, getMaxSwapIndex, getMaxSupply, getNftPrice } = useMintBeNft();
+  const {
+    getSaleStage,
+    getSwapCurrentIndex,
+    getMaxSwapIndex,
+    getMaxSupply,
+    getNftPrice,
+    getMintedNftCount,
+    getSwapTokensCount,
+    getMintState,
+  } = useMintBeNft();
   const startPreSaleTime = process.env.REACT_APP_START_PRE_SALE_TIME;
 
   useEffect(() => {
@@ -77,28 +90,47 @@ const InfoLandingPage = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  // useEffect(() => {
-  //   getEndRoundSwapIndex()
-  //     .then((end) => {
-  //       console.log('END ROUND SWAP INDEX:', end);
-  //       setEndSwapIndex(end);
-  //     })
-  //     .catch((error: any) => {
-  //       console.error(error.message);
-  //     });
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, []);
+  useEffect(() => {
+    if (account) {
+      getMintedNftCount(account)
+        .then((end) => {
+          console.log('MINTED NFT:', end);
+          setMintedCount(end);
+        })
+        .catch((error: any) => {
+          console.error(error.message);
+        });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [account]);
 
   useEffect(() => {
     getTimeServer();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  useEffect(() => {
+    if (account) {
+      getSwapTokensCount(account).then((number) => {
+        console.log('NUMBER NFT SWAPPED', number);
+        setNumerNftSwaped(number);
+      });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [account]);
+
   const getTimeServer = async () => {
     const response = await instance.get(`current-time`);
     response.data && setTimeServer(response?.data?.data);
     console.log('TIME SERVER', response?.data?.data);
   };
+
+  useEffect(() => {
+    getMintState().then((data) => {
+      setMintState(data);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   const renderTitle = () => {
     switch (saleState) {
@@ -123,7 +155,7 @@ const InfoLandingPage = (props: Props) => {
       <div className={styles.timer}>
         {/* <BorderOutline> */}
         <div className={styles.roundInfo}>
-          <p className={styles.roundType}>{renderTitle()}</p>
+          <p className={styles.roundType}>{mintState ? 'Minting Round' : renderTitle()}</p>
           {saleState < MintTimeLine.WLMintPhase1 ? (
             <p className={styles.deActiveStatus}>Live soon</p>
           ) : (
@@ -148,6 +180,9 @@ const InfoLandingPage = (props: Props) => {
         nftPrice={nftPrice}
         maxSwapIndex={maxSwapIndex}
         currentSwapIndex={currentSwapIndex}
+        mintedCount={mintedCount}
+        numberNftSwaped={numberNftSwaped}
+        mintState={mintState}
       />
     </div>
   );

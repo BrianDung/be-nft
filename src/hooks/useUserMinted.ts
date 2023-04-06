@@ -14,7 +14,7 @@ export function useUserMinted() {
   const { account } = useWeb3ReactLocal();
   const { library } = useWeb3React();
 
-  async function atomicMint(amount: number) {
+  async function swapCommitment(amount: number) {
     if (!PUBLIC_KEY || !CONTRACT_ADDRESS_MINT_AND_SWAP) {
       throw new Error('Invalid public key or contract address');
     }
@@ -37,7 +37,30 @@ export function useUserMinted() {
     return result;
   }
 
+  async function mint() {
+    if (!PUBLIC_KEY || !CONTRACT_ADDRESS_MINT_AND_SWAP) {
+      throw new Error('Invalid public key or contract address');
+    }
+
+    const contract = getBeNftContractInstance(library);
+
+    if (!contract) {
+      throw new Error('Failed to get contract');
+    }
+
+    console.log('params', {
+      pub: PUBLIC_KEY,
+      contract,
+    });
+    const result = await contract?.methods.mint(PUBLIC_KEY).send({
+      from: account,
+    });
+
+    return result;
+  }
+
   return {
-    atomicMint,
+    swapCommitment,
+    mint,
   };
 }

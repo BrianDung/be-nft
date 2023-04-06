@@ -122,8 +122,38 @@ export function useMintBeNft() {
     if (!contract) {
       throw new Error('Cannot get contract');
     }
-    const max = await contract.methods.maxSupply().call();
-    return Number(max);
+    try {
+      const max = await contract.methods.maxSupply().call();
+      return Number(max);
+    } catch (error) {
+      return 0;
+    }
+  }
+
+  async function getMintedNftCount(address: string) {
+    const contract = getBeNftContractInstance();
+    if (!contract) {
+      throw new Error('Cannot get contract');
+    }
+    try {
+      const max = await contract.methods.mintedTokensCount(address).call();
+      return Number(max);
+    } catch (error) {
+      return 0;
+    }
+  }
+
+  async function getMintState() {
+    const contract = getBeNftContractInstance();
+    if (!contract) {
+      throw new Error('Cannot get contract');
+    }
+    try {
+      const state = await contract.methods.mintState().call();
+      return state;
+    } catch (error) {
+      return false;
+    }
   }
 
   return {
@@ -137,5 +167,7 @@ export function useMintBeNft() {
     getSwapTokensCount,
     getAddressUSDT,
     getTokenDecimal,
+    getMintedNftCount,
+    getMintState,
   };
 }
