@@ -72,7 +72,7 @@ export const useStyles = makeStyles((theme: any) => {
       },
       '&:disabled': {
         background: '#000000 !important',
-        border: '4px solid rgba(255, 255, 255, 1)',
+        border: '4px solid #FFFFF',
         '& > span.MuiButton-label': {
           opacity: 0.5,
         },
@@ -171,7 +171,7 @@ export const useStyles = makeStyles((theme: any) => {
       },
       '&:disabled': {
         background: '#000000 !important',
-        border: '4px solid rgba(255, 255, 255, 1)',
+        border: '4px solid #FFFFF',
         '& > span.MuiButton-label': {
           opacity: 0.5,
         },
