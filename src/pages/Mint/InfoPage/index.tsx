@@ -17,14 +17,13 @@ const InfoLandingPage = (props: Props) => {
   const [maxSwapIndex, setMaxSwapIndex] = useState<number>(0);
   const [currentSwapIndex, setCurrentSwapIndex] = useState<number>(0);
   const [maxSupply, setMaxSupply] = useState<number>(0);
-  const [endSwapIndex, setEndSwapIndex] = useState<number>(0);
+  // const [endSwapIndex, setEndSwapIndex] = useState<number>(0);
   const [timeServer, setTimeServer] = useState<number>(0);
 
   // be nft
 
   const [saleState, setSaleState] = useState<number>(-1);
-  const { getSaleStage, getSwapCurrentIndex, getMaxSwapIndex, getMaxSupply, getNftPrice, getEndRoundSwapIndex } =
-    useMintBeNft();
+  const { getSaleStage, getSwapCurrentIndex, getMaxSwapIndex, getMaxSupply, getNftPrice } = useMintBeNft();
   const startPreSaleTime = process.env.REACT_APP_START_PRE_SALE_TIME;
 
   useEffect(() => {
@@ -78,17 +77,17 @@ const InfoLandingPage = (props: Props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  useEffect(() => {
-    getEndRoundSwapIndex()
-      .then((end) => {
-        console.log('END ROUND SWAP INDEX:', end);
-        setEndSwapIndex(end);
-      })
-      .catch((error: any) => {
-        console.error(error.message);
-      });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  // useEffect(() => {
+  //   getEndRoundSwapIndex()
+  //     .then((end) => {
+  //       console.log('END ROUND SWAP INDEX:', end);
+  //       setEndSwapIndex(end);
+  //     })
+  //     .catch((error: any) => {
+  //       console.error(error.message);
+  //     });
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, []);
 
   useEffect(() => {
     getTimeServer();
@@ -147,7 +146,7 @@ const InfoLandingPage = (props: Props) => {
       <MintFormContainer
         saleState={saleState}
         nftPrice={nftPrice}
-        endSwapIndex={endSwapIndex}
+        maxSwapIndex={maxSwapIndex}
         currentSwapIndex={currentSwapIndex}
       />
     </div>

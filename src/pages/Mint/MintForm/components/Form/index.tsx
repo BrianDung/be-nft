@@ -15,12 +15,12 @@ import BigNumber from 'bignumber.js';
 
 interface MintFormProps {
   nftPrice: number;
-  endSwapIndex: number;
+  maxSwapIndex: number;
   currentSwapIndex: number;
   saleState: number;
 }
 
-const MintForm = ({ nftPrice, endSwapIndex, currentSwapIndex, saleState }: MintFormProps) => {
+const MintForm = ({ nftPrice, maxSwapIndex, currentSwapIndex, saleState }: MintFormProps) => {
   const styles = useStyles();
   const [amount, setAmount] = useState<number | string>(1);
   const [maxAmount, setMaxAmount] = useState<number>(1);
@@ -35,19 +35,18 @@ const MintForm = ({ nftPrice, endSwapIndex, currentSwapIndex, saleState }: MintF
   const { atomicMint } = useUserMinted();
   const { balanceOf, approve, checkAllowance } = useERC20();
 
+  const remaining = useMemo(() => {
+    return maxAmount - numberNftSwaped;
+  }, [maxAmount, numberNftSwaped]);
+
   const disableButtonMint = useMemo(() => {
-    if (saleState === MintTimeLine.NotSet || !connected) {
+    const soldOut = saleState < MintTimeLine.PublicMint && currentSwapIndex === maxSwapIndex;
+    if (saleState === MintTimeLine.NotSet || !connected || remaining === 0 || !amount || soldOut) {
       return true;
     }
-    // const canNotBuyNftRound1 = currentMintIndex === endMintIndex && currentMintIndex === MintTimeLine.WLMintPhase1;
-    // const soldOut = currentMintIndex === maxMintIndex;
-    // const expireDateMint = new BigNumber(process.env.REACT_APP_API_END_MINT_NFT || 0).lte(timeServer / 1000);
 
-    // if (!amount || !useCanJoinMint || !connected || canNotBuyNftRound1 || soldOut) {
-    //   return true;
-    // }
     return false;
-  }, [saleState, connected]);
+  }, [saleState, connected, remaining, amount, currentSwapIndex, maxSwapIndex]);
 
   const checkStateZero = async () => {
     if (saleState === MintTimeLine.NotSet) {
@@ -78,7 +77,7 @@ const MintForm = ({ nftPrice, endSwapIndex, currentSwapIndex, saleState }: MintF
           dispatch(alert(MESSAGES.MC2));
         }, 1000);
       }
-      if (currentSwapIndex > endSwapIndex) {
+      if (currentSwapIndex > maxSwapIndex) {
         if (saleState === MintTimeLine.WLMintPhase1) {
           setTimeout(() => {
             dispatch(alert(MESSAGES.MC3));
@@ -213,7 +212,6 @@ const MintForm = ({ nftPrice, endSwapIndex, currentSwapIndex, saleState }: MintF
       maxAmount,
       numberNftSwaped,
     });
-    const remaining = maxAmount - numberNftSwaped;
     const value = e.target.value;
     if (Number(value) < 0) {
       return;
@@ -238,7 +236,8 @@ const MintForm = ({ nftPrice, endSwapIndex, currentSwapIndex, saleState }: MintF
   };
 
   const handleIncrease = () => {
-    if (!amount || Number(amount) === maxAmount) return;
+    const remaining = maxAmount - numberNftSwaped;
+    if (!amount || Number(amount) === remaining) return;
     setAmount(Number(amount) + 1);
   };
 
@@ -269,20 +268,13 @@ const MintForm = ({ nftPrice, endSwapIndex, currentSwapIndex, saleState }: MintF
           <Button
             className={styles.quantity}
             onClick={handleIncrease}
-            disabled={Number(amount) === maxAmount || disableButtonMint || loading}
+            disabled={Number(amount) === remaining || disableButtonMint || loading}
           >
             +
           </Button>
         </div>
-        {/* <Button className={styles.max} onClick={handleMax} disabled={loading || !connected}>
-          MAX
-        </Button> */}
       </div>
-      <Button
-        onClick={handleSumit}
-        className={styles.mint}
-        disabled={disableButtonMint || disableButtonMint || loading}
-      >
+      <Button onClick={handleSumit} className={styles.mint} disabled={disableButtonMint || loading}>
         <span>{saleState <= MintTimeLine.WLMintPhase3 ? 'SWAP' : 'MINT'}</span>{' '}
         {loading && <span className="Spinner"></span>}
       </Button>

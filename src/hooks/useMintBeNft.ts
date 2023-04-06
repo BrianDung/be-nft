@@ -78,8 +78,8 @@ export function useMintBeNft() {
     if (!address || !Web3.utils.isAddress(address)) {
       throw new Error('Cannot get address');
     }
-    const index = await contract.methods.swapTokensCount(address).call();
-    return Number(index);
+    const number = await contract.methods.swapTokensCount(address).call();
+    return Number(number);
   }
 
   async function getEndRoundSwapIndex() {

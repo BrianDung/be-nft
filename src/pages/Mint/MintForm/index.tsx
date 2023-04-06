@@ -3,12 +3,12 @@ import MintForm from './components/Form';
 
 interface MintFormContainerProps {
   nftPrice: number | string;
-  endSwapIndex: number;
+  maxSwapIndex: number;
   currentSwapIndex: number;
   saleState: number;
 }
 
-const MintFormContainer = ({ nftPrice, endSwapIndex, currentSwapIndex, saleState }: MintFormContainerProps) => {
+const MintFormContainer = ({ nftPrice, maxSwapIndex, currentSwapIndex, saleState }: MintFormContainerProps) => {
   const styles = useStyles();
 
   return (
@@ -19,7 +19,7 @@ const MintFormContainer = ({ nftPrice, endSwapIndex, currentSwapIndex, saleState
       </div>
       <MintForm
         saleState={saleState}
-        endSwapIndex={endSwapIndex}
+        maxSwapIndex={maxSwapIndex}
         nftPrice={Number(nftPrice)}
         currentSwapIndex={currentSwapIndex}
       />
