@@ -148,10 +148,7 @@ const InfoLandingPage = (props: Props) => {
         saleState={saleState}
         nftPrice={nftPrice}
         endSwapIndex={endSwapIndex}
-        maxSwapIndex={maxSwapIndex}
         currentSwapIndex={currentSwapIndex}
-        timeServer={timeServer}
-        maxSupply={maxSupply}
       />
     </div>
   );

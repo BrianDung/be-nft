@@ -1,6 +1,6 @@
 import { Button } from 'components/Base/Form/Button';
 import { MESSAGES, MintTimeLine } from 'constants/mint';
-import { useMint } from 'hooks/useMint';
+import { useMintBeNft } from 'hooks/useMintBeNft';
 import { useUserMinted } from 'hooks/useUserMinted';
 import { useWeb3ReactLocal } from 'hooks/useWeb3ReactLocal';
 import { useEffect, useMemo, useState } from 'react';
@@ -8,26 +8,19 @@ import { useDispatch } from 'react-redux';
 import instance from 'services/axios';
 import { alert } from 'store/actions/alert';
 import { BorderOutline } from '../../../BorderOutline/index';
-import { useStyles } from './styles';
 import './spin.scss';
-import BigNumber from 'bignumber.js';
+import { useStyles } from './styles';
 interface MintFormProps {
   nftPrice: number;
   endSwapIndex: number;
-  maxSwapIndex: number;
   currentSwapIndex: number;
-  timeServer: number;
-  maxSupply: number;
   saleState: number;
 }
 
 const MintForm = ({
-  nftPrice: rate,
-  endSwapIndex: endMintIndex,
-  maxSwapIndex: maxMintIndex,
-  currentSwapIndex: currentMintIndex,
-  timeServer,
-  maxSupply: startMintIndex,
+  nftPrice,
+  endSwapIndex,
+  currentSwapIndex,
   saleState,
 }: MintFormProps) => {
   const styles = useStyles();
@@ -37,7 +30,7 @@ const MintForm = ({
   const [, setUserCanJoinMint] = useState<boolean>(false);
   const { balance, connected, account } = useWeb3ReactLocal();
   const dispatch = useDispatch();
-  const { getMaxMintPerTX, checkWalletBalance } = useMint();
+  const { getMaxMintPerTX } = useMintBeNft();
   const { atomicMint } = useUserMinted();
 
   const disableButtonMint = useMemo(() => {
@@ -61,22 +54,10 @@ const MintForm = ({
       const response = await instance.get(`check-state/${account}`);
       const message = response?.data?.data?.message;
       if (message) {
-        console.log({message})
+        console.log({ message });
         dispatch(alert(message));
       }
     }
-  };
-
-  const checkBalance = async () => {
-    checkWalletBalance()
-      .then((data) => {
-        console.log('CHECKWALLETBALANCE', data);
-        if (new BigNumber(data || 0).lt(5)) {
-          dispatch(alert(MESSAGES.MC5));
-        }
-      })
-      .catch((err) => console.error(err));
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   };
 
   const checkUserCanJoin = async () => {
@@ -97,7 +78,7 @@ const MintForm = ({
           dispatch(alert(MESSAGES.MC2));
         }, 1000);
       }
-      if (currentMintIndex > endMintIndex) {
+      if (currentSwapIndex > endSwapIndex) {
         if (saleState === MintTimeLine.WLMintPhase1) {
           setTimeout(() => {
             dispatch(alert(MESSAGES.MC3));
@@ -130,13 +111,6 @@ const MintForm = ({
   }, [account, saleState]);
 
   useEffect(() => {
-    if (account) {
-      checkBalance();
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, saleState]);
-
-  useEffect(() => {
     getMaxMintPerTX()
       .then((data) => {
         console.log('MAX AMOUNT PER TX', data);
@@ -152,7 +126,7 @@ const MintForm = ({
       return false;
     }
 
-    if (Number(amount) * rate > Number(balance)) {
+    if (Number(amount) * nftPrice > Number(balance)) {
       dispatch(alert(MESSAGES.INSUFFICIENT_AMOUNT));
       return false;
     }
@@ -167,7 +141,7 @@ const MintForm = ({
       return;
     }
     try {
-      await atomicMint(Number(amount), rate);
+      await atomicMint(Number(amount), nftPrice);
       dispatch(alert(MESSAGES.MINT_SUCCESS));
       setLoading(false);
       setTimeout(() => {
