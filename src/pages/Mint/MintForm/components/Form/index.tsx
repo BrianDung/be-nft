@@ -10,7 +10,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import instance from 'services/axios';
 import { alert } from 'store/actions/alert';
-import { unixToDate } from 'utils/convertDate';
+import { CheckCurrentRound, Rounds, unixToDate } from 'utils/convertDate';
 import { BorderOutline } from '../../../BorderOutline/index';
 import './spin.scss';
 import { useStyles } from './styles';
@@ -38,7 +38,7 @@ const MintForm = ({
   const [amount, setAmount] = useState<number | string>(1);
   const [maxAmount, setMaxAmount] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
-  const [, setUserCanJoinMint] = useState<boolean>(false);
+  const [userCanJoinSwap, setUserCanJoinSwap] = useState<boolean>(false);
   const [usdtAddress, setUsdtAddress] = useState<string>('');
   const [usdtDecimal, setUsdtDecimal] = useState<number>(0);
   const { connected, account } = useWeb3ReactLocal();
@@ -56,16 +56,23 @@ const MintForm = ({
   }, [numberNftSwaped, mintedCount]);
 
   const disableButtonSwap = useMemo(() => {
-    if (saleState > MintTimeLine.WLMintPhase3) {
+    if (CheckCurrentRound(saleState, mintState) === Rounds.Public) {
       return false;
     }
-    const soldOut = saleState < MintTimeLine.PublicMint && currentSwapIndex === maxSwapIndex;
-    if (saleState === MintTimeLine.NotSet || !connected || remainingSwap === 0 || !amount || soldOut) {
+    const soldOut = CheckCurrentRound(saleState, mintState) === Rounds.WhiteList && currentSwapIndex === maxSwapIndex;
+    if (
+      CheckCurrentRound(saleState, mintState) === Rounds.NotSet ||
+      !connected ||
+      remainingSwap === 0 ||
+      !amount ||
+      soldOut ||
+      !userCanJoinSwap
+    ) {
       return true;
     }
 
     return false;
-  }, [saleState, connected, remainingSwap, amount, currentSwapIndex, maxSwapIndex]);
+  }, [saleState, connected, remainingSwap, amount, currentSwapIndex, maxSwapIndex, userCanJoinSwap, mintState]);
 
   const disableButtonMint = useMemo(() => {
     if (remainingMint === 0 && mintState) {
@@ -75,15 +82,11 @@ const MintForm = ({
   }, [remainingMint, mintState]);
 
   const checkUserCanJoin = async () => {
-    if (
-      saleState === MintTimeLine.WLMintPhase2 ||
-      saleState === MintTimeLine.WLMintPhase1 ||
-      saleState === MintTimeLine.WLMintPhase3
-    ) {
+    if (CheckCurrentRound(saleState, mintState) === Rounds.WhiteList) {
       const response = await instance.get(`check/${account}/${saleState}`);
       const data = response?.data?.data;
       const isWL = data?.isWL;
-      response.data && setUserCanJoinMint(isWL);
+      response.data && setUserCanJoinSwap(isWL);
       if (!isWL) {
         const startPublic = unixToDate(process.env.REACT_APP_START_PUBLIC_SALE || '');
         const endPublic = unixToDate(process.env.REACT_APP_END_PUBLIC_SALE || '');
@@ -98,13 +101,13 @@ const MintForm = ({
       console.log('USER CAN JOIN MINT', isWL, { saleState });
     }
 
-    if (saleState === MintTimeLine.PublicMint) {
-      setUserCanJoinMint(true);
+    if (CheckCurrentRound(saleState, mintState) === Rounds.Public) {
+      setUserCanJoinSwap(true);
       console.log('USER CAN JOIN MINT', 'TRUE');
     }
 
-    if (saleState === MintTimeLine.NotSet) {
-      setUserCanJoinMint(false);
+    if (CheckCurrentRound(saleState, mintState) === Rounds.NotSet) {
+      setUserCanJoinSwap(false);
       console.log('USER CAN JOIN MINT', 'FALSE');
     }
   };

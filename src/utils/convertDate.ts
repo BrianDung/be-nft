@@ -24,6 +24,6 @@ export const CheckCurrentRound = (saleStage: MintTimeLine, mintState: boolean) =
   } else if (saleStage > MintTimeLine.WLMintPhase3 && !mintState && startPublicSale && endPublicSale) {
     return Rounds.Public;
   } else {
-    Rounds.Minting;
+    return Rounds.Minting;
   }
 };
