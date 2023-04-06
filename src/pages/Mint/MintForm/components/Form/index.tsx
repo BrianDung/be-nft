@@ -17,18 +17,13 @@ interface MintFormProps {
   saleState: number;
 }
 
-const MintForm = ({
-  nftPrice,
-  endSwapIndex,
-  currentSwapIndex,
-  saleState,
-}: MintFormProps) => {
+const MintForm = ({ nftPrice, endSwapIndex, currentSwapIndex, saleState }: MintFormProps) => {
   const styles = useStyles();
   const [amount, setAmount] = useState<number | string>(1);
   const [maxAmount, setMaxAmount] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
   const [, setUserCanJoinMint] = useState<boolean>(false);
-  const { balance, connected, account } = useWeb3ReactLocal();
+  const {  connected, account } = useWeb3ReactLocal();
   const dispatch = useDispatch();
   const { getMaxMintPerTX } = useMintBeNft();
   const { atomicMint } = useUserMinted();
@@ -46,8 +41,6 @@ const MintForm = ({
     // }
     return false;
   }, [saleState, connected]);
-
-  console.log({ disableButtonMint });
 
   const checkStateZero = async () => {
     if (saleState === MintTimeLine.NotSet) {
@@ -121,6 +114,8 @@ const MintForm = ({
   }, []);
 
   function validate(amount: number | string) {
+    let balance;
+    
     if (!connected) {
       dispatch(alert(MESSAGES.NOT_CONNECT_WALLET));
       return false;
@@ -141,7 +136,7 @@ const MintForm = ({
       return;
     }
     try {
-      await atomicMint(Number(amount), nftPrice);
+      await atomicMint(Number(amount));
       dispatch(alert(MESSAGES.MINT_SUCCESS));
       setLoading(false);
       setTimeout(() => {
@@ -172,10 +167,6 @@ const MintForm = ({
     if (!amount || Number(amount) === maxAmount) return;
     setAmount(Number(amount) + 1);
   };
-
-  // const handleMax = () => {
-  //   setAmount(maxAmount);
-  // };
 
   return (
     <div>
