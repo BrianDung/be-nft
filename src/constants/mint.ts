@@ -18,6 +18,7 @@ export const NOT_SET = 'not-set';
 export const SETTED = 'setted';
 
 export const MESSAGES = {
+  BE1: 'Please connect your wallet.',
   MINT_SUCCESS: 'Congratulations on minting your Xborg NFT.',
   WRONG_CHAIN: 'Wrong chain! Please connect to Ethereum chain.',
   INSUFFICIENT_AMOUNT: 'Insufficient ETH balance, please top-up and try again.',

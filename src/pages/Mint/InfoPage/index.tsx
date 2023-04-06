@@ -1,32 +1,30 @@
 import { MintTimeLine } from 'constants/mint';
-import { useMint } from 'hooks/useMint';
 import { useMintBeNft } from 'hooks/useMintBeNft';
 import { useEffect, useState } from 'react';
 import instance from 'services/axios';
-// import { BorderOutline } from '../BorderOutline';
 import Countdown from '../Countdown';
 import MintFormContainer from '../MintForm';
 import SoldProgress from '../SoldProgress';
 import { useStyles } from './style';
+
 interface Props {
   countDownDate?: Date | undefined;
 }
 const InfoLandingPage = (props: Props) => {
   const styles = useStyles();
-  const [currentTimeline, setCurrentTimeline] = useState<MintTimeLine>(-1);
   // price with sale state
-  const [rate, setRate] = useState<number | string>(0);
-  const [maxMintIndex, setMaxMintIndex] = useState<number>(0);
-  const [currentMintIndex, setCurrentMintIndex] = useState<number>(0);
-  const [startMintIndex, setStartMintIndex] = useState<number>(0);
-  const [endMintIndex, setEndMintIndex] = useState<number>(0);
+  const [nftPrice, setNftPrice] = useState<number | string>(0);
+  const [maxSwapIndex, setMaxSwapIndex] = useState<number>(0);
+  const [currentSwapIndex, setCurrentSwapIndex] = useState<number>(0);
+  const [maxSupply, setMaxSupply] = useState<number>(0);
+  const [endSwapIndex, setEndSwapIndex] = useState<number>(0);
   const [timeServer, setTimeServer] = useState<number>(0);
 
   // be nft
 
   const [saleState, setSaleState] = useState<number>(-1);
-  const { getMaxMintIndex, getCurrentMintIndex, getEndMintIndex, getMintInfo, getStartMintIndex } = useMint();
-  const { getSaleStage } = useMintBeNft();
+  const { getSaleStage, getSwapCurrentIndex, getMaxSwapIndex, getMaxSupply, getNftPrice, getEndRoundSwapIndex } =
+    useMintBeNft();
   const startPreSaleTime = process.env.REACT_APP_START_PRE_SALE_TIME;
 
   useEffect(() => {
@@ -39,42 +37,40 @@ const InfoLandingPage = (props: Props) => {
   }, []);
 
   useEffect(() => {
-    getStartMintIndex()
+    getMaxSupply()
       .then((start) => {
-        console.log('START MINT INDEX', start);
-        setStartMintIndex(start);
+        console.log('MAX SUPPLY INDEX', start);
+        setMaxSupply(start);
       })
       .catch((err) => console.error(err));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    getCurrentMintIndex()
+    getSwapCurrentIndex()
       .then((current) => {
-        console.log('CURRENT MINT INDEX', current);
-        setCurrentMintIndex(current);
+        // console.log('CURRENT MINT INDEX', current);
+        setCurrentSwapIndex(current);
       })
       .catch((err) => console.error(err));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    getMaxMintIndex()
+    getMaxSwapIndex()
       .then((max) => {
-        console.log('MAX MINT INDEX', max);
-        setMaxMintIndex(max);
+        console.log('MAX SWAP INDEX', max);
+        setMaxSwapIndex(max);
       })
       .catch((err) => console.error(err));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {
-    getMintInfo()
-      .then((data) => {
-        const { status, rate } = data;
-        console.log('MINT INFO:', { status, rate });
-        setCurrentTimeline(status);
-        setRate(rate);
+    getNftPrice()
+      .then((price) => {
+        console.log('NFT PRICE:', price);
+        setNftPrice(price);
       })
       .catch((error: any) => {
         console.error(error.message);
@@ -83,10 +79,10 @@ const InfoLandingPage = (props: Props) => {
   }, []);
 
   useEffect(() => {
-    getEndMintIndex()
+    getEndRoundSwapIndex()
       .then((end) => {
-        console.log('END MINT INDEX:', end);
-        setEndMintIndex(end);
+        console.log('END ROUND SWAP INDEX:', end);
+        setEndSwapIndex(end);
       })
       .catch((error: any) => {
         console.error(error.message);
@@ -142,16 +138,20 @@ const InfoLandingPage = (props: Props) => {
           <Countdown currentDate={timeServer} startDate={startPreSaleTime} />
         )}
       </div>
-      <SoldProgress startMintIndex={startMintIndex} currentMintIndex={currentMintIndex} maxMintIndex={maxMintIndex} />
+      <SoldProgress
+        maxSupply={maxSupply}
+        currentSwapIndex={currentSwapIndex}
+        maxSwap={maxSwapIndex}
+        saleState={saleState}
+      />
       <MintFormContainer
         saleState={saleState}
-        currentTimeline={currentTimeline}
-        rate={rate}
-        endMintIndex={endMintIndex}
-        maxMintIndex={maxMintIndex}
-        currentMintIndex={currentMintIndex}
+        nftPrice={nftPrice}
+        endSwapIndex={endSwapIndex}
+        maxSwapIndex={maxSwapIndex}
+        currentSwapIndex={currentSwapIndex}
         timeServer={timeServer}
-        startMintIndex={startMintIndex}
+        maxSupply={maxSupply}
       />
     </div>
   );

@@ -1,27 +1,33 @@
 import BigNumber from 'bignumber.js';
+import { MintTimeLine } from 'constants/mint';
 import { useMemo } from 'react';
-// import { BorderOutline } from '../BorderOutline';
 import { useStyles } from './style';
 
 interface SoldProgressProps {
-  currentMintIndex: number;
-  maxMintIndex: number;
-  startMintIndex: number;
+  currentSwapIndex: number;
+  maxSwap: number;
+  maxSupply: number;
+  saleState: number;
 }
 
 const SoldProgress = (props: SoldProgressProps) => {
   const styles = useStyles();
-  const { currentMintIndex, maxMintIndex, startMintIndex } = props;
+  const { currentSwapIndex, maxSwap, maxSupply, saleState } = props;
+  const isPublicRound = saleState > MintTimeLine.WLMintPhase3;
 
   const progress = useMemo(() => {
-    return new BigNumber(currentMintIndex).minus(startMintIndex).div(maxMintIndex).multipliedBy(100).toNumber();
-  }, [currentMintIndex, maxMintIndex, startMintIndex]);
+    let total;
+    if (isPublicRound) {
+      total = maxSupply;
+    } else {
+      total = maxSwap;
+    }
+    return new BigNumber(currentSwapIndex).div(total).multipliedBy(100).toNumber();
+  }, [currentSwapIndex, maxSwap, maxSupply, isPublicRound]);
 
   return (
     <div>
       <p className={styles.xborgTitle}>
-        {/* <div>BeNFT</div> */}
-        {/* <div className={styles.mintText}>( mint 2.0 )</div> */}
         <img src="/images/newPage/benft.svg" alt="name" className={styles.rightBotSec} />
       </p>
 
@@ -29,20 +35,15 @@ const SoldProgress = (props: SoldProgressProps) => {
         <div className={styles.jubValue}>
           <div className={styles.leftBotSec}>{progress.toFixed(2)}% of BeNFT Sold</div>
           <div className={styles.rightBotSec}>
-            {currentMintIndex - startMintIndex}/{maxMintIndex}
+            {currentSwapIndex}/{isPublicRound ? maxSupply : maxSwap}
           </div>
         </div>
-        {/* <BorderOutline> */}
-        <div
-          className={styles.progress}
-          // style={{ padding: `${progress <= 0.4 ? '6px 0' : '4px 0'}` }}
-        >
+        <div className={styles.progress}>
           <div
             className={`${styles.achieved}  ${progress === 100 ? styles.progressFull : ''}`}
             style={{ width: `${progress}%` }}
           ></div>
         </div>
-        {/* </BorderOutline> */}
       </div>
     </div>
   );

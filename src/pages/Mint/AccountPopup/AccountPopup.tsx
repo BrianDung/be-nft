@@ -29,6 +29,7 @@ const WalletIcon = ({ icon, name }: { icon: string; name: string }) => {
 
 export function AccountPopup({ open, onClose, walletAddress, rawAddress, balance, wallet }: AccountPopupProps) {
   const { logout } = useAuth();
+  
   const [openTooltip, setOpenTooltip] = useState(false);
   function handleDisconect() {
     logout().then(() => {

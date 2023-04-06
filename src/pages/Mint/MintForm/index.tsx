@@ -1,26 +1,23 @@
-import { MintTimeLine } from 'constants/mint';
 import { useStyles } from '../style';
 import MintForm from './components/Form';
 
 interface MintFormContainerProps {
-  rate: number | string;
-  currentTimeline: MintTimeLine;
-  endMintIndex: number;
-  maxMintIndex: number;
-  currentMintIndex: number;
+  nftPrice: number | string;
+  endSwapIndex: number;
+  maxSwapIndex: number;
+  currentSwapIndex: number;
   timeServer: number;
-  startMintIndex: number;
+  maxSupply: number;
   saleState: number;
 }
 
 const MintFormContainer = ({
-  rate,
-  currentTimeline,
-  endMintIndex,
-  maxMintIndex,
-  currentMintIndex,
+  nftPrice,
+  endSwapIndex: endMintIndex,
+  maxSwapIndex: maxMintIndex,
+  currentSwapIndex: currentMintIndex,
   timeServer,
-  startMintIndex,
+  maxSupply: startMintIndex,
   saleState,
 }: MintFormContainerProps) => {
   const styles = useStyles();
@@ -28,15 +25,14 @@ const MintFormContainer = ({
   return (
     <>
       <div>
-        <span className={styles.priceBigSize}>{rate} USDT</span>
+        <span className={styles.priceBigSize}>{Number(nftPrice).toLocaleString()} USDT</span>
         <span className={styles.priceMediumSize}>/ NFT</span>
       </div>
       <MintForm
         saleState={saleState}
-        currentTimeline={currentTimeline}
         endMintIndex={endMintIndex}
         maxMintIndex={maxMintIndex}
-        rate={Number(rate)}
+        nftPrice={Number(nftPrice)}
         currentMintIndex={currentMintIndex}
         timeServer={timeServer}
         startMintIndex={startMintIndex}

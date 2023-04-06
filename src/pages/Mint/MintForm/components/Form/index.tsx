@@ -12,8 +12,7 @@ import { useStyles } from './styles';
 import './spin.scss';
 import BigNumber from 'bignumber.js';
 interface MintFormProps {
-  rate: number;
-  currentTimeline: MintTimeLine;
+  nftPrice: number;
   endMintIndex: number;
   maxMintIndex: number;
   currentMintIndex: number;
@@ -23,8 +22,7 @@ interface MintFormProps {
 }
 
 const MintForm = ({
-  rate,
-  currentTimeline,
+  nftPrice: rate,
   endMintIndex,
   maxMintIndex,
   currentMintIndex,
@@ -36,7 +34,7 @@ const MintForm = ({
   const [amount, setAmount] = useState<number | string>(1);
   const [maxAmount, setMaxAmount] = useState<number>(1);
   const [loading, setLoading] = useState<boolean>(false);
-  const [useCanJoinMint, setUserCanJoinMint] = useState<boolean>(false);
+  const [, setUserCanJoinMint] = useState<boolean>(false);
   const { balance, connected, account } = useWeb3ReactLocal();
   const dispatch = useDispatch();
   const { getMaxMintPerTX, checkWalletBalance } = useMint();
@@ -59,10 +57,11 @@ const MintForm = ({
   console.log({ disableButtonMint });
 
   const checkStateZero = async () => {
-    if (currentTimeline === MintTimeLine.NotSet) {
+    if (saleState === MintTimeLine.NotSet) {
       const response = await instance.get(`check-state/${account}`);
       const message = response?.data?.data?.message;
       if (message) {
+        console.log({message})
         dispatch(alert(message));
       }
     }
@@ -82,24 +81,24 @@ const MintForm = ({
 
   const checkUserCanJoin = async () => {
     if (
-      currentTimeline === MintTimeLine.WLMintPhase2 ||
-      currentTimeline === MintTimeLine.WLMintPhase1 ||
-      currentTimeline === MintTimeLine.WLMintPhase3
+      saleState === MintTimeLine.WLMintPhase2 ||
+      saleState === MintTimeLine.WLMintPhase1 ||
+      saleState === MintTimeLine.WLMintPhase3
     ) {
-      const response = await instance.get(`check/${account}/${currentTimeline}`);
+      const response = await instance.get(`check/${account}/${saleState}`);
       const isWL = response?.data?.data?.isWL;
       response.data && setUserCanJoinMint(isWL);
       // Handle message
-      if (currentTimeline === MintTimeLine.WLMintPhase1 && !isWL) {
+      if (saleState === MintTimeLine.WLMintPhase1 && !isWL) {
         dispatch(alert(MESSAGES.MC1));
       }
-      if (currentTimeline === MintTimeLine.WLMintPhase1 && !isWL) {
+      if (saleState === MintTimeLine.WLMintPhase1 && !isWL) {
         setTimeout(() => {
           dispatch(alert(MESSAGES.MC2));
         }, 1000);
       }
       if (currentMintIndex > endMintIndex) {
-        if (currentTimeline === MintTimeLine.WLMintPhase1) {
+        if (saleState === MintTimeLine.WLMintPhase1) {
           setTimeout(() => {
             dispatch(alert(MESSAGES.MC3));
           }, 2000);
@@ -108,15 +107,15 @@ const MintForm = ({
           dispatch(alert(MESSAGES.MC4));
         }, 3000);
       }
-      console.log('USER CAN JOIN MINT', isWL, { currentTimeline });
+      console.log('USER CAN JOIN MINT', isWL, { saleState });
     }
 
-    if (currentTimeline === MintTimeLine.PublicMint) {
+    if (saleState === MintTimeLine.PublicMint) {
       setUserCanJoinMint(true);
       console.log('USER CAN JOIN MINT', 'TRUE');
     }
 
-    if (currentTimeline === MintTimeLine.NotSet) {
+    if (saleState === MintTimeLine.NotSet) {
       setUserCanJoinMint(false);
       console.log('USER CAN JOIN MINT', 'FALSE');
     }
@@ -128,14 +127,14 @@ const MintForm = ({
       checkUserCanJoin();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, currentTimeline]);
+  }, [account, saleState]);
 
   useEffect(() => {
     if (account) {
       checkBalance();
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [account, currentTimeline]);
+  }, [account, saleState]);
 
   useEffect(() => {
     getMaxMintPerTX()
