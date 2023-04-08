@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { Button } from 'components/Base/Form/Button';
-import { MESSAGES, MintTimeLine } from 'constants/mint';
+import { MESSAGES } from 'constants/mint';
 import { useERC20 } from 'hooks/useErc20';
 import { useMintBeNft } from 'hooks/useMintBeNft';
 import { useUserMinted } from 'hooks/useUserMinted';
@@ -63,6 +63,9 @@ const MintForm = ({
   }, [numberNftSwaped, mintedCount]);
 
   const disableButtonSwap = useMemo(() => {
+    if (remainingSwap === 0) {
+      return true;
+    }
     if (CheckCurrentRound(saleState, mintState) === Rounds.Public) {
       return false;
     }
@@ -242,7 +245,7 @@ const MintForm = ({
       numberNftSwaped,
     });
     const value = e.target.value;
-    if (Number(value) < 0) {
+    if (Number(value) < 0 || remainingSwap === 0) {
       return;
     }
     if (remainingSwap >= 1) {
@@ -273,7 +276,7 @@ const MintForm = ({
   return (
     <div>
       <div className={styles.mintForm}>
-        {saleState <= MintTimeLine.WLMintPhase3 && (
+        {!mintState && (
           <div className={styles.formControl}>
             <div className={styles.boxNumber}>
               <BorderOutline>
@@ -290,7 +293,7 @@ const MintForm = ({
               <Button
                 className={`${styles.quantity} form`}
                 onClick={handleDecrease}
-                disabled={Number(amount) === 1 || disableButtonSwap || loading}
+                disabled={Number(amount) === 1 || disableButtonSwap || loading || remainingSwap === 0}
               >
                 -
               </Button>
@@ -298,7 +301,7 @@ const MintForm = ({
             <Button
               className={styles.quantity}
               onClick={handleIncrease}
-              disabled={Number(amount) === remainingSwap || disableButtonSwap || loading}
+              disabled={Number(amount) === remainingSwap || disableButtonSwap || loading || remainingSwap === 0}
             >
               +
             </Button>
@@ -310,8 +313,7 @@ const MintForm = ({
         className={styles.mint}
         disabled={mintState ? disableButtonMint : disableButtonSwap || loading}
       >
-        <span>{saleState <= MintTimeLine.WLMintPhase3 ? 'SWAP' : 'MINT'}</span>{' '}
-        {loading && <span className="Spinner"></span>}
+        <span>{!mintState ? 'SWAP' : 'MINT'}</span> {loading && <span className="Spinner"></span>}
       </Button>
     </div>
   );
