@@ -51,6 +51,13 @@ const MintForm = ({
     return maxAmount - numberNftSwaped;
   }, [maxAmount, numberNftSwaped]);
 
+  useEffect(() => {
+    if (remainingSwap === 0) {
+      dispatch(alert(MESSAGES.MAX_ALLOW_PUBLIC_SALE));
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [remainingSwap]);
+
   const remainingMint = useMemo(() => {
     return numberNftSwaped - mintedCount;
   }, [numberNftSwaped, mintedCount]);
