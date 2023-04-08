@@ -145,7 +145,7 @@ const InfoLandingPage = (props: Props) => {
     }
   };
 
-  const publicTime = unixToDate(process.env.REACT_APP_START_PUBLIC_SALE as string);
+  const publicTime = unixToDate(process.env.REACT_APP_END_PUBLIC_SALE as string);
 
   const isLiveSoon = useMemo(() => {
     return saleState < MintTimeLine.WLMintPhase1 || (mintState && moment().isBefore(publicTime));

@@ -82,11 +82,11 @@ const MintForm = ({
   }, [saleState, connected, remainingSwap, amount, currentSwapIndex, maxSwapIndex, userCanJoinSwap, mintState]);
 
   const disableButtonMint = useMemo(() => {
-    if (remainingMint === 0 && mintState) {
+    if (remainingMint === 0) {
       return true;
     }
     return false;
-  }, [remainingMint, mintState]);
+  }, [remainingMint]);
 
   const checkUserCanJoin = async () => {
     if (CheckCurrentRound(saleState, mintState) === Rounds.WhiteList) {
