@@ -1,6 +1,6 @@
 import BigNumber from 'bignumber.js';
 import { Button } from 'components/Base/Form/Button';
-import { MESSAGES } from 'constants/mint';
+import { MESSAGES, MintTimeLine, NUMBER_NFTS_CAN_SWAP } from 'constants/mint';
 import { useERC20 } from 'hooks/useErc20';
 import { useMintBeNft } from 'hooks/useMintBeNft';
 import { useUserMinted } from 'hooks/useUserMinted';
@@ -66,8 +66,23 @@ const MintForm = ({
     if (remainingSwap === 0) {
       return true;
     }
+    if (CheckCurrentRound(saleState, mintState) === Rounds.WhiteList) {
+      if (saleState === MintTimeLine.WLMintPhase1 && currentSwapIndex === NUMBER_NFTS_CAN_SWAP.WL1) {
+        return true;
+      }
+      if (saleState === MintTimeLine.WLMintPhase2 && currentSwapIndex === NUMBER_NFTS_CAN_SWAP.WL2) {
+        return true;
+      }
+      if (saleState === MintTimeLine.WLMintPhase3 && currentSwapIndex === NUMBER_NFTS_CAN_SWAP.WL3) {
+        return true;
+      }
+    }
     if (CheckCurrentRound(saleState, mintState) === Rounds.Public) {
-      return false;
+      if (currentSwapIndex <= NUMBER_NFTS_CAN_SWAP.PUBLIC) {
+        return false;
+      } else {
+        return true;
+      }
     }
     const soldOut = CheckCurrentRound(saleState, mintState) === Rounds.WhiteList && currentSwapIndex === maxSwapIndex;
     if (

@@ -1,5 +1,5 @@
 import BigNumber from 'bignumber.js';
-import { MintTimeLine } from 'constants/mint';
+import { MintTimeLine, NUMBER_NFTS_CAN_SWAP } from 'constants/mint';
 import { useMemo } from 'react';
 import { CheckCurrentRound, Rounds } from 'utils/convertDate';
 import { useStyles } from './style';
@@ -30,23 +30,23 @@ const SoldProgress = (props: SoldProgressProps) => {
   const soldOutProgress = useMemo(() => {
     if (CheckCurrentRound(saleState, mintState) === Rounds.WhiteList) {
       if (saleState === MintTimeLine.WLMintPhase1) {
-        return 50;
+        return NUMBER_NFTS_CAN_SWAP.WL1;
       }
       if (saleState === MintTimeLine.WLMintPhase2) {
-        return 100;
+        return NUMBER_NFTS_CAN_SWAP.WL2;
       }
       if (saleState === MintTimeLine.WLMintPhase3) {
-        return 150;
+        return NUMBER_NFTS_CAN_SWAP.WL3;
       }
     }
     if (CheckCurrentRound(saleState, mintState) === Rounds.Public) {
-      return 225;
+      return NUMBER_NFTS_CAN_SWAP.PUBLIC;
     }
     if (mintState) {
-      return 250;
+      return NUMBER_NFTS_CAN_SWAP.AIRDROP;
     }
     if (saleState === MintTimeLine.NotSet) {
-      return 50;
+      return NUMBER_NFTS_CAN_SWAP.WL1;
     }
     return 0;
   }, [saleState, mintState]);
