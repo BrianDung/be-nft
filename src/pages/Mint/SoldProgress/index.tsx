@@ -14,18 +14,7 @@ interface SoldProgressProps {
 
 const SoldProgress = (props: SoldProgressProps) => {
   const styles = useStyles();
-  const { currentSwapIndex, maxSwap, maxSupply, saleState, mintState } = props;
-  const isPublicRound = saleState > MintTimeLine.WLMintPhase3;
-
-  const progress = useMemo(() => {
-    let total;
-    if (isPublicRound) {
-      total = maxSupply;
-    } else {
-      total = maxSwap;
-    }
-    return new BigNumber(currentSwapIndex).div(total).multipliedBy(100).toNumber();
-  }, [currentSwapIndex, maxSwap, maxSupply, isPublicRound]);
+  const { currentSwapIndex, saleState, mintState } = props;
 
   const soldOutProgress = useMemo(() => {
     if (CheckCurrentRound(saleState, mintState) === Rounds.WhiteList) {
@@ -50,6 +39,10 @@ const SoldProgress = (props: SoldProgressProps) => {
     }
     return 0;
   }, [saleState, mintState]);
+
+  const progress = useMemo(() => {
+    return new BigNumber(currentSwapIndex).div(soldOutProgress).multipliedBy(100).toNumber();
+  }, [currentSwapIndex, soldOutProgress]);
 
   return (
     <div>

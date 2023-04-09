@@ -116,11 +116,7 @@ const MintForm = ({
         const startPublic = unixToDate(process.env.REACT_APP_START_PUBLIC_SALE || '');
         const endPublic = unixToDate(process.env.REACT_APP_END_PUBLIC_SALE || '');
         if (moment(startPublic).isValid() && moment(endPublic).isValid() && moment(startPublic).isBefore(endPublic)) {
-          dispatch(
-            alert(`You are not on the whitelist.
-          Public Sale starts on ${moment(startPublic).format('LL')} at ${moment(endPublic).format('LT')}.
-          `)
-          );
+          dispatch(alert(`You are not on the whitelist, public sale coming soon`));
         }
       }
       console.log('USER CAN JOIN MINT', isWL, { saleState });

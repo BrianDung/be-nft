@@ -29,6 +29,9 @@ const MintFormContainer = ({
   const startPublic = unixToDate(process.env.REACT_APP_START_PUBLIC_SALE || '');
   const endPublic = unixToDate(process.env.REACT_APP_END_PUBLIC_SALE || '');
 
+  const remainingMint = numberNftSwaped - mintedCount;
+  const message = remainingMint > 0 ? `Your allocation is ${numberNftSwaped - mintedCount} changed to All NFTs claimed` : 'All NFTs are claimed';
+
   return (
     <>
       <div>
@@ -38,10 +41,10 @@ const MintFormContainer = ({
               <div className={styles.priceMediumSize2}>{`Mint will open on  ${moment(startPublic).format(
                 'LL'
               )} at ${moment(endPublic).format('LT')}`}</div>
-              <div className={styles.priceMediumSize2}>{`Your allocation is ${numberNftSwaped - mintedCount} changed to All NFTs claimed`}</div>
+              <div className={styles.priceMediumSize2}>{message}</div>
             </>
           ) : (
-            <span className={styles.priceMediumSize2}>{`Your allocation is ${numberNftSwaped - mintedCount} changed to All NFTs claimed`}</span>
+            <span className={styles.priceMediumSize2}>{message}</span>
           )
         ) : (
           <>
