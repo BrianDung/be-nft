@@ -173,6 +173,7 @@ const InfoLandingPage = (props: Props) => {
         currentSwapIndex={currentSwapIndex}
         maxSwap={maxSwapIndex}
         saleState={saleState}
+        mintState={mintState}
       />
       <MintFormContainer
         saleState={saleState}

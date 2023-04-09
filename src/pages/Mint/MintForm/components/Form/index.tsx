@@ -313,7 +313,7 @@ const MintForm = ({
         className={styles.mint}
         disabled={mintState ? disableButtonMint : disableButtonSwap || loading}
       >
-        <span>{!mintState ? 'SWAP' : 'MINT'}</span> {loading && <span className="Spinner"></span>}
+        <span>{!mintState ? 'SWAP' : 'Claim'}</span> {loading && <span className="Spinner"></span>}
       </Button>
     </div>
   );

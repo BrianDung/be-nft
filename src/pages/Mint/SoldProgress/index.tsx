@@ -1,6 +1,7 @@
 import BigNumber from 'bignumber.js';
 import { MintTimeLine } from 'constants/mint';
 import { useMemo } from 'react';
+import { CheckCurrentRound, Rounds } from 'utils/convertDate';
 import { useStyles } from './style';
 
 interface SoldProgressProps {
@@ -8,11 +9,12 @@ interface SoldProgressProps {
   maxSwap: number;
   maxSupply: number;
   saleState: number;
+  mintState: boolean;
 }
 
 const SoldProgress = (props: SoldProgressProps) => {
   const styles = useStyles();
-  const { currentSwapIndex, maxSwap, maxSupply, saleState } = props;
+  const { currentSwapIndex, maxSwap, maxSupply, saleState, mintState } = props;
   const isPublicRound = saleState > MintTimeLine.WLMintPhase3;
 
   const progress = useMemo(() => {
@@ -25,6 +27,30 @@ const SoldProgress = (props: SoldProgressProps) => {
     return new BigNumber(currentSwapIndex).div(total).multipliedBy(100).toNumber();
   }, [currentSwapIndex, maxSwap, maxSupply, isPublicRound]);
 
+  const soldOutProgress = useMemo(() => {
+    if (CheckCurrentRound(saleState, mintState) === Rounds.WhiteList) {
+      if (saleState === MintTimeLine.WLMintPhase1) {
+        return 50;
+      }
+      if (saleState === MintTimeLine.WLMintPhase2) {
+        return 100;
+      }
+      if (saleState === MintTimeLine.WLMintPhase3) {
+        return 150;
+      }
+    }
+    if (CheckCurrentRound(saleState, mintState) === Rounds.WhiteList) {
+      return 225;
+    }
+    if (mintState) {
+      return 250;
+    }
+    if (saleState === MintTimeLine.NotSet) {
+      return 50;
+    }
+    return 0;
+  }, [saleState, mintState]);
+
   return (
     <div>
       <p className={styles.xborgTitle}>
@@ -35,7 +61,7 @@ const SoldProgress = (props: SoldProgressProps) => {
         <div className={styles.jubValue}>
           <div className={styles.leftBotSec}>{progress.toFixed(2)}% of BeNFT Sold</div>
           <div className={styles.rightBotSec}>
-            {currentSwapIndex}/{isPublicRound ? maxSupply : maxSwap}
+            {currentSwapIndex}/{soldOutProgress}
           </div>
         </div>
         <div className={styles.progress}>

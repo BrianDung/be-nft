@@ -38,10 +38,10 @@ const MintFormContainer = ({
               <div className={styles.priceMediumSize2}>{`Mint will open on  ${moment(startPublic).format(
                 'LL'
               )} at ${moment(endPublic).format('LT')}`}</div>
-              <div className={styles.priceMediumSize2}>{`Your allocation is ${numberNftSwaped - mintedCount} NFT`}</div>
+              <div className={styles.priceMediumSize2}>{`Your allocation is ${numberNftSwaped - mintedCount} changed to All NFTs claimed`}</div>
             </>
           ) : (
-            <span className={styles.priceMediumSize2}>{`Your allocation is ${numberNftSwaped - mintedCount} NFT`}</span>
+            <span className={styles.priceMediumSize2}>{`Your allocation is ${numberNftSwaped - mintedCount} changed to All NFTs claimed`}</span>
           )
         ) : (
           <>
