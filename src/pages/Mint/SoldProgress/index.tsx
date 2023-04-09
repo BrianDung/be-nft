@@ -39,7 +39,7 @@ const SoldProgress = (props: SoldProgressProps) => {
         return 150;
       }
     }
-    if (CheckCurrentRound(saleState, mintState) === Rounds.WhiteList) {
+    if (CheckCurrentRound(saleState, mintState) === Rounds.Public) {
       return 225;
     }
     if (mintState) {
