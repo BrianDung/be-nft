@@ -49,6 +49,18 @@ export const useStyles = makeStyles((theme: any) => {
         opacity: 0.5,
       },
     },
+    priceMediumSize2: {
+      fontSize: '24px',
+      marginLeft: 20,
+      '@media only screen and (max-width: 1800px)': {
+        fontSize: '20px',
+      },
+      '@media only screen and (max-width: 959px)': {
+        display: 'flex',
+        justifyContent: 'center',
+        marginLeft: 10,
+      },
+    },
     quantity: {
       width: 70,
       maxHeight: 80,

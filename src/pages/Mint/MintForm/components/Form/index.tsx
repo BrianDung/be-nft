@@ -326,6 +326,7 @@ const MintForm = ({
       >
         <span>{!mintState ? 'SWAP' : 'Claim'}</span> {loading && <span className="Spinner"></span>}
       </Button>
+      {!mintState && numberNftSwaped > 0 ? <span className={styles.priceMediumSize2}>(Claim your NFTs after public round)</span> : ''}
     </div>
   );
 };
