@@ -50,6 +50,7 @@ export const useStyles = makeStyles((theme: any) => {
       },
     },
     priceMediumSize2: {
+      color: '#FF4343',
       fontSize: '24px',
       marginLeft: 20,
       '@media only screen and (max-width: 1800px)': {
