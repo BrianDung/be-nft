@@ -13,7 +13,7 @@ export function useMintBeNft() {
 
       return Number(saleStage);
     } catch (e: any) {
-      console.log(e);
+      console.error(e);
       return 0;
     }
   }
@@ -27,6 +27,7 @@ export function useMintBeNft() {
       const address = await contract.methods.USDT().call();
       return address;
     } catch (error) {
+      console.error(error);
       return '';
     }
   }
@@ -40,6 +41,7 @@ export function useMintBeNft() {
       const index = await contract.methods.TokenDecimal().call();
       return Number(index);
     } catch (error) {
+      console.error(error);
       return 0;
     }
   }
@@ -53,6 +55,7 @@ export function useMintBeNft() {
       const index = await contract.methods.CurrentSwapIndex().call();
       return Number(index);
     } catch (error) {
+      console.error(error);
       return 0;
     }
   }
@@ -66,6 +69,7 @@ export function useMintBeNft() {
       const price = await contract.methods.NFT_PRICE().call();
       return price;
     } catch (error) {
+      console.error(error);
       return 0;
     }
   }
@@ -100,6 +104,7 @@ export function useMintBeNft() {
       const max = await contract.methods.MaxMintPerWallet().call();
       return Number(max);
     } catch (error) {
+      console.error(error);
       return 0;
     }
   }
@@ -113,6 +118,7 @@ export function useMintBeNft() {
       const max = await contract.methods.MaxSwapIndex().call();
       return Number(max);
     } catch (error) {
+      console.error(error);
       return 0;
     }
   }
@@ -126,6 +132,7 @@ export function useMintBeNft() {
       const max = await contract.methods.maxSupply().call();
       return Number(max);
     } catch (error) {
+      console.error(error);
       return 0;
     }
   }
@@ -139,6 +146,7 @@ export function useMintBeNft() {
       const max = await contract.methods.mintedTokensCount(address).call();
       return Number(max);
     } catch (error) {
+      console.error(error);
       return 0;
     }
   }
@@ -152,6 +160,7 @@ export function useMintBeNft() {
       const state = await contract.methods.mintState().call();
       return state;
     } catch (error) {
+      console.error(error);
       return false;
     }
   }
