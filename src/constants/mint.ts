@@ -16,7 +16,7 @@ export enum MintTimeLine {
 
 export const NUMBER_NFTS_CAN_SWAP = {
   WL1: 50,
-  WL2: 100,
+  WL2: 120,
   WL3: 150,
   PUBLIC: 225,
   AIRDROP: 250,
