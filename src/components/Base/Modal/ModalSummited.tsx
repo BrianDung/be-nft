@@ -10,7 +10,16 @@ export const SummitedModal = (props: any) => {
     setValue(e.target.value);
   };
   return (
-    <Modal title="SUBMIT YOUR WALLET ADDRESS" visible={visible} onOk={onOk} onCancel={onCancel} footer={false}>
+    <Modal
+      title="SUBMIT YOUR WALLET ADDRESS"
+      visible={visible}
+      onOk={onOk}
+      onCancel={() => {
+        setValue('');
+        onCancel();
+      }}
+      footer={false}
+    >
       <div className="container-modal">
         <div>
           <input className="input" onChange={handleOnChange} />

@@ -10,6 +10,7 @@ import MintFormContainer from '../MintForm';
 import SoldProgress from '../SoldProgress';
 import { useStyles } from './style';
 
+const START_WL3_TIME = 1681912800;
 interface Props {
   countDownDate?: Date | undefined;
 }
@@ -39,7 +40,7 @@ const InfoLandingPage = (props: Props) => {
     getSwapTokensCount,
     getMintState,
   } = useMintBeNft();
-  const startWLTime = process.env.REACT_APP_START_WL_TIME;
+  // const startWLTime = process.env.REACT_APP_START_WL_TIME;
 
   useEffect(() => {
     getSaleStage()
@@ -164,8 +165,8 @@ const InfoLandingPage = (props: Props) => {
             </p>
           )}
         </div>
-        {saleState === MintTimeLine.NotSet && startWLTime && (
-          <Countdown currentDate={timeServer} startDate={startWLTime} />
+        {(saleState === MintTimeLine.NotSet || saleState === MintTimeLine.WLMintPhase2) && (
+          <Countdown currentDate={timeServer} startDate={START_WL3_TIME} />
         )}
       </div>
       <SoldProgress

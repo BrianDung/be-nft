@@ -13,7 +13,6 @@ import instance from 'services/axios';
 import { useDispatch } from 'react-redux';
 import { alert } from 'store/actions/alert';
 
-
 const logoIcon = '/images/dashboard/icon-logo.svg';
 // const logoMobile = '/images/dashboard/icon-logo-mobile.svg';
 const logoMobileShort = '/images/dashboard/icon-logo-mobile-2.png';
@@ -112,7 +111,12 @@ const HeaderPage = () => {
         />
       )}
       {submittedOpen && (
-        <SummitedModal visible={submittedOpen} title="SUBMIT YOUR WALLET ADDRESS" onSubmited={handleSubmited} />
+        <SummitedModal
+          visible={submittedOpen}
+          title="SUBMIT YOUR WALLET ADDRESS"
+          onSubmited={handleSubmited}
+          onCancel={() => setSubmittedOpen(false)}
+        />
       )}
     </header>
   );
