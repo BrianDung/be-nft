@@ -8,6 +8,11 @@ import useWindowDimensions from 'hooks/useWindowDimensions';
 import { Link } from 'react-router-dom';
 import { ConnectWalletModal } from './ConnectWalletModal';
 import { SUPPORTED_WALLETS } from 'constants/connectors';
+import { SummitedModal } from 'components/Base/Modal/ModalSummited';
+import instance from 'services/axios';
+import { useDispatch } from 'react-redux';
+import { alert } from 'store/actions/alert';
+
 
 const logoIcon = '/images/dashboard/icon-logo.svg';
 // const logoMobile = '/images/dashboard/icon-logo-mobile.svg';
@@ -27,14 +32,25 @@ function formatAddress(address: string) {
 const HeaderPage = () => {
   const [openAccount, setOpenAccount] = useState(false);
   const [openWallet, setOpenWallet] = useState(false);
+  const [submittedOpen, setSubmittedOpen] = useState(false);
 
   const classes = useStyles();
   const { isAuth } = useAuth();
   const { balance, account, walletName } = useWeb3ReactLocal();
   const { width } = useWindowDimensions();
+  const dispatch = useDispatch();
 
   const connectWallet = () => {
     setOpenWallet(true);
+  };
+
+  const handleSubmited = async (value: string) => {
+    const response = await instance.post(`addwhitelist-user`, {
+      wallet_address: value,
+    });
+
+    const message = response.data.message;
+    dispatch(alert(message));
   };
 
   return (
@@ -52,6 +68,9 @@ const HeaderPage = () => {
           </Link>
         </div>
         <div className={classes.pageHeader}>
+          <Button className="connect-btn" onClick={() => setSubmittedOpen(true)}>
+            Wallet Submit
+          </Button>
           {isAuth ? (
             <>
               {/* <div onClick={() => setOpenAccount(true)} className={classes.accountInfo}>
@@ -91,6 +110,9 @@ const HeaderPage = () => {
             setOpenWallet(false);
           }}
         />
+      )}
+      {submittedOpen && (
+        <SummitedModal visible={submittedOpen} title="SUBMIT YOUR WALLET ADDRESS" onSubmited={handleSubmited} />
       )}
     </header>
   );
