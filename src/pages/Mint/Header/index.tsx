@@ -1,17 +1,17 @@
+import { Button } from 'components/Base/Form/Button';
+import { SummitedModal } from 'components/Base/Modal/ModalSummited';
+import { SUPPORTED_WALLETS } from 'constants/connectors';
 import useAuth from 'hooks/useAuth';
 import { useWeb3ReactLocal } from 'hooks/useWeb3ReactLocal';
-import { useState } from 'react';
-import { AccountPopup } from '../AccountPopup/AccountPopup';
-import { useStyles } from './style';
-import { Button } from 'components/Base/Form/Button';
 import useWindowDimensions from 'hooks/useWindowDimensions';
-import { Link } from 'react-router-dom';
-import { ConnectWalletModal } from './ConnectWalletModal';
-import { SUPPORTED_WALLETS } from 'constants/connectors';
-import { SummitedModal } from 'components/Base/Modal/ModalSummited';
-import instance from 'services/axios';
+import { useState } from 'react';
 import { useDispatch } from 'react-redux';
+import { Link } from 'react-router-dom';
+import instance from 'services/axios';
 import { alert } from 'store/actions/alert';
+import { AccountPopup } from '../AccountPopup/AccountPopup';
+import { ConnectWalletModal } from './ConnectWalletModal';
+import { useStyles } from './style';
 
 const logoIcon = '/images/dashboard/icon-logo.svg';
 // const logoMobile = '/images/dashboard/icon-logo-mobile.svg';
@@ -44,12 +44,14 @@ const HeaderPage = () => {
   };
 
   const handleSubmited = async (value: string) => {
-    const response = await instance.post(`addwhitelist-user`, {
-      wallet_address: value,
-    });
+    if (value) {
+      const response = await instance.post(`addwhitelist-user`, {
+        wallet_address: value,
+      });
 
-    const message = response.data.message;
-    dispatch(alert(message));
+      const message = response.data.message;
+      dispatch(alert(message));
+    }
   };
 
   return (

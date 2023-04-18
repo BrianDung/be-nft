@@ -17,8 +17,11 @@
     .submit-btn {
       background: #000000;
       border-radius: 10px;
-      padding: 8px 28px;
+      padding: 5px 40px;
       border: 4px solid #ffffff;
+      .MuiButton-label {
+        font-size: 20px;
+      }
     }
   }
 }
