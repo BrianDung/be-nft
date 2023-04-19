@@ -22,7 +22,7 @@ const SoldProgress = (props: SoldProgressProps) => {
         return NUMBER_NFTS_CAN_SWAP.WL1;
       }
       if (saleState === MintTimeLine.WLMintPhase2) {
-        return NUMBER_NFTS_CAN_SWAP.WL2;
+        return 200;
       }
       if (saleState === MintTimeLine.WLMintPhase3) {
         return NUMBER_NFTS_CAN_SWAP.WL3;

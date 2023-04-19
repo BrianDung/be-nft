@@ -10,7 +10,7 @@ import MintFormContainer from '../MintForm';
 import SoldProgress from '../SoldProgress';
 import { useStyles } from './style';
 
-const START_WL3_TIME = 1681912800;
+const START_WL3_TIME = 1681999200;
 interface Props {
   countDownDate?: Date | undefined;
 }
@@ -135,7 +135,12 @@ const InfoLandingPage = (props: Props) => {
       case MintTimeLine.WLMintPhase1:
         return 'Whitelist Round 1';
       case MintTimeLine.WLMintPhase2:
-        return 'Whitelist Round 2';
+        if (saleState === MintTimeLine.WLMintPhase2 && moment().isBefore(moment(START_WL3_TIME * 1000))) {
+          return 'Whitelist Round 3';
+        } else {
+          return 'Whitelist Round 2';
+        }
+
       case MintTimeLine.WLMintPhase3:
         return 'Whitelist Round 3';
       case MintTimeLine.PublicMint:
@@ -149,6 +154,9 @@ const InfoLandingPage = (props: Props) => {
   const publicTime = unixToDate(process.env.REACT_APP_END_PUBLIC_SALE as string);
 
   const isLiveSoon = useMemo(() => {
+    if (saleState === MintTimeLine.WLMintPhase2 && moment().isBefore(moment(START_WL3_TIME * 1000))) {
+      return true;
+    }
     return saleState < MintTimeLine.WLMintPhase1 || (mintState && moment().isBefore(publicTime));
   }, [saleState, mintState, publicTime]);
 
