@@ -4,7 +4,7 @@ import { SUPPORTED_WALLETS } from 'constants/connectors';
 import useAuth from 'hooks/useAuth';
 import { useWeb3ReactLocal } from 'hooks/useWeb3ReactLocal';
 import useWindowDimensions from 'hooks/useWindowDimensions';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { Link } from 'react-router-dom';
 import instance from 'services/axios';
@@ -54,6 +54,58 @@ const HeaderPage = () => {
     }
   };
 
+  const isMobile = useMemo(() => {
+    return width < 550;
+  }, [width]);
+
+  const renderPC = () => {
+    return (
+      <>
+        <Button className="connect-btn" onClick={() => setSubmittedOpen(true)}>
+          Wallet Submit
+        </Button>
+        {isAuth ? (
+          <>
+            <div className={classes.accountInfo} onClick={() => setOpenAccount(true)}>
+              <div className={`${classes.accountInfo}__networks`}>
+                <img src="/images/newPage/ETH.svg" alt="" style={{ width: 25, height: 25 }} />
+                <p>{formatAddress(account)}</p>
+              </div>
+            </div>
+          </>
+        ) : (
+          <Button className="connect-btn" onClick={connectWallet}>
+            Connect Wallet
+          </Button>
+        )}
+      </>
+    );
+  };
+
+  const renderMobile = () => {
+    return (
+      <>
+        {isAuth ? (
+          <>
+            <div className={classes.accountInfo} onClick={() => setOpenAccount(true)}>
+              <div className={`${classes.accountInfo}__networks`}>
+                <img src="/images/newPage/ETH.svg" alt="" style={{ width: 25, height: 25 }} />
+                <p>{formatAddress(account)}</p>
+              </div>
+            </div>
+          </>
+        ) : (
+          <Button className="connect-btn" onClick={connectWallet} style={{ marginBottom: 10 }}>
+            Connect Wallet
+          </Button>
+        )}
+        <Button className="connect-btn" onClick={() => setSubmittedOpen(true)}>
+          Wallet Submit
+        </Button>
+      </>
+    );
+  };
+
   return (
     <header className={classes.root}>
       <div className={classes.container}>
@@ -68,28 +120,8 @@ const HeaderPage = () => {
             )}
           </Link>
         </div>
-        <div className={classes.pageHeader}>
-          <Button className="connect-btn" onClick={() => setSubmittedOpen(true)}>
-            Wallet Submit
-          </Button>
-          {isAuth ? (
-            <>
-              {/* <div onClick={() => setOpenAccount(true)} className={classes.accountInfo}>
-                <img alt="eth" src="/images/newPage/ETH.svg" />
-              </div> */}
-              <div className={classes.accountInfo} onClick={() => setOpenAccount(true)}>
-                <div className={`${classes.accountInfo}__networks`}>
-                  <img src="/images/newPage/ETH.svg" alt="" style={{ width: 25, height: 25 }} />
-                  <p>{formatAddress(account)}</p>
-                </div>
-                {/* <p className={`${classes.accountInfo}__balance`}>{balance ?? 0} ETH</p> */}
-              </div>
-            </>
-          ) : (
-            <Button className="connect-btn" onClick={connectWallet}>
-              Connect Wallet
-            </Button>
-          )}
+        <div className={classes.pageHeader} style={isMobile ? { flexDirection: 'column' } : {}}>
+          {isMobile ? renderMobile() : renderPC()}
         </div>
       </div>
       {openAccount && (

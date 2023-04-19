@@ -3,6 +3,7 @@ import { UploadImageModal } from './UploadImageModal';
 import useAuth from 'hooks/useAuth';
 import { useMemo, useState } from 'react';
 import styles from './style.module.scss';
+import useWindowDimensions from 'hooks/useWindowDimensions';
 
 const defaultImage = '/images/newPage/project-image.svg';
 const UPLOAD_IMG = '/images/newPage/open-upload.png';
@@ -32,9 +33,19 @@ export const ProjectImage = () => {
     setOpen(false);
   }
 
+  const { width } = useWindowDimensions();
+
+  const isMobile = useMemo(() => {
+    return width < 550;
+  }, [width]);
+
   return (
     <>
-      <div onClick={handleOpenUpload} className={styles['project-image-container']}>
+      <div
+        onClick={handleOpenUpload}
+        className={styles['project-image-container']}
+        style={isMobile ? { marginTop: 25 } : {}}
+      >
         <img
           src={`${S3_IMG_URL}?time=${alt}&r=${new Date().getTime()}`}
           alt="Be-Nft"
