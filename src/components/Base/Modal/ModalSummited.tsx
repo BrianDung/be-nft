@@ -19,6 +19,7 @@ export const SummitedModal = (props: any) => {
         onCancel();
       }}
       footer={false}
+      style={{ top: '30%' }}
     >
       <div className="container-modal">
         <div>
